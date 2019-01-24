@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Subasta.core.interfaces;
 
 namespace Subasta.Controllers
 {
@@ -10,6 +11,13 @@ namespace Subasta.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+
+        readonly IAnimalService service;
+        public ValuesController(IAnimalService service)
+        {
+            this.service = service;
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()

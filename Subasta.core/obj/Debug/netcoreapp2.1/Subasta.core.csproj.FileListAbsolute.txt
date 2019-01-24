@@ -6,3 +6,7 @@ C:\Users\Usuario\source\repos\Subasta\Subasta.core\obj\Debug\netcoreapp2.1\Subas
 C:\Users\Usuario\source\repos\Subasta\Subasta.core\obj\Debug\netcoreapp2.1\Subasta.core.AssemblyInfo.cs
 C:\Users\Usuario\source\repos\Subasta\Subasta.core\obj\Debug\netcoreapp2.1\Subasta.core.dll
 C:\Users\Usuario\source\repos\Subasta\Subasta.core\obj\Debug\netcoreapp2.1\Subasta.core.pdb
+C:\Users\Usuario\source\repos\Subasta\Subasta.core\bin\Debug\netcoreapp2.1\Subasta.repository.dll
+C:\Users\Usuario\source\repos\Subasta\Subasta.core\bin\Debug\netcoreapp2.1\Subasta.repository.pdb
+C:\Users\Usuario\source\repos\Subasta\Subasta.core\obj\Debug\netcoreapp2.1\Subasta.core.csprojAssemblyReference.cache
+C:\Users\Usuario\source\repos\Subasta\Subasta.core\obj\Debug\netcoreapp2.1\Subasta.core.csproj.CopyComplete
