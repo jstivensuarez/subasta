@@ -1,0 +1,8 @@
+C:\Users\Usuario\source\repos\Subasta\Subasta.core\bin\Debug\netcoreapp2.1\Subasta.core.deps.json
+C:\Users\Usuario\source\repos\Subasta\Subasta.core\bin\Debug\netcoreapp2.1\Subasta.core.dll
+C:\Users\Usuario\source\repos\Subasta\Subasta.core\bin\Debug\netcoreapp2.1\Subasta.core.pdb
+C:\Users\Usuario\source\repos\Subasta\Subasta.core\obj\Debug\netcoreapp2.1\Subasta.core.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\source\repos\Subasta\Subasta.core\obj\Debug\netcoreapp2.1\Subasta.core.AssemblyInfoInputs.cache
+C:\Users\Usuario\source\repos\Subasta\Subasta.core\obj\Debug\netcoreapp2.1\Subasta.core.AssemblyInfo.cs
+C:\Users\Usuario\source\repos\Subasta\Subasta.core\obj\Debug\netcoreapp2.1\Subasta.core.dll
+C:\Users\Usuario\source\repos\Subasta\Subasta.core\obj\Debug\netcoreapp2.1\Subasta.core.pdb
