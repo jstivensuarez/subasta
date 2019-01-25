@@ -11,6 +11,10 @@ namespace Subasta.repository.interfaces
         IClienteRepository ClienteRepository { get; }
         IEventoRepository EventoRepository { get; }
         ILoteRepository LoteRepository { get; }
+        ISubastaRepository SubastaRepository { get; }
+        ITipoDocumentoRepository TipoDocumentoRepository { get; }
+        IDepartamentoRepository DepartamentoRepository { get; }
+        IMunicipioRepository MunicipioRepository { get; }
         void Save();
     }
 }

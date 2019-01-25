@@ -13,6 +13,10 @@ namespace Subasta.repository
         private ClienteRepository clienteRepository;
         private EventoRepository eventoRepository;
         private LoteRepository loteRepository;
+        private SubastaRepository subastaRepository;
+        private TipoDocumentoRepository tipoDocumentoRepository;
+        private DepartamentoRepository departamentoRepository;
+        private MunicipioRepository municipioRepository;
 
         public UnitOfWork(SubastaContext context)
         {
@@ -64,6 +68,54 @@ namespace Subasta.repository
                     this.loteRepository = new LoteRepository(context);
                 }
                 return loteRepository;
+            }
+        }
+
+        public ISubastaRepository SubastaRepository
+        {
+            get
+            {
+                if (this.subastaRepository == null)
+                {
+                    this.subastaRepository = new SubastaRepository(context);
+                }
+                return subastaRepository;
+            }
+        }
+
+        public ITipoDocumentoRepository TipoDocumentoRepository
+        {
+            get
+            {
+                if (this.tipoDocumentoRepository == null)
+                {
+                    this.tipoDocumentoRepository = new TipoDocumentoRepository(context);
+                }
+                return tipoDocumentoRepository;
+            }
+        }
+
+        public IDepartamentoRepository DepartamentoRepository
+        {
+            get
+            {
+                if (this.departamentoRepository == null)
+                {
+                    this.departamentoRepository = new DepartamentoRepository(context);
+                }
+                return departamentoRepository;
+            }
+        }
+
+        public IMunicipioRepository MunicipioRepository
+        {
+            get
+            {
+                if (this.municipioRepository == null)
+                {
+                    this.municipioRepository = new MunicipioRepository(context);
+                }
+                return municipioRepository;
             }
         }
 
