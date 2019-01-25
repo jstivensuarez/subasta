@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Subasta.core.dtos;
 using Subasta.core.exceptions;
-using Subasta.core.interfaces;
+using Subasta.repository;
 using Subasta.repository.exceptions;
 using Subasta.repository.interfaces;
 using Subasta.repository.models;
@@ -13,22 +13,22 @@ using System.Text;
 
 namespace Subasta.core.services
 {
-    public class AnimalService: IAnimalService
+    public class ClienteService
     {
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
 
-        public AnimalService(IMapper mapper, IUnitOfWork uowService)
+        public ClienteService(IMapper mapper, IUnitOfWork uowService)
         {
             this.mapper = mapper;
             this.uowService = uowService;
         }
 
-        public void Add(AnimalDto dto)
+        public void Add(ClienteDto dto)
         {
             try
             {
-                uowService.AnimalRepository.Add(mapper.Map<Animal>(dto));
+                uowService.ClienteRepository.Add(mapper.Map<Cliente>(dto));
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -38,15 +38,15 @@ namespace Subasta.core.services
             catch (Exception ex)
             {
 
-                throw new ExceptionCore("error al intentar agregar el animal", ex);
+                throw new ExceptionCore("error al intentar agregar el cliente", ex);
             }
         }
 
-        public void Delete(AnimalDto entity)
+        public void Delete(ClienteDto entity)
         {
             try
             {
-                uowService.AnimalRepository.Delete(mapper.Map<Animal>(entity));
+                uowService.ClienteRepository.Delete(mapper.Map<Cliente>(entity));
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -56,15 +56,15 @@ namespace Subasta.core.services
             catch (Exception ex)
             {
 
-                throw new ExceptionCore("error al intentar eliminar el animal", ex);
+                throw new ExceptionCore("error al intentar eliminar el cliente", ex);
             }
         }
 
-        public void Edit(AnimalDto entity)
+        public void Edit(ClienteDto entity)
         {
             try
             {
-                uowService.AnimalRepository.Edit(mapper.Map<Animal>(entity));
+                uowService.ClienteRepository.Edit(mapper.Map<Cliente>(entity));
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -74,15 +74,15 @@ namespace Subasta.core.services
             catch (Exception ex)
             {
 
-                throw new ExceptionCore("error al intentar editar el animal", ex);
+                throw new ExceptionCore("error al intentar editar el cliente", ex);
             }
         }
 
-        public IQueryable<AnimalDto> Find(Expression<Func<Animal, bool>> predicate)
+        public IQueryable<ClienteDto> Find(Expression<Func<Cliente, bool>> predicate)
         {
             try
             {
-                return mapper.Map<IQueryable<AnimalDto>>(uowService.AnimalRepository.Find(predicate));
+                return mapper.Map<IQueryable<ClienteDto>>(uowService.ClienteRepository.Find(predicate));
             }
             catch (ExceptionData)
             {
@@ -91,15 +91,15 @@ namespace Subasta.core.services
             catch (Exception ex)
             {
 
-                throw new ExceptionCore("error al intentar buscar el animal", ex);
+                throw new ExceptionCore("error al intentar buscar el cliente", ex);
             }
         }
 
-        public AnimalDto Find(object id)
+        public ClienteDto Find(object id)
         {
             try
             {
-                return mapper.Map<AnimalDto>(uowService.AnimalRepository.Find(id));
+                return mapper.Map<ClienteDto>(uowService.ClienteRepository.Find(id));
             }
             catch (ExceptionData)
             {
@@ -108,16 +108,16 @@ namespace Subasta.core.services
             catch (Exception ex)
             {
 
-                throw new ExceptionCore("error al intentar buscar el animal", ex);
+                throw new ExceptionCore("error al intentar buscar el cliente", ex);
             }
         }
 
-        public List<AnimalDto> GetAll()
+        public List<ClienteDto> GetAll()
         {
             try
             {
-                var result = uowService.AnimalRepository.GetAll();
-                return mapper.Map<List<AnimalDto>>(result);
+                var result = uowService.ClienteRepository.GetAll();
+                return mapper.Map<List<ClienteDto>>(result);
             }
             catch (ExceptionData)
             {
@@ -125,7 +125,7 @@ namespace Subasta.core.services
             }
             catch (Exception ex)
             {
-                throw new ExceptionCore("error al intentar obtener los animales", ex);
+                throw new ExceptionCore("error al intentar obtener los clientes", ex);
             }
         }
     }

@@ -6,8 +6,7 @@ using System.Text;
 
 namespace Subasta.core.interfaces
 {
-    public interface IAnimalService: IGenericCrudService<AnimalDto, Animal>
+    public interface IEventoService: IGenericCrudService<EventoDto, Evento>
     {
-
     }
 }

@@ -9,26 +9,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace Subasta.core.services
 {
-    public class AnimalService: IAnimalService
+    public class LoteService : ILoteService
     {
+
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
 
-        public AnimalService(IMapper mapper, IUnitOfWork uowService)
+        public LoteService(IMapper mapper, IUnitOfWork uowService)
         {
             this.mapper = mapper;
             this.uowService = uowService;
         }
 
-        public void Add(AnimalDto dto)
+        public void Add(LoteDto dto)
         {
             try
             {
-                uowService.AnimalRepository.Add(mapper.Map<Animal>(dto));
+                uowService.LoteRepository.Add(mapper.Map<Lote>(dto));
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -38,15 +38,15 @@ namespace Subasta.core.services
             catch (Exception ex)
             {
 
-                throw new ExceptionCore("error al intentar agregar el animal", ex);
+                throw new ExceptionCore("error al intentar agregar el lote", ex);
             }
         }
 
-        public void Delete(AnimalDto entity)
+        public void Delete(LoteDto entity)
         {
             try
             {
-                uowService.AnimalRepository.Delete(mapper.Map<Animal>(entity));
+                uowService.LoteRepository.Delete(mapper.Map<Lote>(entity));
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -56,15 +56,15 @@ namespace Subasta.core.services
             catch (Exception ex)
             {
 
-                throw new ExceptionCore("error al intentar eliminar el animal", ex);
+                throw new ExceptionCore("error al intentar eliminar el lote", ex);
             }
         }
 
-        public void Edit(AnimalDto entity)
+        public void Edit(LoteDto entity)
         {
             try
             {
-                uowService.AnimalRepository.Edit(mapper.Map<Animal>(entity));
+                uowService.LoteRepository.Edit(mapper.Map<Lote>(entity));
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -74,15 +74,15 @@ namespace Subasta.core.services
             catch (Exception ex)
             {
 
-                throw new ExceptionCore("error al intentar editar el animal", ex);
+                throw new ExceptionCore("error al intentar editar el lote", ex);
             }
         }
 
-        public IQueryable<AnimalDto> Find(Expression<Func<Animal, bool>> predicate)
+        public IQueryable<LoteDto> Find(Expression<Func<Lote, bool>> predicate)
         {
             try
             {
-                return mapper.Map<IQueryable<AnimalDto>>(uowService.AnimalRepository.Find(predicate));
+                return mapper.Map<IQueryable<LoteDto>>(uowService.LoteRepository.Find(predicate));
             }
             catch (ExceptionData)
             {
@@ -91,15 +91,15 @@ namespace Subasta.core.services
             catch (Exception ex)
             {
 
-                throw new ExceptionCore("error al intentar buscar el animal", ex);
+                throw new ExceptionCore("error al intentar buscar el lote", ex);
             }
         }
 
-        public AnimalDto Find(object id)
+        public LoteDto Find(object id)
         {
             try
             {
-                return mapper.Map<AnimalDto>(uowService.AnimalRepository.Find(id));
+                return mapper.Map<LoteDto>(uowService.LoteRepository.Find(id));
             }
             catch (ExceptionData)
             {
@@ -108,16 +108,16 @@ namespace Subasta.core.services
             catch (Exception ex)
             {
 
-                throw new ExceptionCore("error al intentar buscar el animal", ex);
+                throw new ExceptionCore("error al intentar buscar el lote", ex);
             }
         }
 
-        public List<AnimalDto> GetAll()
+        public List<LoteDto> GetAll()
         {
             try
             {
-                var result = uowService.AnimalRepository.GetAll();
-                return mapper.Map<List<AnimalDto>>(result);
+                var result = uowService.LoteRepository.GetAll();
+                return mapper.Map<List<LoteDto>>(result);
             }
             catch (ExceptionData)
             {
@@ -125,7 +125,7 @@ namespace Subasta.core.services
             }
             catch (Exception ex)
             {
-                throw new ExceptionCore("error al intentar obtener los animales", ex);
+                throw new ExceptionCore("error al intentar obtener los lotes", ex);
             }
         }
     }
