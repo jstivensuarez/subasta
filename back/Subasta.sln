@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28306.52
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subasta", "Subasta\Subasta.csproj", "{F3ED361F-6239-48E5-BA0D-843AF1BD83EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Subasta", "Subasta\Subasta.csproj", "{F3ED361F-6239-48E5-BA0D-843AF1BD83EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subasta.repository", "Subasta.repository\Subasta.repository.csproj", "{71022AC6-52D1-4DFB-8FA4-95C2A1304BD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Subasta.repository", "Subasta.repository\Subasta.repository.csproj", "{71022AC6-52D1-4DFB-8FA4-95C2A1304BD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subasta.core", "Subasta.core\Subasta.core.csproj", "{81AA66FA-E088-4AE5-A5C2-784B5E3C0363}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Subasta.core", "Subasta.core\Subasta.core.csproj", "{81AA66FA-E088-4AE5-A5C2-784B5E3C0363}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
