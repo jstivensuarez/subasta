@@ -1,0 +1,14 @@
+<mat-toolbar color="primary">
+  <button mat-button [matMenuTriggerFor]="animals">Clientes</button>
+  <mat-menu #animals="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="vertebrates">Vertebrates</button>
+  </mat-menu>
+
+  <mat-menu #vertebrates="matMenu">
+    <button mat-menu-item routerLink="/listar-cliente">Birds</button>
+    <button mat-menu-item routerLink="/crear-cliente">Mammals</button>
+  </mat-menu>
+</mat-toolbar>
+
+
+<router-outlet></router-outlet>
