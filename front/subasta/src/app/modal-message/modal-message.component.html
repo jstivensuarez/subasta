@@ -1,0 +1,23 @@
+<div class="modal-header">
+  <h4>{{title}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="cancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div>
+  <div class="row">
+    <div class="col-md-12 vertical-modal">
+      <img *ngIf="currentMessageType === successType" src="assets/images/icon-sucess.png" alt="succsses">
+      <img *ngIf="currentMessageType === alertType || currentMessageType === confirmType" src="assets/images/icon-warning.png"
+        alt="alert">
+      <img *ngIf="currentMessageType === errorType" src="assets/images/icon-danger.png" alt="error">
+      <p class="text-modal"> {{message}} </p>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div *ngIf="currentMessageType === confirmType">
+    <button type="button" class="btn btn-cr-other" data-dismiss="modal" (click)="cancel()">Cancelar</button>
+  </div>
+  <button type="button" class="btn btn-cr-other" data-dismiss="modal" (click)="confirm()">Aceptar</button>
+</div>

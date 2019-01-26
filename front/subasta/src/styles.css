@@ -1,0 +1,32 @@
+
+
+
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+.required{
+    font-size:  14px;
+    color: #c32936;
+    font-weight: 600;
+}
+
+.text-align-right{
+    text-align: right;
+}
+
+.margin-right15{
+    margin-right: 15px !important;
+}
+
+.title{
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+.center-card{
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+}
+
