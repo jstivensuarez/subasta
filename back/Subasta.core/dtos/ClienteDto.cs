@@ -28,9 +28,5 @@ namespace Subasta.core.dtos
         public int MunicipioId { get; set; }
 
         public MunicipioDto Municipio { get; set; }
-
-        public List<PujadorDto> Pujadores { get; set; } = new List<PujadorDto>();
-
-        public List<LoteDto> Lotes { get; set; } = new List<LoteDto>();
     }
 }

@@ -10,6 +10,5 @@ namespace Subasta.core.dtos
 
         public string Descripcion { get; set; }
 
-        public List<MunicipioDto> Municipios { get; set; } = new List<MunicipioDto>();
     }
 }

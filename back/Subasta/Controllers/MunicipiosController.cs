@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Subasta.core.dtos;
@@ -9,6 +10,7 @@ using Subasta.core.interfaces;
 
 namespace Subasta.Controllers
 {
+    [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class MunicipiosController : ControllerBase
@@ -35,7 +37,8 @@ namespace Subasta.Controllers
         }
 
 
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet()]
+        [Route("[action]/{id}")]
         public IActionResult Get(string id)
         {
             try

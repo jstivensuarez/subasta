@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Subasta.core.dtos;
 using Subasta.core.exceptions;
+using Subasta.core.interfaces;
 using Subasta.repository;
 using Subasta.repository.exceptions;
 using Subasta.repository.interfaces;
@@ -13,15 +14,17 @@ using System.Text;
 
 namespace Subasta.core.services
 {
-    public class ClienteService
+    public class ClienteService: IClienteService
     {
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
+        readonly IMunicipioService municipioService;
 
-        public ClienteService(IMapper mapper, IUnitOfWork uowService)
+        public ClienteService(IMapper mapper, IUnitOfWork uowService, IMunicipioService municipioService)
         {
             this.mapper = mapper;
             this.uowService = uowService;
+            this.municipioService = municipioService;
         }
 
         public void Add(ClienteDto dto)
@@ -99,7 +102,8 @@ namespace Subasta.core.services
         {
             try
             {
-                return mapper.Map<ClienteDto>(uowService.ClienteRepository.Find(id));
+                var cliente = mapper.Map<ClienteDto>(uowService.ClienteRepository.GetWithAll(id));
+                return cliente;
             }
             catch (ExceptionData)
             {
@@ -128,5 +132,6 @@ namespace Subasta.core.services
                 throw new ExceptionCore("error al intentar obtener los clientes", ex);
             }
         }
+
     }
 }

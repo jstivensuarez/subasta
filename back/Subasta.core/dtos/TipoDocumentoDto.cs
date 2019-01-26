@@ -8,6 +8,5 @@ namespace Subasta.core.dtos
 
         public string Descripcion { get; set; }
 
-        public List<ClienteDto> Clientes { get; set; } = new List<ClienteDto>();
     }
 }

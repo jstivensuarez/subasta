@@ -29,7 +29,5 @@ namespace Subasta.core.dtos
         public string SubastaId { get; set; }
 
         public SubastaDto Subasta { get; set; }
-
-        public List<AnimalDto> Animales { get; set; } = new List<AnimalDto>();
     }
 }

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Subasta.core.dtos;
 using Subasta.core.interfaces;
 using System;
 
 namespace Subasta.Controllers
 {
+    [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class LotesController : ControllerBase
@@ -31,7 +33,8 @@ namespace Subasta.Controllers
         }
 
 
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet()]
+        [Route("[action]/{id}")]
         public IActionResult Get(string id)
         {
             try

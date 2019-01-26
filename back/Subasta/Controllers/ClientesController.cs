@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Subasta.core.dtos;
@@ -9,6 +10,7 @@ using Subasta.core.interfaces;
 
 namespace Subasta.Controllers
 {
+    [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class ClientesController : ControllerBase
@@ -34,8 +36,8 @@ namespace Subasta.Controllers
             }
         }
 
-        // GET: api/Clientes/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet()]
+        [Route("[action]/{id}")]
         public IActionResult Get(string id)
         {
             try
@@ -59,6 +61,11 @@ namespace Subasta.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+                var entity = clienteService.Find(cliente.ClienteId);
+                if (entity != null)
+                {
+                    return BadRequest("Ya existe");
+                }
                 clienteService.Add(cliente);
                 return Ok(cliente);
             }
@@ -69,19 +76,14 @@ namespace Subasta.Controllers
         }
 
         // PUT: api/Clientes/5
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, ClienteDto cliente)
+        [HttpPut]
+        public IActionResult Put( ClienteDto cliente)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
-                }
-                var entity = clienteService.Find(id);
-                if (entity == null)
-                {
-                    return NotFound();
                 }
                 clienteService.Edit(cliente);
                 return Ok(cliente);

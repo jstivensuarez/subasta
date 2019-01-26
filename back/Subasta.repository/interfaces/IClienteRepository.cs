@@ -7,6 +7,6 @@ namespace Subasta.repository.interfaces
 {
     public interface IClienteRepository: IGenericRepository<Cliente>
     {
-
+        Cliente GetWithAll(object id);
     }
 }

@@ -7,7 +7,5 @@ namespace Subasta.core.dtos
         public int SexoId { get; set; }
 
         public string Descripcion { get; set; }
-
-        public List<AnimalDto> Animales { get; set; } = new List<AnimalDto>();
     }
 }

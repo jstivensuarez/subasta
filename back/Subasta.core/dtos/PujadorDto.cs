@@ -19,7 +19,5 @@ namespace Subasta.core.dtos
         public decimal ValorConsignacion { get; set; }
 
         public string Estado { get; set; }
-
-        public List<PujaDto> Pujas { get; set; } = new List<PujaDto>();
     }
 }

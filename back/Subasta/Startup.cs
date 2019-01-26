@@ -45,8 +45,35 @@ namespace Subasta
             services.AddScoped<IAnimalRepository, AnimalRepository>();
             services.AddScoped<IAnimalService, AnimalService>();
 
+            services.AddScoped<IClienteRepository, ClienteRepository>();
+            services.AddScoped<IClienteService, ClienteService>();
+
+            services.AddScoped<IDepartamentoRepository, DepartamentoRepository>();
+            services.AddScoped<IDepartamentoService, DepartamentoService>();
+
+            services.AddScoped<IEventoRepository, EventoRepository>();
+            services.AddScoped<IEventoService, EventoService>();
+
+            services.AddScoped<ILoteRepository, LoteRepository>();
+            services.AddScoped<ILoteService, LoteService>();
+
+            services.AddScoped<IMunicipioRepository, MunicipioRepository>();
+            services.AddScoped<IMunicipioService, MunicipioService>();
+
+            services.AddScoped<ISubastaRepository, SubastaRepository>();
+            services.AddScoped<ISubastaService, SubastaService>();
+
+            services.AddScoped<ITipoDocumentoRepository, TipoDocumentoRepository>();
+            services.AddScoped<ITipoDocumentoService, TipoDocumentoService>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

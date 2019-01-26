@@ -7,5 +7,6 @@ namespace Subasta.repository.interfaces
 {
     public interface IMunicipioRepository: IGenericRepository<Municipio>
     {
+       
     }
 }

@@ -99,7 +99,7 @@ namespace Subasta.core.services
         {
             try
             {
-                return mapper.Map<MunicipioDto>(uowService.AnimalRepository.Find(id));
+                return mapper.Map<MunicipioDto>(uowService.MunicipioRepository.Find(id));
             }
             catch (ExceptionData)
             {
@@ -116,7 +116,7 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.AnimalRepository.GetAll();
+                var result = uowService.MunicipioRepository.GetAll();
                 return mapper.Map<List<MunicipioDto>>(result);
             }
             catch (ExceptionData)
@@ -127,6 +127,6 @@ namespace Subasta.core.services
             {
                 throw new ExceptionCore("error al intentar obtener los municipios", ex);
             }
-        }
+        }     
     }
 }
