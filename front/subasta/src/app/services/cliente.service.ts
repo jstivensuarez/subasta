@@ -19,20 +19,20 @@ export class ClienteService {
       map((data: Cliente[]) => data));
   }
 
-  getCliente(id): Observable<any> {
+  getDto(id): Observable<any> {
     return this.http.get<any>(environment.endpointClientes + '/Get/' + id).pipe(
       map((data: any) => data));
   }
 
-  post(cliente: Cliente): Observable<any> {
-    return this.http.post<any>(environment.endpointClientes, cliente, { headers: this.httpHeaders });
+  post(dto: Cliente): Observable<any> {
+    return this.http.post<any>(environment.endpointClientes, dto, { headers: this.httpHeaders });
   }
 
-  put(cliente: Cliente): Observable<any> {
-    return this.http.put<any>(environment.endpointClientes, cliente, { headers: this.httpHeaders });
+  put(dto: Cliente): Observable<any> {
+    return this.http.put<any>(environment.endpointClientes, dto, { headers: this.httpHeaders });
   }
 
-  delete(userId: string): Observable<any> {
-    return this.http.delete<any>(environment.endpointClientes + '/' + userId, { headers: this.httpHeaders });
+  delete(id: string): Observable<any> {
+    return this.http.delete<any>(environment.endpointClientes + '/' + id, { headers: this.httpHeaders });
   }
 }

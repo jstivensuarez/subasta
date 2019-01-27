@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { constants } from '../util/constants';
 import { ModalMessageComponent } from '../modal-message/modal-message.component';
+import { DetallesComponent } from '../detalles/detalles.component';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,12 @@ export class MesaggesManagerService {
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = mesagge;
     return modalRef.componentInstance.action;
+  }
+
+  showDetails(title, object) {
+    const modalRef = this.modalService.open(DetallesComponent);
+    modalRef.componentInstance.title = title;
+    modalRef.componentInstance.mesagge = object;
+    modalRef.componentInstance.getFinalMesagge();
   }
 }

@@ -6,6 +6,7 @@ import { MesaggesManagerService } from 'src/app/services/mesagges-manager.servic
 import { constants } from 'src/app/util/constants';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialog } from '@angular/material';
+import { MunicipioService } from 'src/app/services/municipio.service';
 
 export interface PeriodicElement {
   name: string;
@@ -25,7 +26,8 @@ export class ListarClientesComponent implements OnInit {
   clientes: Cliente[];
   constructor(private clienteService: ClienteService,
     private router: Router,
-    private mesaggesManagerService: MesaggesManagerService) {
+    private alertService: MesaggesManagerService,
+    private municipioService: MunicipioService) {
     this.clientes = [];
     this.obtenerClientes();
   }
@@ -38,11 +40,40 @@ export class ListarClientesComponent implements OnInit {
   }
 
   eliminar(cliente) {
-    alert(cliente.nombre);
+    debugger;
+    this.alertService.showConfirmMessage(constants.deleteTitle, constants.confirmDelete).subscribe(
+      resp => {
+        if (resp) {
+          this.clienteService.delete(cliente.clienteId).subscribe(
+            resp => {
+              this.alertService.
+                showSimpleMessage(constants.successTitle, constants.success, constants.successDelete);
+              this.obtenerClientes();
+            }, err => {
+              this.alertService.
+                showSimpleMessage(constants.errorTitle, constants.error, constants.errorDelete);
+            }
+          );
+        }
+      }
+    );
   }
 
   ver(cliente) {
-    alert(cliente.nombre);
+    this.clienteService.getDto(cliente.clienteId).subscribe(resp => {
+      this.alertService.showDetails('Detalles del cliente', {
+        Nombre: resp.nombre,
+        Correo: resp.correo,
+        Usuario: resp.usuario,
+        Teléfono: resp.telefono,
+        Ubicación: resp.direccion + ' (' + resp.municipio.descripcion+')',
+        Documento: resp.clienteId+ ' ('+ resp.tipoDocumento.descripcion+')',
+        Representante: resp.representante
+      });
+    }, err => {
+      console.error(err);
+    });
+   
   }
 
   obtenerClientes() {

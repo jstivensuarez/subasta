@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Subasta.repository.models;
+using System.Linq;
 
 namespace Subasta.repository
 {

@@ -22,7 +22,8 @@ namespace Subasta.repository.repositorys
         {
             try
             {
-                var entity = context.Clientes.Include(c => c.Municipio)
+                var entity = context.Clientes.AsNoTracking()
+                    .Include(c => c.Municipio).Include(c => c.TipoDocumento)
                     .SingleOrDefault(c => c.ClienteId == Convert.ToString(id));
                 return entity;
             }

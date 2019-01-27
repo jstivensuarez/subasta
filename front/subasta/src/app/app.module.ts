@@ -11,11 +11,12 @@ import { MaterialModule } from './material/material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { ClientesModule } from './clientes/clientes.module';
 import { ModalMessageComponent } from './modal-message/modal-message.component';
+import { DetallesComponent } from './detalles/detalles.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent, ModalMessageComponent
+    AppComponent, ModalMessageComponent, DetallesComponent
   ],
   imports: [
   BrowserModule,

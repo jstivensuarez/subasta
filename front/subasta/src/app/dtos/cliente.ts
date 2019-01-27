@@ -1,4 +1,5 @@
 import { Municipio } from "./municipio";
+import { TipoDocumento } from "./tipo-documento";
 
 export class Cliente {
 
@@ -23,6 +24,7 @@ export class Cliente {
     municipioId: number;
 
     municipio: Municipio;
-        
+
+    tipoDocumento: TipoDocumento;
     constructor(){}
 }

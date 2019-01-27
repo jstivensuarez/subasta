@@ -3,15 +3,15 @@ import { TipoDocumento } from 'src/app/dtos/tipo-documento';
 import { Departamento } from 'src/app/dtos/departamento';
 import { Municipio } from 'src/app/dtos/municipio';
 import { TdServiceService } from 'src/app/services/td-service.service';
-import { DepartamentoService } from 'src/app/services/departamento-service.service';
 import { MunicipioService } from 'src/app/services/municipio.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Cliente } from 'src/app/dtos/cliente';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { MesaggesManagerService } from 'src/app/services/mesagges-manager.service';
 import { constants } from 'src/app/util/constants';
+import { DepartamentoService } from 'src/app/services/departamento-service.service';
+import { MesaggesManagerService } from 'src/app/services/mesagges-manager.service';
 
 @Component({
   selector: 'app-crear-propietario',
@@ -39,7 +39,7 @@ export class CrearPropietarioComponent implements OnInit {
     private clienteService: ClienteService,
     private route: ActivatedRoute,
     private router: Router,
-    private mesaggesManagerService: MesaggesManagerService) {
+    private alertService: MesaggesManagerService) {
     this.tipoDocumentos = [];
     this.departamentos = [];
     this.municipios = [];
@@ -49,7 +49,6 @@ export class CrearPropietarioComponent implements OnInit {
     this.cliente = new Cliente();
     this.obtenerTipoDocumento();
     this.obtenerDepartamentos();
-    this.obtenerMunicipios();
     this.verificarUrl();
     this.form = this.createForm();
   }
@@ -78,10 +77,11 @@ export class CrearPropietarioComponent implements OnInit {
     )
   }
 
-  obtenerMunicipios() {
-    this.municipioService.getMunicipios().subscribe(
+  obtenerMunicipios(departamentoId) {
+    this.municipioService.getMunicipios(departamentoId).subscribe(
       resp => {
-        this.municipios = resp;      
+        this.municipios = resp;    
+        this.form = this.createForm();  
       }, err => {
         console.error(err);
       }
@@ -89,32 +89,30 @@ export class CrearPropietarioComponent implements OnInit {
   }
 
   obtenerCliente(id: string) {
-    this.clienteService.getCliente(id).subscribe(res => {
+    this.clienteService.getDto(id).subscribe(res => {
       this.cliente = res;
       this.selectedDepartamento = this.cliente.municipio.departamentoId;
       if (this.cliente.representante) {
         this.selectedRepresentante = true;
       }
-      this.form = this.createForm();
+      debugger;
+      this.obtenerMunicipios(this.selectedDepartamento);
     }, err => {
-      if (err === "Ya existe") {
-        alert("Este usuario ya existe");
-      }
       console.error(err);
     });
   }
 
   crearCliente(cliente: Cliente) {
     this.clienteService.post(cliente).subscribe(res => {
-      this.mesaggesManagerService.
+      this.alertService.
         showSimpleMessage(constants.successTitle, constants.success, constants.successCreate);
       this.regresar();
     }, err => {
       if (err === constants.alreadyExist) {
-        this.mesaggesManagerService.
+        this.alertService.
           showSimpleMessage(constants.errorTitle, constants.error, constants.errorAlreadyExists);
       } else {
-        this.mesaggesManagerService.
+        this.alertService.
           showSimpleMessage(constants.errorTitle, constants.error, constants.errorCreate);
       }
       console.error(err);
@@ -123,11 +121,11 @@ export class CrearPropietarioComponent implements OnInit {
 
   editarCliente(cliente: Cliente) {
     this.clienteService.put(cliente).subscribe(res => {
-      this.mesaggesManagerService.
+      this.alertService.
         showSimpleMessage(constants.successTitle, constants.success, constants.successUpdate);
       this.regresar();
     }, err => {
-      this.mesaggesManagerService.
+      this.alertService.
         showSimpleMessage(constants.errorTitle, constants.error, constants.errorUpdate);
       console.error(err);
     });
@@ -189,6 +187,11 @@ export class CrearPropietarioComponent implements OnInit {
     return true;
   }
 
+  obtenerCiudades(departamentoId){
+    this.municipio.setValue(null);
+    this.obtenerMunicipios(departamentoId);
+  }
+  
   regresar() {
     this.router.navigate(['/listar-cliente']);
   }

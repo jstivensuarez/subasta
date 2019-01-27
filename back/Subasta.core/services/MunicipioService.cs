@@ -127,6 +127,24 @@ namespace Subasta.core.services
             {
                 throw new ExceptionCore("error al intentar obtener los municipios", ex);
             }
-        }     
+        }
+
+        public List<MunicipioDto> GetByDepartamentoId(int id)
+        {
+            try
+            {
+                var result = uowService.MunicipioRepository.GetAll()
+                    .Where(m => m.DepartamentoId == id);
+                return mapper.Map<List<MunicipioDto>>(result);
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener los municipios", ex);
+            }
+        }
     }
 }

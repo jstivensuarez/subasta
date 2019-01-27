@@ -7,7 +7,6 @@
 
       <mat-form-field class="example-full-width">
         <mat-select placeholder="Tipo de documento" [formControl]="td" [(value)]="selectedTd" required>
-          <mat-option></mat-option>
           <mat-option *ngFor="let td of tipoDocumentos" [value]="td.tipoDocumentoId">
             {{td.descripcion}}
           </mat-option>
@@ -90,7 +89,8 @@
       </div>
 
       <mat-form-field class="example-full-width">
-        <mat-select placeholder="Departamento" [formControl]="departamento" [(value)]="selectedDepartamento" required>
+        <mat-select placeholder="Departamento" [formControl]="departamento"
+         [(value)]="selectedDepartamento" (selectionChange)="obtenerCiudades($event.value)" required>
           <mat-option *ngFor="let depar of departamentos" [value]="depar.departamentoId">
             {{depar.descripcion}}
           </mat-option>

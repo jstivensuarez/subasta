@@ -23,11 +23,12 @@ namespace Subasta.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        [Route("GetPorDepartamento/{id}")]
+        public IActionResult GetPorDepartamento(int id)
         {
             try
             {
-                var municipios = municipioService.GetAll();
+                var municipios = municipioService.GetByDepartamentoId(id);
                 return Ok(municipios);
             }
             catch (Exception ex)
@@ -39,7 +40,7 @@ namespace Subasta.Controllers
 
         [HttpGet()]
         [Route("[action]/{id}")]
-        public IActionResult Get(string id)
+        public IActionResult Get(int id)
         {
             try
             {

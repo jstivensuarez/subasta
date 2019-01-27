@@ -12,8 +12,13 @@ export class MunicipioService {
 
   constructor(private http: HttpClient) { }
 
-  getMunicipios(): Observable<any> {
-    return this.http.get(environment.endpointMunicipios).pipe(
+  getMunicipios(id): Observable<any> {
+    return this.http.get(environment.endpointMunicipios+'/GetPorDepartamento/'+ id).pipe(
       map((data: Municipio[]) => data));
+  }
+
+  getDto(id): Observable<any> {
+    return this.http.get<any>(environment.endpointMunicipios + '/Get/' + id).pipe(
+      map((data: any) => data));
   }
 }
