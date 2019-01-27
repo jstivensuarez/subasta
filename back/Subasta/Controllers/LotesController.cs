@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Subasta.core.dtos;
 using Subasta.core.interfaces;
@@ -9,6 +10,7 @@ namespace Subasta.Controllers
     [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LotesController : ControllerBase
     {
         readonly ILoteService loteService;

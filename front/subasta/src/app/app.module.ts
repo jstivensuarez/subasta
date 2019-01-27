@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -12,11 +12,24 @@ import { AppRoutingModule } from './app-routing.module';
 import { ClientesModule } from './clientes/clientes.module';
 import { ModalMessageComponent } from './modal-message/modal-message.component';
 import { DetallesComponent } from './detalles/detalles.component';
+import { LoginComponent } from './login/login.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JwtInterceptorService } from './services/autenticacion/jwt-interceptor.service';
+import { JwtModule, JwtModuleOptions } from '@auth0/angular-jwt';
 
+export function getToken(){
+  return localStorage.getItem('token');
+}
+
+const JWT_Module_Options: JwtModuleOptions = {
+  config: {
+      tokenGetter: getToken
+  }
+};
 
 @NgModule({
   declarations: [
-    AppComponent, ModalMessageComponent, DetallesComponent
+    AppComponent, ModalMessageComponent, DetallesComponent, LoginComponent
   ],
   imports: [
   BrowserModule,
@@ -24,14 +37,20 @@ import { DetallesComponent } from './detalles/detalles.component';
     RouterModule,
     NgbModule,
     AppRoutingModule,
-    ClientesModule
+    ClientesModule,
+    MaterialModule,
+    ReactiveFormsModule, 
+    BrowserModule, 
+    BrowserAnimationsModule,
+    JwtModule.forRoot(JWT_Module_Options)
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
-      multi: true
-    }
+      multi: true,
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
   ],
   bootstrap: [AppComponent]
 })

@@ -7,12 +7,14 @@ export const constants = {
     deleteTitle: 'Eliminar registro',
     successTitle: 'Confirmación',
     successCreate: "Se creó exitosamente!",
+    successLogin: "Ingreso exitoso, bienvenido!",
     successDelete: "Se eliminó exitosamente!",
     successUpdate: "Se actualizó exitosamente!",
     alreadyExist: "Ya existe",
     errorCreate: "Error al tratar de crear el registro!",
     errorDelete: "Error al tratar de eliminar el registro!",
     errorUpdate: "Error al tratar de actualizar el registro!",
+    errorLogin: "Error al tratar de ingresar al sistema!",
     errorAlreadyExists: "Este registro ya existe",
     confirmDelete: "¿Está seguro que desea eliminar este registro?"
 }

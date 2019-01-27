@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ namespace Subasta.Controllers
     [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DepartamentosController : ControllerBase
     {
         readonly IDepartamentoService departamentoService;

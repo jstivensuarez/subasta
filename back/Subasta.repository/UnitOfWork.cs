@@ -17,6 +17,7 @@ namespace Subasta.repository
         private TipoDocumentoRepository tipoDocumentoRepository;
         private DepartamentoRepository departamentoRepository;
         private MunicipioRepository municipioRepository;
+        private UsuarioRepository usuarioRepository;
 
         public UnitOfWork(SubastaContext context)
         {
@@ -116,6 +117,18 @@ namespace Subasta.repository
                     this.municipioRepository = new MunicipioRepository(context);
                 }
                 return municipioRepository;
+            }
+        }
+
+        public IUsuarioRepository UsuarioRepository
+        {
+            get
+            {
+                if (this.usuarioRepository == null)
+                {
+                    this.usuarioRepository = new UsuarioRepository(context);
+                }
+                return usuarioRepository;
             }
         }
 

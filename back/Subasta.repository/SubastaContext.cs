@@ -31,6 +31,10 @@ namespace Subasta.repository
 
         public DbSet<TipoDocumento> TipoDocumentos { get; set; }
 
+        public DbSet<Usuario> Usuarios { get; set; }
+
+        public DbSet<Rol> Roles { get; set; }
+
         public SubastaContext(DbContextOptions<SubastaContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -8,6 +8,7 @@ namespace Subasta.core
     {
         public MapperManager()
         {
+            //.ForMember(a => a.Cursos, opt=> opt.Ignore());
             CreateMap<Animal, AnimalDto>();
             CreateMap<AnimalDto, Animal>();
 
@@ -45,6 +46,12 @@ namespace Subasta.core
 
             CreateMap<TipoDocumento, TipoDocumentoDto>();
             CreateMap<TipoDocumentoDto, TipoDocumento>();
+
+            CreateMap<Usuario, UsuarioDto>();
+            CreateMap<UsuarioDto, Usuario>();
+
+            CreateMap<Rol, RolDto>();
+            CreateMap<RolDto, Rol>();
         } 
     }
 }

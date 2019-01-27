@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Subasta.core;
 using Subasta.core.interfaces;
 using Subasta.core.services;
 using Subasta.repository;
 using Subasta.repository.interfaces;
 using Subasta.repository.repositorys;
+using System.Text;
 
 namespace Subasta
 {
@@ -66,6 +63,9 @@ namespace Subasta
             services.AddScoped<ITipoDocumentoRepository, TipoDocumentoRepository>();
             services.AddScoped<ITipoDocumentoService, TipoDocumentoService>();
 
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IUsuarioService, UsuarioService>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
@@ -74,6 +74,21 @@ namespace Subasta
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    };
+                });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -84,7 +99,7 @@ namespace Subasta
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

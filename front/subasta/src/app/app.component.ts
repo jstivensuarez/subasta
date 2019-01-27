@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UsuarioService } from './services/usuario.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,22 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'subasta';
+  claims: any;
+  usuario: string;
+  constructor(private usuarioService: UsuarioService) {
+    this.usuario = '';
+    this.getClaims();
+  }
+
+  getClaims() {
+    debugger;
+    if (this.usuarioService.isAuthenticated()) {
+      this.claims = this.usuarioService.getClaims();
+      this.usuario = this.claims.sub;
+    }
+  }
+
+  logout() {
+    this.usuarioService.logout();
+  }
 }

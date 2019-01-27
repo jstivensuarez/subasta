@@ -1,14 +1,19 @@
 <mat-toolbar color="primary">
-  <button mat-button [matMenuTriggerFor]="animals">Clientes</button>
-  <mat-menu #animals="matMenu">
-    <button mat-menu-item [matMenuTriggerFor]="vertebrates">Vertebrates</button>
-  </mat-menu>
-
-  <mat-menu #vertebrates="matMenu">
-    <button mat-menu-item routerLink="/listar-cliente">Birds</button>
-    <button mat-menu-item routerLink="/crear-propietario">Mammals</button>
-  </mat-menu>
-</mat-toolbar>
-
+    <button mat-button [matMenuTriggerFor]="animals">Test</button>
+    <button mat-button routerLink="/listar-cliente">Clientes</button>
+    <mat-menu #animals="matMenu">
+      <button mat-menu-item [matMenuTriggerFor]="vertebrates">Vertebrates</button>
+    </mat-menu>
+  
+    <mat-menu #vertebrates="matMenu">
+      <button mat-menu-item routerLink="/listar-cliente">Birds</button>
+      <button mat-menu-item routerLink="/crear-propietario">Mammals</button>
+    </mat-menu>
+    <span class="example-fill-remaining-space"></span>
+    <span>
+      Bienvenido, {{usuario}}
+      <mat-icon (click)="logout()">exit_to_app</mat-icon>
+    </span>
+  </mat-toolbar>
 
 <router-outlet></router-outlet>
