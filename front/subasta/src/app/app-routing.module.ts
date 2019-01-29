@@ -5,6 +5,8 @@ import { CrearPropietarioComponent } from './clientes/crear-propietario/crear-pr
 import { LoginComponent } from './login/login.component';
 import { AutenticacionService } from './services/autenticacion/autenticacion.service';
 import { RoleguardService } from './services/autenticacion/roleguard.service';
+import { CrearEventoComponent } from './eventos/crear-evento/crear-evento.component';
+import { ListarEventosComponent } from './eventos/listar-eventos/listar-eventos.component';
 
 const routes: Routes = [
   {
@@ -21,6 +23,24 @@ const routes: Routes = [
   },
   {
     path: 'crear-propietario/:id', component: CrearPropietarioComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'crear-evento', component: CrearEventoComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'listar-evento', component: ListarEventosComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'listar-evento/:id', component: ListarEventosComponent, canActivate: [AutenticacionService, RoleguardService],
     data: {
       expectedRole: 'Administrador'
     }

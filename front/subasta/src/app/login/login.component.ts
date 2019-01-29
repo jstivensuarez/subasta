@@ -38,9 +38,7 @@ export class LoginComponent implements OnInit {
     this.usuarioService.login(usuario).subscribe(
       res => {
         localStorage.setItem('token', res.token);
-        this.alertService.
-          showSimpleMessage(constants.successTitle, constants.success, constants.successLogin);
-          this.usuarioService.redirectToMenu();
+        this.usuarioService.redirectToMenu();          
       }, err => {
           this.alertService.
             showSimpleMessage(constants.errorTitle, constants.error, constants.errorLogin);

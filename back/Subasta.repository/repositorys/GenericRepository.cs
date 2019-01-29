@@ -75,7 +75,8 @@ namespace Subasta.repository.repositorys
         {
             try
             {
-                T entity = context.Set<T>().Find(id);
+                var entity = context.Set<T>().Find(id);
+                context.Entry(entity).State = EntityState.Detached;
                 return entity;
             }
             catch (Exception ex)

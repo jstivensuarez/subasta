@@ -10,7 +10,6 @@ export class AutenticacionService implements CanActivate {
     constructor(private usuarioService: UsuarioService) { }
 
     canActivate(): boolean {
-        debugger;
         if (!this.usuarioService.isAuthenticated()) {
             this.usuarioService.logout();
             return false;

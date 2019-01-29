@@ -16,6 +16,8 @@ import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtInterceptorService } from './services/autenticacion/jwt-interceptor.service';
 import { JwtModule, JwtModuleOptions } from '@auth0/angular-jwt';
+import { EventosModule } from './eventos/eventos.module';
+import { SubastasModule } from './subastas/subastas.module';
 
 export function getToken(){
   return localStorage.getItem('token');
@@ -42,6 +44,8 @@ const JWT_Module_Options: JwtModuleOptions = {
     ReactiveFormsModule, 
     BrowserModule, 
     BrowserAnimationsModule,
+    EventosModule,
+    SubastasModule,
     JwtModule.forRoot(JWT_Module_Options)
   ],
   providers: [

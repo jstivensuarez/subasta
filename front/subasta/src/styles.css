@@ -5,6 +5,10 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
+table {
+  width: 100%;
+}
+
 .required{
     font-size:  14px;
     color: #c32936;
@@ -12,7 +16,11 @@
 }
 
 .text-align-right{
-    text-align: right;
+    text-align: right !important;
+}
+
+.text-align-left{
+  text-align: left;
 }
 
 .text-align-center{
@@ -92,3 +100,9 @@
   mat-icon {
     cursor: pointer;
  }
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}

@@ -1,0 +1,81 @@
+<div class="container">
+  <h2 class="title">
+    {{title}}
+  </h2>
+  <mat-card class="center-card">
+    <form class="example-form" [formGroup]="form" (submit)="onSubmit(form.value)">
+
+      <mat-form-field class="example-full-width">
+        <input matInput [formControl]="fechaLimite" [matDatepicker]="limite" placeholder="Fecha limite de pago" [min]="minDate"
+          required>
+        <mat-datepicker-toggle matSuffix [for]="limite"></mat-datepicker-toggle>
+        <mat-datepicker #limite></mat-datepicker>
+        <mat-error *ngIf="fechaLimite.hasError('required')">
+          La fecha límite es <strong>requerida</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="margin-right15">
+        <input matInput [formControl]="fechaInicio" [matDatepicker]="inicio" placeholder="Fecha de inicio" [min]="minDate"
+          required>
+        <mat-datepicker-toggle matSuffix [for]="inicio"></mat-datepicker-toggle>
+        <mat-datepicker #inicio></mat-datepicker>
+        <mat-error *ngIf="fechaInicio.hasError('required')">
+          La fecha de inicio es <strong>requerida</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [formControl]="horaInicio" maxlength="25" placeholder="Hora de inicio" type="time" value="{{horaInicioActual}}"
+          required>
+        <mat-error *ngIf="horaInicio.hasError('required')">
+          La hora de inicio es <strong>requerida</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="margin-right15">
+        <input matInput [formControl]="fechaFin" [matDatepicker]="fin" placeholder="Fecha de fin" [min]="minDate"
+          required>
+        <mat-datepicker-toggle matSuffix [for]="fin"></mat-datepicker-toggle>
+        <mat-datepicker #fin></mat-datepicker>
+        <mat-error *ngIf="fechaFin.hasError('required')">
+          La fecha de fin es <strong>requerida</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [formControl]="horaFin" maxlength="25" placeholder="Hora de fin" type="time" value="{{horaFinActual}}"
+          required>
+        <mat-error *ngIf="horaFin.hasError('required')">
+          La hora de fin es <strong>requerida</strong>
+        </mat-error>
+      </mat-form-field>
+
+
+      <mat-form-field class="example-full-width">
+        <input matInput [formControl]="valorAnticipo" maxlength="25" placeholder="Anticipo" required>
+        <mat-error *ngIf="valorAnticipo.hasError('required')">
+          El valor de anticipo es <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+
+
+
+      <mat-form-field class="example-full-width">
+        <input matInput [formControl]="precioInicial" maxlength="25" placeholder="Precio inicial" required>
+        <mat-error *ngIf="precioInicial.hasError('required')">
+          El precio inicial es <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <br>
+      <br>
+
+      <div class="row">
+        <div class="col-12 text-align-right">
+          <button type="submit" [disabled]="form.invalid" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>

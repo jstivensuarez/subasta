@@ -62,7 +62,7 @@ namespace Subasta.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                eventoService.Add(evento);
+                evento = eventoService.AddWithReturn(evento);
                 return Ok(evento);
             }
             catch (Exception)
@@ -71,19 +71,14 @@ namespace Subasta.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, EventoDto evento)
+        [HttpPut]
+        public IActionResult Put(EventoDto evento)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
-                }
-                var entity = eventoService.Find(id);
-                if (entity == null)
-                {
-                    return NotFound();
                 }
                 eventoService.Edit(evento);
                 return Ok(evento);

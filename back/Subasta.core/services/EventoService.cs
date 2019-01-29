@@ -42,6 +42,24 @@ namespace Subasta.core.services
             }
         }
 
+        public EventoDto AddWithReturn(EventoDto dto)
+        {
+            try
+            {
+                var result = uowService.EventoRepository.AddWithReturn(mapper.Map<Evento>(dto));
+                return mapper.Map<EventoDto>(result);
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+
+                throw new ExceptionCore("error al intentar agregar el evento", ex);
+            }
+        }
+
         public void Delete(EventoDto entity)
         {
             try
@@ -99,7 +117,7 @@ namespace Subasta.core.services
         {
             try
             {
-                return mapper.Map<EventoDto>(uowService.EventoRepository.Find(id));
+                return mapper.Map<EventoDto>(uowService.EventoRepository.GetWithAll(id));
             }
             catch (ExceptionData)
             {
@@ -116,7 +134,7 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.EventoRepository.GetAll();
+                var result = uowService.EventoRepository.GetllWithInclude();
                 return mapper.Map<List<EventoDto>>(result);
             }
             catch (ExceptionData)

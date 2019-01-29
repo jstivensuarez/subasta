@@ -27,6 +27,10 @@ namespace Subasta.core.services
         {
             try
             {
+                dto.HoraFin = new DateTime(dto.HoraFin.Year, dto.HoraFin.Month, dto.HoraFin.Day, 
+                    dto.HoraFinAux.Hour, dto.HoraFinAux.Minute, dto.HoraFinAux.Second);
+                dto.HoraInicio = new DateTime(dto.HoraInicio.Year, dto.HoraInicio.Month, dto.HoraInicio.Day,
+                    dto.HoraInicioAux.Hour, dto.HoraInicioAux.Minute, dto.HoraInicioAux.Second);
                 uowService.SubastaRepository.Add(mapper.Map<repository.models.Subasta>(dto));
                 uowService.Save();
             }
@@ -59,11 +63,15 @@ namespace Subasta.core.services
             }
         }
 
-        public void Edit(SubastaDto entity)
+        public void Edit(SubastaDto dto)
         {
             try
             {
-                uowService.SubastaRepository.Edit(mapper.Map<repository.models.Subasta>(entity));
+                dto.HoraFin = new DateTime(dto.HoraFin.Year, dto.HoraFin.Month, dto.HoraFin.Day,
+                  dto.HoraFinAux.Hour, dto.HoraFinAux.Minute, dto.HoraFinAux.Second);
+                dto.HoraInicio = new DateTime(dto.HoraInicio.Year, dto.HoraInicio.Month, dto.HoraInicio.Day,
+                    dto.HoraInicioAux.Hour, dto.HoraInicioAux.Minute, dto.HoraInicioAux.Second);
+                uowService.SubastaRepository.Edit(mapper.Map<repository.models.Subasta>(dto));
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -116,6 +124,23 @@ namespace Subasta.core.services
             try
             {
                 var result = uowService.AnimalRepository.GetAll();
+                return mapper.Map<List<SubastaDto>>(result);
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener las subastas", ex);
+            }
+        }
+
+        public List<SubastaDto> GetPorEvento(object id)
+        {
+            try
+            {
+                var result = uowService.SubastaRepository.GetPorEvento(id);
                 return mapper.Map<List<SubastaDto>>(result);
             }
             catch (ExceptionData)

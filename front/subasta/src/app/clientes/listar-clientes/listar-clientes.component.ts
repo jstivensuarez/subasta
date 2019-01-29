@@ -46,10 +46,12 @@ export class ListarClientesComponent implements OnInit {
         if (resp) {
           this.clienteService.delete(cliente.clienteId).subscribe(
             resp => {
+              debugger;
               this.alertService.
                 showSimpleMessage(constants.successTitle, constants.success, constants.successDelete);
               this.obtenerClientes();
             }, err => {
+              debugger;
               this.alertService.
                 showSimpleMessage(constants.errorTitle, constants.error, constants.errorDelete);
             }

@@ -35,6 +35,9 @@ namespace Subasta.repository
 
         public DbSet<Rol> Roles { get; set; }
 
+        public DbSet<Subasta.repository.models.Subasta> Subastas { get; set; }
+
+
         public SubastaContext(DbContextOptions<SubastaContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,0 +1,40 @@
+<div class="container">
+  <h2 class="title">
+    {{title}}
+  </h2>
+  <mat-card class="center-card">
+    <table mat-table [dataSource]="eventos" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="descripcion">
+        <th mat-header-cell *matHeaderCellDef>descripcion</th>
+        <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fechaInicio">
+        <th mat-header-cell *matHeaderCellDef> Fecha de inicio </th>
+        <td mat-cell *matCellDef="let element">{{element.fechaInicio | date: 'dd/MM/yyyy'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fechaFin">
+        <th mat-header-cell *matHeaderCellDef> Fecha de fin </th>
+        <td mat-cell *matCellDef="let element"> {{element.fechaFin | date: 'dd/MM/yyyy'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="municipio">
+        <th mat-header-cell *matHeaderCellDef> Municipio </th>
+        <td mat-cell *matCellDef="let element"> {{element.municipio.descripcion}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon (click)="eliminar(element)" class="margin-right15">delete</mat-icon>
+          <mat-icon (click)="editar(element)"  class="margin-right15">edit</mat-icon>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card>
+  <div>

@@ -27,18 +27,19 @@ export class UsuarioService {
   }
 
   logout() {
+    window.location.reload();
     localStorage.removeItem('token');
     this.router.navigate(['login']);
   }
 
   getClaims() {
     const token = localStorage.getItem('token');
-    // decode the token to get its payload
     const tokenPayload = decode(token);
     return tokenPayload
   }
 
   redirectToMenu(){
+    window.location.reload();
     this.router.navigate(['/listar-cliente']);
   }
 }

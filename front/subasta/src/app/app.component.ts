@@ -16,7 +16,6 @@ export class AppComponent {
   }
 
   getClaims() {
-    debugger;
     if (this.usuarioService.isAuthenticated()) {
       this.claims = this.usuarioService.getClaims();
       this.usuario = this.claims.sub;

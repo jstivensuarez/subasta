@@ -13,6 +13,11 @@ namespace Subasta.core.dtos
 
         public DateTime HoraFin { get; set; }
 
+        public DateTime HoraInicioAux { get; set; }
+
+        public DateTime HoraFinAux { get; set; }
+
+        public decimal ValorAnticipo { get; set; }
 
         public decimal PrecioInicial { get; set; }
 

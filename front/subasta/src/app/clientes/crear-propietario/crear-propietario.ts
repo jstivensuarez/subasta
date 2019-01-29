@@ -81,7 +81,6 @@ export class CrearPropietarioComponent implements OnInit {
     this.municipioService.getMunicipios(departamentoId).subscribe(
       resp => {
         this.municipios = resp;    
-        this.form = this.createForm();  
       }, err => {
         console.error(err);
       }
@@ -95,8 +94,7 @@ export class CrearPropietarioComponent implements OnInit {
       if (this.cliente.representante) {
         this.selectedRepresentante = true;
       }
-      debugger;
-      this.obtenerMunicipios(this.selectedDepartamento);
+      this.form = this.createForm();
     }, err => {
       console.error(err);
     });
@@ -197,6 +195,7 @@ export class CrearPropietarioComponent implements OnInit {
   }
 
   createForm() {
+    this.obtenerMunicipios(this.selectedDepartamento);
     this.selectedTd = this.cliente.tipoDocumentoId;
     this.selectedMunicipio = this.cliente.municipioId;
     return new FormGroup({

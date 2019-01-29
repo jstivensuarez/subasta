@@ -25,11 +25,12 @@ namespace Subasta.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        [Route("GetPorEvento/{id}")]
+        public IActionResult Get(int id)
         {
             try
             {
-                var subastas = subastaService.GetAll();
+                var subastas = subastaService.GetPorEvento(id);
                 return Ok(subastas);
             }
             catch (Exception ex)
@@ -71,19 +72,14 @@ namespace Subasta.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, SubastaDto subasta)
+        [HttpPut]
+        public IActionResult Put(SubastaDto subasta)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
-                }
-                var entity = subastaService.Find(id);
-                if (entity == null)
-                {
-                    return NotFound();
                 }
                 subastaService.Edit(subasta);
                 return Ok(subasta);

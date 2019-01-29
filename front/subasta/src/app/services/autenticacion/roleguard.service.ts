@@ -9,7 +9,6 @@ export class RoleguardService implements CanActivate {
 
   constructor(public usuarioService: UsuarioService) { }
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    debugger;
     const expectedRole = route.data.expectedRole;
     const token = localStorage.getItem('token');
     // decode the token to get its payload
