@@ -4,6 +4,7 @@ import { Evento } from "./evento";
 export class Subasta {
 
     subastaId: number;
+    descripcion: string;
     fechaLimite: Date;
     horaInicio: Date;
     horaFin: Date;

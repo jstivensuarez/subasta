@@ -123,7 +123,7 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.AnimalRepository.GetAll();
+                var result = uowService.SubastaRepository.GetAll();
                 return mapper.Map<List<SubastaDto>>(result);
             }
             catch (ExceptionData)

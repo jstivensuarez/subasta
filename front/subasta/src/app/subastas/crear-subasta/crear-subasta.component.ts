@@ -1,13 +1,14 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subasta } from 'src/app/dtos/subasta';
-import { SubastaService } from 'src/app/services/subasta.service';
-import { MesaggesManagerService } from 'src/app/services/mesagges-manager.service';
-import { constants } from 'src/app/util/constants';
-import { Evento } from 'src/app/dtos/evento';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Time } from '@angular/common';
 import { DatePipe } from '@angular/common'
+import { SubastaService } from 'src/app/services/subasta.service';
+import { MesaggesManagerService } from 'src/app/services/mesagges-manager.service';
+import { Subasta } from 'src/app/dtos/subasta';
+import { constants } from 'src/app/util/constants';
+import { Evento } from 'src/app/dtos/evento';
+import { Validation } from 'src/app/util/validations';
 @Component({
   selector: 'app-crear-subasta',
   templateUrl: './crear-subasta.component.html',
@@ -43,8 +44,7 @@ export class CrearSubastaComponent implements OnInit {
     subasta.horaInicioAux = this.horaInicio.value;
     subasta.horaInicio = this.fechaInicio.value;
     subasta.horaFinAux = this.horaFin.value;
-    subasta.precioInicial = this.precioInicial.value;
-    subasta.valorAnticipo = this.valorAnticipo.value;
+    subasta.descripcion = this.descripcion.value;
     subasta.eventoId = this.evento.eventoId;
     if (this.subasta.subastaId) {
       subasta.subastaId = this.subasta.subastaId;
@@ -93,16 +93,18 @@ export class CrearSubastaComponent implements OnInit {
       fechaLimite: new FormControl(this.subasta.fechaLimite, [Validators.required]),
       fechaInicio: new FormControl(this.subasta.horaInicio, [Validators.required]),
       fechaFin: new FormControl(this.subasta.horaFin, [Validators.required]),
+      descripcion: new FormControl(this.subasta.descripcion, [Validators.required]),
       horaInicio: new FormControl( this.horaInicioActual, [Validators.required]),
       horaFin: new FormControl(this.horaFinActual, [Validators.required]),
-      valorAnticipo: new FormControl(this.subasta.valorAnticipo, [Validators.required]),
-      precioInicial: new FormControl(this.subasta.precioInicial, [Validators.required]),
-    });
+    }, [Validation.SubastaFechas, Validation.SubastaHoras]);
   }
   date(date: any, arg1: string): any {
     throw new Error("Method not implemented.");
   }
 
+  get descripcion(){
+    return this.form.get('descripcion');
+  }
   get fechaLimite() {
     return this.form.get('fechaLimite');
   }
@@ -120,13 +122,5 @@ export class CrearSubastaComponent implements OnInit {
 
   get horaFin() {
     return this.form.get('horaFin');
-  }
-
-  get valorAnticipo() {
-    return this.form.get('valorAnticipo');
-  }
-
-  get precioInicial() {
-    return this.form.get('precioInicial');
   }
 }

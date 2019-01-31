@@ -40,6 +40,6 @@ export class UsuarioService {
 
   redirectToMenu(){
     window.location.reload();
-    this.router.navigate(['/listar-cliente']);
+    this.router.navigate(['/listar-lote']);
   }
 }

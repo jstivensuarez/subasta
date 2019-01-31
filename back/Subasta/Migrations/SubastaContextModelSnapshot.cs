@@ -172,13 +172,11 @@ namespace Subasta.Migrations
                     b.Property<string>("Descripcion")
                         .HasColumnName("DESCRIPCION_LOTE");
 
-                    b.Property<decimal>("FotoLote")
+                    b.Property<string>("FotoLote")
                         .HasColumnName("FOTO_LOTE");
 
-                    b.Property<string>("MunicipioId")
+                    b.Property<int>("MunicipioId")
                         .HasColumnName("COD_MUN_UBI_LOTE");
-
-                    b.Property<int?>("MunicipioId1");
 
                     b.Property<string>("Nombre")
                         .HasColumnName("NOMBRE_LOTE");
@@ -192,18 +190,22 @@ namespace Subasta.Migrations
                     b.Property<decimal>("PrecioBase")
                         .HasColumnName("PRECIO_BASE_LOTE");
 
-                    b.Property<string>("SubastaId")
+                    b.Property<decimal>("PrecioInicial")
+                        .HasColumnName("PRECIO_INICIAL_LOTE");
+
+                    b.Property<int>("SubastaId")
                         .HasColumnName("COD_SUBASTA_LOTE");
 
-                    b.Property<int?>("SubastaId1");
+                    b.Property<decimal>("ValorAnticipo")
+                        .HasColumnName("VALOR_ANTICIPO_LOTE");
 
                     b.HasKey("LoteId");
 
                     b.HasIndex("ClienteId");
 
-                    b.HasIndex("MunicipioId1");
+                    b.HasIndex("MunicipioId");
 
-                    b.HasIndex("SubastaId1");
+                    b.HasIndex("SubastaId");
 
                     b.ToTable("TBL_LOTES");
                 });
@@ -241,14 +243,14 @@ namespace Subasta.Migrations
                     b.Property<int>("PujadorId")
                         .HasColumnName("COD_SUBASTA_PUJADOR");
 
-                    b.Property<int?>("PujadorSubastaId");
+                    b.Property<int?>("PujadorLoteId");
 
                     b.Property<decimal>("Valor")
                         .HasColumnName("VALOR_PUJA");
 
                     b.HasKey("PujaId");
 
-                    b.HasIndex("PujadorClienteId", "PujadorSubastaId");
+                    b.HasIndex("PujadorClienteId", "PujadorLoteId");
 
                     b.ToTable("TBL_PUJAS");
                 });
@@ -258,9 +260,9 @@ namespace Subasta.Migrations
                     b.Property<string>("ClienteId")
                         .HasColumnName("ID_CLI_PUJADOR");
 
-                    b.Property<int>("SubastaId")
+                    b.Property<int>("LoteId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("CODIGO_SUBASTA_PUJADOR");
+                        .HasColumnName("CODIGO_LOTE_PUJADOR");
 
                     b.Property<string>("Banco")
                         .HasColumnName("BANCO_CONSIGNACION_PUJADOR");
@@ -274,9 +276,9 @@ namespace Subasta.Migrations
                     b.Property<decimal>("ValorConsignacion")
                         .HasColumnName("VALOR_CONSIGNACION_PUJADOR");
 
-                    b.HasKey("ClienteId", "SubastaId");
+                    b.HasKey("ClienteId", "LoteId");
 
-                    b.HasIndex("SubastaId");
+                    b.HasIndex("LoteId");
 
                     b.ToTable("TBL_PUJADORES");
                 });
@@ -332,6 +334,9 @@ namespace Subasta.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("CODIGO_SUB");
 
+                    b.Property<string>("Descripcion")
+                        .HasColumnName("DESCRIPCION_SUB");
+
                     b.Property<int>("EventoId")
                         .HasColumnName("CODIGO_EVENTO_SUB");
 
@@ -343,12 +348,6 @@ namespace Subasta.Migrations
 
                     b.Property<DateTime>("HoraInicio")
                         .HasColumnName("FECHA_HORA_INI_SUB");
-
-                    b.Property<decimal>("PrecioInicial")
-                        .HasColumnName("PRECIO_INICIAL_SUB");
-
-                    b.Property<decimal>("ValorAnticipo")
-                        .HasColumnName("VALOR_ANTICIPO_SUB");
 
                     b.HasKey("SubastaId");
 
@@ -377,7 +376,7 @@ namespace Subasta.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("CODIGO_USU");
 
-                    b.Property<string>("Contraseña")
+                    b.Property<string>("Clave")
                         .HasColumnName("PASS_USUARIO");
 
                     b.Property<string>("Correo")
@@ -453,11 +452,13 @@ namespace Subasta.Migrations
 
                     b.HasOne("Subasta.repository.models.Municipio", "Municipio")
                         .WithMany("Lotes")
-                        .HasForeignKey("MunicipioId1");
+                        .HasForeignKey("MunicipioId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Subasta.repository.models.Subasta", "Subasta")
                         .WithMany("Lotes")
-                        .HasForeignKey("SubastaId1");
+                        .HasForeignKey("SubastaId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Subasta.repository.models.Municipio", b =>
@@ -472,7 +473,7 @@ namespace Subasta.Migrations
                 {
                     b.HasOne("Subasta.repository.models.Pujador", "Pujador")
                         .WithMany("Pujas")
-                        .HasForeignKey("PujadorClienteId", "PujadorSubastaId");
+                        .HasForeignKey("PujadorClienteId", "PujadorLoteId");
                 });
 
             modelBuilder.Entity("Subasta.repository.models.Pujador", b =>
@@ -482,9 +483,9 @@ namespace Subasta.Migrations
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Subasta.repository.models.Subasta", "Subasta")
+                    b.HasOne("Subasta.repository.models.Lote", "Lote")
                         .WithMany("Pujadores")
-                        .HasForeignKey("SubastaId")
+                        .HasForeignKey("LoteId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

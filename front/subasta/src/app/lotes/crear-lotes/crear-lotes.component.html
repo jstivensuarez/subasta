@@ -1,0 +1,107 @@
+<div class="container">
+  <h2 class="title">
+    {{title}}
+  </h2>
+  <mat-card class="center-card">
+    <form class="example-form" [formGroup]="form" (submit)="onSubmit()">
+
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field class="example-full-width">
+            <input matInput [formControl]="nombre" maxlength="25" placeholder="Nombre" required>
+            <mat-error *ngIf="nombre.hasError('required')">
+              El nombre es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field class="example-full-width">
+            <input matInput [formControl]="descripcion" maxlength="25" placeholder="Descripción" required>
+            <mat-error *ngIf="descripcion.hasError('required')">
+              La descripción es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field class="example-full-width">
+            <input matInput [formControl]="precioBase" maxlength="25" placeholder="Precio base" currencyMask required>
+            <mat-error *ngIf="precioBase.hasError('required')">
+              El precio base es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <mat-checkbox [formControl]="esAnticipo" [(value)]="selectedAnticipo" (change)="onChangeCheckAnticipo($event)">¿Tiene
+        valor de anticipo?</mat-checkbox>
+      <mat-form-field class="example-full-width" *ngIf="selectedAnticipo">
+        <input matInput [formControl]="valorAnticipo" maxlength="25" placeholder="Anticipo" currencyMask required>
+        <mat-error *ngIf="valorAnticipo.hasError('required')">
+          El valor de anticipo es <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Propietario" [formControl]="propietario" [(value)]="selectedPropietario" required>
+          <mat-option *ngFor="let prop of propietarios" [value]="prop.clienteId">
+            {{prop.nombre}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="propietario.hasError('required')">Por favor seleccione un propietario</mat-error>
+      </mat-form-field>
+
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Subasta" [formControl]="subasta" [(value)]="selectedSubasta" required>
+          <mat-option *ngFor="let sub of subastas" [value]="sub.subastaId">
+            {{sub.descripcion}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="subasta.hasError('required')">Por favor seleccione una subasta</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Departamento" [formControl]="departamento" [(value)]="selectedDepartamento"
+          (selectionChange)="obtenerCiudades($event.value)" required>
+          <mat-option *ngFor="let depar of departamentos" [value]="depar.departamentoId">
+            {{depar.descripcion}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="departamento.hasError('required')">Por favor seleccione un departamento</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Municipio" [formControl]="municipio" [(value)]="selectedMunicipio" required>
+          <mat-option *ngFor="let muni of municipios" [value]="muni.municipioId">
+            {{muni.descripcion}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="municipio.hasError('required')">Por favor seleccione un municipio</mat-error>
+      </mat-form-field>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="example-full-width">
+            <input accept="image/*" type="file" #file [formControl]="foto" placeholder="Foto" (change)="upload(file.files)" required>
+          </div>
+        </div>
+      </div>
+
+      <br>
+      <br>
+
+      <div class="row">
+        <div class="col-12 text-align-right">
+          <button class="btn btn-default margin-right15" (click)="regresar()">Cancelar</button>
+          <button type="submit" [disabled]="form.invalid" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>

@@ -7,6 +7,6 @@ export const environment = {
   endpointClientes: 'http://localhost:50553/api/Clientes',
   endpointEvento: 'http://localhost:50553/api/eventos',
   endpointSubasta: 'http://localhost:50553/api/subastas',
-  endpointLogin: 'http://localhost:50553/api/login'
-
+  endpointLogin: 'http://localhost:50553/api/login',
+  endpointLote: 'http://localhost:50553/api/lotes'
 };

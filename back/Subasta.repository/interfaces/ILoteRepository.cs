@@ -7,5 +7,6 @@ namespace Subasta.repository.interfaces
 {
     public interface ILoteRepository: IGenericRepository<Lote>
     {
+        List<Lote> GetllWithInclude();
     }
 }

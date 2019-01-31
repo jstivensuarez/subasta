@@ -7,8 +7,10 @@ using Subasta.repository.interfaces;
 using Subasta.repository.models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.Http.Headers;
 
 namespace Subasta.core.services
 {
@@ -17,17 +19,21 @@ namespace Subasta.core.services
 
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
-
-        public LoteService(IMapper mapper, IUnitOfWork uowService)
+        readonly IFileHelper fileHelper;
+        public LoteService(IMapper mapper, IUnitOfWork uowService, IFileHelper fileHelper)
         {
             this.mapper = mapper;
             this.uowService = uowService;
+            this.fileHelper = fileHelper;
         }
 
         public void Add(LoteDto dto)
         {
             try
             {
+                string fileName = ContentDispositionHeaderValue.Parse(dto.Imagen.ContentDisposition).FileName.Trim('"');
+                dto.FotoLote = $"{Guid.NewGuid().ToString()}{Path.GetExtension(fileName)}";
+                fileHelper.DownLoadFile("images//LOTES", dto.Imagen, dto.FotoLote);
                 uowService.LoteRepository.Add(mapper.Map<Lote>(dto));
                 uowService.Save();
             }
@@ -60,11 +66,18 @@ namespace Subasta.core.services
             }
         }
 
-        public void Edit(LoteDto entity)
+        public void Edit(LoteDto dto)
         {
             try
             {
-                uowService.LoteRepository.Edit(mapper.Map<Lote>(entity));
+                if (dto.Imagen != null)
+                {
+                    fileHelper.RemoveFile("images//LOTES", dto.FotoLote);
+                    string fileName = ContentDispositionHeaderValue.Parse(dto.Imagen.ContentDisposition).FileName.Trim('"');
+                    dto.FotoLote = $"{Guid.NewGuid().ToString()}{Path.GetExtension(fileName)}";
+                    fileHelper.DownLoadFile("images//LOTES", dto.Imagen, dto.FotoLote);
+                }
+                uowService.LoteRepository.Edit(mapper.Map<Lote>(dto));
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -117,6 +130,23 @@ namespace Subasta.core.services
             try
             {
                 var result = uowService.LoteRepository.GetAll();
+                return mapper.Map<List<LoteDto>>(result);
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener los lotes", ex);
+            }
+        }
+
+        public List<LoteDto> GetllWithInclude()
+        {
+            try
+            {
+                var result = uowService.LoteRepository.GetllWithInclude();
                 return mapper.Map<List<LoteDto>>(result);
             }
             catch (ExceptionData)

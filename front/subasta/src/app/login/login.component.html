@@ -1,41 +1,56 @@
+<br>
+<br>
+
 <div class="container login">
-    <h2 class="title">
-      {{title}}
-    </h2>
-    <mat-card class="center-card">
-      <form class="example-form" [formGroup]="form" (submit)="onSubmit(form.value)">
-  
-        <div class="row">
-          <div class="col-md-12">
-            <mat-form-field class="example-full-width">
-              <input matInput [formControl]="ingreso" maxlength="50" placeholder="Usuario / Correo" required>
-              <mat-error *ngIf="ingreso.hasError('required')">
-                El usuario es <strong>requerido</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-  
-  
-        <div class="row">
-          <div class="col-md-12">
-            <mat-form-field class="example-full-width">
-              <input matInput [formControl]="clave" maxlength="25" placeholder="contraseña" type="password" required>
-              <mat-error *ngIf="clave.hasError('required')">
-                La contraseña es <strong>requerido</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-  
+  <mat-card>
+    <mat-tab-group>
+      <mat-tab label="Ingresar">
         <br>
+        <img src="assets/images/user.png" class="center" alt="login">
         <br>
-  
-        <div class="row">
-          <div class="col-12 text-align-center">
-            <button type="submit" [disabled]="form.invalid" class="btn btn-primary">Ingresar</button>
-          </div>
-        </div>
-      </form>
-    </mat-card>
-  </div>
+        <mat-card class="center-card">
+          <form class="example-form" [formGroup]="form" (submit)="onSubmit(form.value)">
+
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field class="example-full-width">
+                  <input matInput [formControl]="ingreso" maxlength="50" placeholder="Usuario / Correo" required>
+                  <mat-error *ngIf="ingreso.hasError('required')">
+                    El usuario es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field class="example-full-width">
+                  <input matInput [formControl]="clave" maxlength="25" placeholder="contraseña" type="password"
+                    required>
+                  <mat-error *ngIf="clave.hasError('required')">
+                    La contraseña es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <br>
+            <br>
+
+            <div class="row">
+              <div class="col-12 text-align-center">
+                <button type="submit" [disabled]="form.invalid" class="btn btn-primary">Ingresar</button>
+              </div>
+            </div>
+          </form>
+        </mat-card>
+      </mat-tab>
+      <mat-tab label="Registrarse">
+          <br>
+        <img src="assets/images/add-group.png" class="center" alt="login">
+        <br>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</div>

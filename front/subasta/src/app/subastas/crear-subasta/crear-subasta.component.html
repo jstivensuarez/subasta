@@ -6,6 +6,13 @@
     <form class="example-form" [formGroup]="form" (submit)="onSubmit(form.value)">
 
       <mat-form-field class="example-full-width">
+        <input matInput [formControl]="descripcion" maxlength="25" placeholder="Descripción" required>
+        <mat-error *ngIf="descripcion.hasError('required')">
+          La descripción es <strong>requerida</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
         <input matInput [formControl]="fechaLimite" [matDatepicker]="limite" placeholder="Fecha limite de pago" [min]="minDate"
           required>
         <mat-datepicker-toggle matSuffix [for]="limite"></mat-datepicker-toggle>
@@ -15,6 +22,8 @@
         </mat-error>
       </mat-form-field>
 
+      <br>
+      
       <mat-form-field class="margin-right15">
         <input matInput [formControl]="fechaInicio" [matDatepicker]="inicio" placeholder="Fecha de inicio" [min]="minDate"
           required>
@@ -41,33 +50,22 @@
         <mat-error *ngIf="fechaFin.hasError('required')">
           La fecha de fin es <strong>requerida</strong>
         </mat-error>
+        <mat-error *ngIf="fechaFin.hasError('fechaMala')">
+          La fecha de finalización del evento debe ser mayor a la fecha de inicio
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field>
         <input matInput [formControl]="horaFin" maxlength="25" placeholder="Hora de fin" type="time" value="{{horaFinActual}}"
           required>
         <mat-error *ngIf="horaFin.hasError('required')">
-          La hora de fin es <strong>requerida</strong>
+          La hora de finalización es <strong>requerida</strong>
+        </mat-error>
+        <mat-error *ngIf="horaFin.hasError('horaMala')">
+          La hora de finalización de la subasta debe ser mayor a la hora de inicio
         </mat-error>
       </mat-form-field>
-
-
-      <mat-form-field class="example-full-width">
-        <input matInput [formControl]="valorAnticipo" maxlength="25" placeholder="Anticipo" required>
-        <mat-error *ngIf="valorAnticipo.hasError('required')">
-          El valor de anticipo es <strong>requerido</strong>
-        </mat-error>
-      </mat-form-field>
-
-
-
-      <mat-form-field class="example-full-width">
-        <input matInput [formControl]="precioInicial" maxlength="25" placeholder="Precio inicial" required>
-        <mat-error *ngIf="precioInicial.hasError('required')">
-          El precio inicial es <strong>requerido</strong>
-        </mat-error>
-      </mat-form-field>
-
+ 
       <br>
       <br>
 

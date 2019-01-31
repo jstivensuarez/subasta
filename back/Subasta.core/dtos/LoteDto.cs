@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace Subasta.core.dtos
 {
@@ -16,18 +17,24 @@ namespace Subasta.core.dtos
 
         public decimal PrecioBase { get; set; }
 
-        public decimal FotoLote { get; set; }
+        public string FotoLote { get; set; }
+
+        public decimal PrecioInicial { get; set; }
+
+        public decimal ValorAnticipo { get; set; }
 
         public string ClienteId { get; set; }
 
         public ClienteDto Cliente { get; set; }
 
-        public string MunicipioId { get; set; }
+        public int MunicipioId { get; set; }
 
         public MunicipioDto Municipio { get; set; }
 
-        public string SubastaId { get; set; }
+        public int SubastaId { get; set; }
 
         public SubastaDto Subasta { get; set; }
+
+        public IFormFile Imagen { get; set; }
     }
 }

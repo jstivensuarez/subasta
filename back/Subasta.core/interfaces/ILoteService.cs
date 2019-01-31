@@ -8,6 +8,6 @@ namespace Subasta.core.interfaces
 {
     public interface ILoteService : IGenericCrudService<LoteDto, Lote>
     {
-
+        List<LoteDto> GetllWithInclude();
     }
 }

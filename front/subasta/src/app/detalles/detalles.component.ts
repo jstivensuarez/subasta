@@ -15,7 +15,8 @@ export class DetallesComponent implements OnInit {
   @Output() action = new EventEmitter();
   keys: string[];
   result: boolean;
-
+  withImage: boolean;
+  imageUrl: string = "http://localhost:50553/images/LOTES/";
   constructor(public activeModal: NgbActiveModal) {
     this.keys = [];
   }
@@ -35,5 +36,20 @@ export class DetallesComponent implements OnInit {
 
   getFinalMesagge() {
     this.keys = Object.keys(this.mesagge);
+    this.withImage =this.haveImage();
+  }
+
+  haveImage(){
+    if( this.keys && this.mesagge["imagen"]){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  getImage(name){
+    debugger;
+    const url= this.imageUrl+ this.mesagge['imagen'];
+    return url;
   }
 }

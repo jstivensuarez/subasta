@@ -2,17 +2,22 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Subasta.core;
+using Subasta.core.helpers;
 using Subasta.core.interfaces;
 using Subasta.core.services;
 using Subasta.repository;
 using Subasta.repository.interfaces;
 using Subasta.repository.repositorys;
+using System.IO;
 using System.Text;
 
 namespace Subasta
@@ -66,6 +71,8 @@ namespace Subasta
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IUsuarioService, UsuarioService>();
 
+            services.AddScoped<IFileHelper, FileHelper>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
@@ -89,7 +96,19 @@ namespace Subasta
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                     };
                 });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddDirectoryBrowser();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+
+            services.Configure<FormOptions>(o => {
+                o.ValueLengthLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,6 +118,20 @@ namespace Subasta
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseStaticFiles(); // For the wwwroot folder
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images")),
+                RequestPath = "/images"
+            });
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images")),
+                RequestPath = "/images"
+            });
             app.UseAuthentication();
             app.UseMvc();
         }

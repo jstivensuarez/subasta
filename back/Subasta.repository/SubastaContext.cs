@@ -43,7 +43,7 @@ namespace Subasta.repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Pujador>()
-                .HasKey(c => new { c.ClienteId, c.SubastaId });
+                .HasKey(c => new { c.ClienteId, c.LoteId });
         }
 
     }

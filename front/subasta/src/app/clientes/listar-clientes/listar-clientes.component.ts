@@ -21,7 +21,7 @@ export interface PeriodicElement {
   styleUrls: ['./listar-clientes.component.css']
 })
 export class ListarClientesComponent implements OnInit {
-  title = 'Clientes';
+  title = 'Propietarios';
   displayedColumns: string[] = ['nombre', 'correo', 'telefono', 'usuario', 'acciones'];
   clientes: Cliente[];
   constructor(private clienteService: ClienteService,
@@ -46,12 +46,10 @@ export class ListarClientesComponent implements OnInit {
         if (resp) {
           this.clienteService.delete(cliente.clienteId).subscribe(
             resp => {
-              debugger;
               this.alertService.
                 showSimpleMessage(constants.successTitle, constants.success, constants.successDelete);
               this.obtenerClientes();
             }, err => {
-              debugger;
               this.alertService.
                 showSimpleMessage(constants.errorTitle, constants.error, constants.errorDelete);
             }
@@ -68,16 +66,19 @@ export class ListarClientesComponent implements OnInit {
         Correo: resp.correo,
         Usuario: resp.usuario,
         Teléfono: resp.telefono,
-        Ubicación: resp.direccion + ' (' + resp.municipio.descripcion+')',
-        Documento: resp.clienteId+ ' ('+ resp.tipoDocumento.descripcion+')',
+        Ubicación: resp.direccion + ' (' + resp.municipio.descripcion + ')',
+        Documento: resp.clienteId + ' (' + resp.tipoDocumento.descripcion + ')',
         Representante: resp.representante
       });
     }, err => {
       console.error(err);
     });
-   
+
   }
 
+  agregarPropietario() {
+    this.router.navigate(['/crear-propietario']);
+  }
   obtenerClientes() {
     this.clienteService.get().subscribe(
       resp => {

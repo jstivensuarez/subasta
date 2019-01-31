@@ -14,8 +14,9 @@ export class SubastaService {
   
   constructor(private http: HttpClient) { }
 
+  
   get(): Observable<any[]> {
-    return this.http.get<any[]>(environment.endpointSubasta).pipe(
+    return this.http.get<any[]>(environment.endpointSubasta+ '/GetAll').pipe(
       map((data: Subasta[]) => data));
   }
 

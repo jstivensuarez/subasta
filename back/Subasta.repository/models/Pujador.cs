@@ -8,10 +8,10 @@ namespace Subasta.repository.models
     public class Pujador
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("CODIGO_SUBASTA_PUJADOR")]
-        public int SubastaId { get; set; }
+        [Column("CODIGO_LOTE_PUJADOR")]
+        public int LoteId { get; set; }
 
-        public Subasta Subasta { get; set; }
+        public Lote Lote { get; set; }
 
         [Column("ID_CLI_PUJADOR")]
         public string ClienteId { get; set; }

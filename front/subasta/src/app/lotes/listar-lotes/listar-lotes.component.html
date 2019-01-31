@@ -1,0 +1,50 @@
+<div class="container">
+  <h2 class="title">
+    <button mat-fab color="primary" class="text-align-left" (click)="agregarLote()">
+      <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+    </button>
+    {{title}}
+  </h2>
+
+  <mat-card class="center-card">
+    <table mat-table [dataSource]="lotes" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cantidadElementos">
+        <th mat-header-cell *matHeaderCellDef> Cantidad de elementos </th>
+        <td mat-cell *matCellDef="let element"> {{element.cantidadElementos}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="precioBase">
+        <th mat-header-cell *matHeaderCellDef> Precio base </th>
+        <td mat-cell *matCellDef="let element"> {{element.precioBase}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="municipio">
+        <th mat-header-cell *matHeaderCellDef> Ubicación </th>
+        <td mat-cell *matCellDef="let element"> {{element.municipio.descripcion}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="subasta">
+        <th mat-header-cell *matHeaderCellDef> Subasta </th>
+        <td mat-cell *matCellDef="let element"> {{element.subasta.descripcion}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon (click)="eliminar(element)" class="margin-right15">delete</mat-icon>
+          <mat-icon (click)="editar(element)" class="margin-right15">edit</mat-icon>
+          <mat-icon (click)="ver(element)">visibility</mat-icon>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card>
+  <div>

@@ -1,7 +1,11 @@
 <div class="container">
   <h2 class="title">
+      <button mat-fab color="primary" class="text-align-left" (click)="agregarPropietario()">
+          <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+        </button>
     {{title}}
   </h2>
+
   <mat-card class="center-card">
     <table mat-table [dataSource]="clientes" class="mat-elevation-z8">
 
@@ -29,7 +33,7 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element">
           <mat-icon (click)="eliminar(element)" class="margin-right15">delete</mat-icon>
-          <mat-icon (click)="editar(element)"  class="margin-right15">edit</mat-icon>
+          <mat-icon (click)="editar(element)" class="margin-right15">edit</mat-icon>
           <mat-icon (click)="ver(element)">visibility</mat-icon>
         </td>
       </ng-container>

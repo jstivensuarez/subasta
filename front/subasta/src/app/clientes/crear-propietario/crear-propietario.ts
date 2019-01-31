@@ -21,7 +21,7 @@ import { MesaggesManagerService } from 'src/app/services/mesagges-manager.servic
 
 export class CrearPropietarioComponent implements OnInit {
 
-  title: string = 'Crear cliente';
+  title: string = 'Crear propietario';
   tipoDocumentos: TipoDocumento[];
   departamentos: Departamento[];
   municipios: Municipio[];
@@ -78,13 +78,15 @@ export class CrearPropietarioComponent implements OnInit {
   }
 
   obtenerMunicipios(departamentoId) {
-    this.municipioService.getMunicipios(departamentoId).subscribe(
-      resp => {
-        this.municipios = resp;    
-      }, err => {
-        console.error(err);
-      }
-    )
+    if (departamentoId) {
+      this.municipioService.getMunicipios(departamentoId).subscribe(
+        resp => {
+          this.municipios = resp;
+        }, err => {
+          console.error(err);
+        }
+      );
+    }
   }
 
   obtenerCliente(id: string) {
@@ -153,14 +155,14 @@ export class CrearPropietarioComponent implements OnInit {
       debugger;
       if (params['id']) {
         this.isEditing = true;
-        this.title = 'Editar cliente';
+        this.title = 'Editar propietario';
         this.obtenerCliente(params['id']);
       } else {
         this.selectedRepresentante = false;
         this.isEditing = false;
         this.cliente = new Cliente();
         this.form = this.createForm();
-        this.title = 'Crear cliente';
+        this.title = 'Crear propietario';
       }
     });
   }
@@ -185,13 +187,13 @@ export class CrearPropietarioComponent implements OnInit {
     return true;
   }
 
-  obtenerCiudades(departamentoId){
+  obtenerCiudades(departamentoId) {
     this.municipio.setValue(null);
     this.obtenerMunicipios(departamentoId);
   }
-  
+
   regresar() {
-    this.router.navigate(['/listar-cliente']);
+    this.router.navigate(['/listar-propietario']);
   }
 
   createForm() {

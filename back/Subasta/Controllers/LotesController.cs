@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Subasta.core.dtos;
 using Subasta.core.interfaces;
 using System;
+using System.Linq;
 
 namespace Subasta.Controllers
 {
@@ -25,7 +26,7 @@ namespace Subasta.Controllers
         {
             try
             {
-                var lotes = loteService.GetAll();
+                var lotes = loteService.GetllWithInclude();
                 return Ok(lotes);
             }
             catch (Exception ex)
@@ -37,11 +38,11 @@ namespace Subasta.Controllers
 
         [HttpGet()]
         [Route("[action]/{id}")]
-        public IActionResult Get(string id)
+        public IActionResult Get(int id)
         {
             try
             {
-                var lote = loteService.Find(id);
+                var lote = loteService.GetllWithInclude().SingleOrDefault(l => l.LoteId == id);
                 return Ok(lote);
             }
             catch (Exception)
@@ -50,8 +51,8 @@ namespace Subasta.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult Post(LoteDto lote)
+        [HttpPost, DisableRequestSizeLimit]
+        public IActionResult Post()
         {
             try
             {
@@ -59,6 +60,15 @@ namespace Subasta.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+                LoteDto lote = new LoteDto();
+                lote.Imagen = Request.Form.Files[0];
+                lote.Nombre = Request.Form["nombre"];
+                lote.Descripcion = Request.Form["descripcion"];
+                lote.ClienteId = Request.Form["clienteId"];
+                lote.MunicipioId = Convert.ToInt32(Request.Form["municipioId"]);
+                lote.PrecioBase = Convert.ToDecimal(Request.Form["precioBase"]);
+                lote.SubastaId = Convert.ToInt32(Request.Form["subastaId"]);
+                lote.ValorAnticipo = Convert.ToDecimal(Request.Form["valorAnticipo"]);
                 loteService.Add(lote);
                 return Ok(lote);
             }
@@ -68,20 +78,23 @@ namespace Subasta.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, LoteDto lote)
+        [HttpPut, DisableRequestSizeLimit]
+        public IActionResult Put()
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                var entity = loteService.Find(id);
-                if (entity == null)
-                {
-                    return NotFound();
-                }
+                LoteDto lote = new LoteDto();
+                if(Request.Form.Files != null && Request.Form.Files.Count > 0)
+                    lote.Imagen = Request.Form.Files[0];
+                lote.LoteId = Convert.ToInt32(Request.Form["loteId"]);
+                lote.Nombre = Request.Form["nombre"];
+                lote.Descripcion = Request.Form["descripcion"];
+                lote.ClienteId = Request.Form["clienteId"];
+                lote.FotoLote = Request.Form["fotoLote"];
+                lote.MunicipioId = Convert.ToInt32(Request.Form["municipioId"]);
+                lote.PrecioBase = Convert.ToDecimal(Request.Form["precioBase"]);
+                lote.SubastaId = Convert.ToInt32(Request.Form["subastaId"]);
+                lote.ValorAnticipo = Convert.ToDecimal(Request.Form["valorAnticipo"]);
                 loteService.Edit(lote);
                 return Ok(lote);
             }

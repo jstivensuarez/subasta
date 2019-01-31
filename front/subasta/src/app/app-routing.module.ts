@@ -7,10 +7,12 @@ import { AutenticacionService } from './services/autenticacion/autenticacion.ser
 import { RoleguardService } from './services/autenticacion/roleguard.service';
 import { CrearEventoComponent } from './eventos/crear-evento/crear-evento.component';
 import { ListarEventosComponent } from './eventos/listar-eventos/listar-eventos.component';
+import { CrearLotesComponent } from './lotes/crear-lotes/crear-lotes.component';
+import { ListarLotesComponent } from './lotes/listar-lotes/listar-lotes.component';
 
 const routes: Routes = [
   {
-    path: 'listar-cliente', component: ListarClientesComponent, canActivate: [AutenticacionService, RoleguardService],
+    path: 'listar-propietario', component: ListarClientesComponent, canActivate: [AutenticacionService, RoleguardService],
     data: {
       expectedRole: 'Administrador'
     }
@@ -34,13 +36,25 @@ const routes: Routes = [
     }
   },
   {
+    path: 'crear-evento:/id', component: CrearEventoComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
     path: 'listar-evento', component: ListarEventosComponent, canActivate: [AutenticacionService, RoleguardService],
     data: {
       expectedRole: 'Administrador'
     }
   },
   {
-    path: 'listar-evento/:id', component: ListarEventosComponent, canActivate: [AutenticacionService, RoleguardService],
+    path: 'listar-lote', component: ListarLotesComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'crear-lote', component: CrearLotesComponent, canActivate: [AutenticacionService, RoleguardService],
     data: {
       expectedRole: 'Administrador'
     }

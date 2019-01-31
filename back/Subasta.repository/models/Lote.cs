@@ -31,7 +31,10 @@ namespace Subasta.repository.models
         public decimal PrecioBase { get; set; }
 
         [Column("FOTO_LOTE")]
-        public decimal FotoLote { get; set; }
+        public string FotoLote { get; set; }
+
+        [Column("VALOR_ANTICIPO_LOTE")]
+        public decimal ValorAnticipo { get; set; }
 
         [Column("ID_CLIENTE_LOTE")]
         public string ClienteId { get; set; }
@@ -39,15 +42,20 @@ namespace Subasta.repository.models
         public Cliente Cliente { get; set; }
 
         [Column("COD_MUN_UBI_LOTE")]
-        public string MunicipioId { get; set; }
+        public int MunicipioId { get; set; }
 
         public Municipio Municipio { get; set; }
 
         [Column("COD_SUBASTA_LOTE")]
-        public string SubastaId { get; set; }
+        public int SubastaId { get; set; }
+
+        [Column("PRECIO_INICIAL_LOTE")]
+        public decimal PrecioInicial { get; set; }
 
         public Subasta Subasta { get; set; }
 
         public List<Animal> Animales { get; set; } = new List<Animal>();
+
+        public List<Pujador> Pujadores { get; set; } = new List<Pujador>();
     }
 }

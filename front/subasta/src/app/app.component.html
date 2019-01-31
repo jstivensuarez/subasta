@@ -1,21 +1,35 @@
-<mat-toolbar color="primary">
-  <button mat-button [matMenuTriggerFor]="clientes">Clientes</button>
-  <button mat-button [matMenuTriggerFor]="eventos">Eventos</button>
-  <mat-menu #clientes="matMenu">
-    <button mat-menu-item routerLink="/listar-cliente">Listar</button>
-    <button mat-menu-item routerLink="/crear-propietario">Crear</button>
-  </mat-menu>
+<div>
+  <mat-toolbar color="primary" *ngIf="claims">
+    <button mat-button [matMenuTriggerFor]="clientes">Propietarios</button>
+    <button mat-button [matMenuTriggerFor]="eventos">Eventos</button>
+    <button mat-button [matMenuTriggerFor]="lotes">Lotes</button>
 
-  <mat-menu #eventos="matMenu">
-    <button mat-menu-item routerLink="/listar-evento">Listar</button>
-    <button mat-menu-item routerLink="/crear-evento">Crear</button>
-  </mat-menu>
+    <mat-menu #clientes="matMenu">
+      <button mat-menu-item routerLink="/listar-propietario">Listar propietarios</button>
+      <button mat-menu-item routerLink="/crear-propietario">Crear propietario</button>
+    </mat-menu>
 
-  <span class="example-fill-remaining-space"></span>
-  <span>
-    Bienvenido, {{usuario}}
-    <mat-icon (click)="logout()">exit_to_app</mat-icon>
-  </span>
-</mat-toolbar>
+    <mat-menu #eventos="matMenu">
+      <button mat-menu-item routerLink="/listar-evento">Listar</button>
+      <button mat-menu-item routerLink="/crear-evento">Crear</button>
+    </mat-menu>
 
+    <mat-menu #lotes="matMenu">
+      <button mat-menu-item routerLink="/listar-lote">Listar</button>
+      <button mat-menu-item routerLink="/crear-lote">Crear</button>
+    </mat-menu>
+
+    <span class="example-fill-remaining-space"></span>
+    <span>
+      Bienvenido, {{usuario}}
+      <mat-icon (click)="logout()">exit_to_app</mat-icon>
+    </span>
+  </mat-toolbar>
+  <mat-toolbar color="primary" *ngIf="!claims">
+    <span class="example-fill-remaining-space"></span>
+    <span>
+      Subastas
+    </span>
+  </mat-toolbar>
+</div>
 <router-outlet></router-outlet>

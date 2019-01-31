@@ -7,6 +7,8 @@ namespace Subasta.core.dtos
     {
         public int SubastaId { get; set; }
 
+        public string Descripcion { get; set; }
+
         public DateTime FechaLimite { get; set; }
 
         public DateTime HoraInicio { get; set; }
@@ -16,10 +18,6 @@ namespace Subasta.core.dtos
         public DateTime HoraInicioAux { get; set; }
 
         public DateTime HoraFinAux { get; set; }
-
-        public decimal ValorAnticipo { get; set; }
-
-        public decimal PrecioInicial { get; set; }
 
         public int EventoId { get; set; }
 

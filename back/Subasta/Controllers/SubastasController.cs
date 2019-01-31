@@ -24,6 +24,22 @@ namespace Subasta.Controllers
             this.subastaService = subastaService;
         }
 
+
+        [HttpGet]
+        [Route("GetAll")]
+        public IActionResult GetAll(int id)
+        {
+            try
+            {
+                var subastas = subastaService.GetAll();
+                return Ok(subastas);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         [HttpGet]
         [Route("GetPorEvento/{id}")]
         public IActionResult Get(int id)

@@ -16,6 +16,7 @@ import { EventoService } from 'src/app/services/evento.service';
 import { SubastaService } from 'src/app/services/subasta.service';
 import { constants } from 'src/app/util/constants';
 import { CrearSubastaComponent } from 'src/app/subastas/crear-subasta/crear-subasta.component';
+import { Validation } from 'src/app/util/validations';
 
 @Component({
   selector: 'app-crear-evento',
@@ -26,9 +27,9 @@ export class CrearEventoComponent implements OnInit {
 
   isLinear = true;
   firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
   titleEvento: string;
   titleSubastas: string;
+  titleLotes: string;
   minDate: Date;
   departamentos: Departamento[];
   municipios: Municipio[];
@@ -36,7 +37,7 @@ export class CrearEventoComponent implements OnInit {
   modalRef: any;
   selectedDepartamento: number;
   selectedMunicipio: number;
-  displayedColumns: string[] = ['fechaLimite', 'horaInicio', 'horaFin', 'valorAnticipo', 'precioInicial', 'acciones'];
+  displayedColumns: string[] = ['descripcion', 'fechaLimite', 'horaInicio', 'horaFin', 'acciones'];
   subastas: Subasta[];
   isEditing: boolean;
   subasta: Subasta;
@@ -54,6 +55,7 @@ export class CrearEventoComponent implements OnInit {
     this.isEditing = false;
     this.titleEvento = "Evento";
     this.titleSubastas = "Subastas";
+    this.titleLotes = "Asociar lotes";
     this.evento = new Evento();
     this.minDate = new Date();
     this.subastas = [];
@@ -63,9 +65,7 @@ export class CrearEventoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });
+
   }
 
   obtenerDepartamentos() {
@@ -125,8 +125,10 @@ export class CrearEventoComponent implements OnInit {
       municipio: new FormControl(this.selectedMunicipio),
       departamento: new FormControl(this.selectedDepartamento),
       fechaInicio: new FormControl(this.evento.fechaInicio, [Validators.required]),
-      fechaFin: new FormControl(this.evento.fechaFin, [Validators.required]),
-    });
+      fechaFin: new FormControl(this.evento.fechaFin, [Validators.required,]),
+    },
+      Validation.EventoFechas // your validation method
+    );
   }
 
 
@@ -151,7 +153,7 @@ export class CrearEventoComponent implements OnInit {
     evento.fechaFin = this.fechaFin.value;
     evento.fechaInicio = this.fechaInicio.value;
     evento.municipioId = this.municipio.value;
-    if (this.isEditing) {
+    if (this.evento.eventoId) {
       debugger;
       evento.eventoId = this.evento.eventoId; 
       this.editarEvento(evento);
@@ -204,6 +206,7 @@ export class CrearEventoComponent implements OnInit {
   }
 
   editarSubasta(subasta){
+    debugger;
     const component = this.modalService.open(CrearSubastaComponent).componentInstance;
     component.evento = this.evento;
     component.subasta = subasta;
@@ -214,6 +217,7 @@ export class CrearEventoComponent implements OnInit {
   }
 
   agregarSubasta() {
+    debugger;
     const component = this.modalService.open(CrearSubastaComponent).componentInstance;
     component.evento = this.evento;
     component.createForm();
