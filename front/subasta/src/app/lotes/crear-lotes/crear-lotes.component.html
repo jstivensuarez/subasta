@@ -85,21 +85,48 @@
         <mat-error *ngIf="municipio.hasError('required')">Por favor seleccione un municipio</mat-error>
       </mat-form-field>
 
-      <div class="row">
-        <div class="col-md-12">
-          <div class="example-full-width">
-            <input accept="image/*" type="file" #file [formControl]="foto" placeholder="Foto" (change)="upload(file.files)" required>
-          </div>
-        </div>
-      </div>
 
+      <mat-tab-group>
+        <mat-tab label="Subir Imagen">
+          <br>
+          <br>
+          <div class="example-full-width">
+            <input accept="image/*" type="file" #file [formControl]="foto" placeholder="Foto" (change)="uploadImage(file.files)">
+          </div>
+          <mat-error *ngIf="!foto.valid">
+            La imagen del lote es <strong>requerida</strong>
+          </mat-error>
+        </mat-tab>
+
+        <mat-tab label="Enlazar video">
+          <br>
+          <mat-form-field class="example-full-width">
+            <input matInput [formControl]="video" maxlength="200" placeholder="Url del video" (input)="uploadVideo($event.target.value)"
+              required>
+            <mat-error *ngIf="video.hasError('required') && !foto.value">
+              La url del video es <strong>requerida</strong>
+            </mat-error>
+            <mat-error *ngIf="video.hasError('pattern')">
+              La url del video no es <strong>válida, </strong> asegurese que el enlace sea correcto
+            </mat-error>
+          </mat-form-field>
+        </mat-tab>
+      </mat-tab-group>
+
+      <br>
+      <div *ngIf="foto.value">
+          <strong>Imagen cargada: </strong> {{recursoCargado}}
+      </div>
+      <div *ngIf="video.value">
+          <strong>Url enlazada: </strong> <a href="{{recursoCargado}}" target="_blank">Video</a>
+      </div>
       <br>
       <br>
 
       <div class="row">
         <div class="col-12 text-align-right">
           <button class="btn btn-default margin-right15" (click)="regresar()">Cancelar</button>
-          <button type="submit" [disabled]="form.invalid" class="btn btn-primary">Guardar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
       </div>
     </form>

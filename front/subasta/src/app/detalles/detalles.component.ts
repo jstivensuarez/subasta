@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { constants } from '../util/constants';
 import { ThrowStmt } from '@angular/compiler';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-detalles',
@@ -16,8 +17,11 @@ export class DetallesComponent implements OnInit {
   keys: string[];
   result: boolean;
   withImage: boolean;
-  imageUrl: string = "http://localhost:50553/images/LOTES/";
-  constructor(public activeModal: NgbActiveModal) {
+  withVideo: boolean;
+  imageUrl: string = "http://localhost:3001/images/LOTES/";
+  safeURL: any;
+  constructor(public activeModal: NgbActiveModal,
+    private _sanitizer: DomSanitizer) {
     this.keys = [];
   }
 
@@ -35,21 +39,36 @@ export class DetallesComponent implements OnInit {
   }
 
   getFinalMesagge() {
+    debugger;
     this.keys = Object.keys(this.mesagge);
-    this.withImage =this.haveImage();
+    this.withImage = this.haveImage();
+    this.withVideo = this.haveVideo();
   }
 
-  haveImage(){
-    if( this.keys && this.mesagge["imagen"]){
+  haveImage() {
+    if (this.keys && this.mesagge["imagen"]) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
 
-  getImage(name){
-    debugger;
-    const url= this.imageUrl+ this.mesagge['imagen'];
+  haveVideo() {
+    if (this.keys && this.mesagge["video"]) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getVideo() {
+    const url =
+      this._sanitizer.bypassSecurityTrustResourceUrl(this.mesagge['video'].replace('watch?v=', 'embed/'));
+    return url;
+  }
+
+  getImage() {
+    const url = this.imageUrl + this.mesagge['imagen'];
     return url;
   }
 }

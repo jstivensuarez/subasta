@@ -19,5 +19,6 @@ export class Lote {
     subastaId: number;
     subasta: Subasta;
     imagen: File;
+    video: string;
     constructor() { }
 }

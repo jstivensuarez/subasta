@@ -61,7 +61,14 @@ namespace Subasta.Controllers
                     return BadRequest(ModelState);
                 }
                 LoteDto lote = new LoteDto();
-                lote.Imagen = Request.Form.Files[0];
+                if (Request.Form.Files.Count > 0)
+                {
+                    lote.Imagen = Request.Form.Files[0];
+                }
+                else
+                {
+                    lote.VideoLote = Request.Form["videoLote"];
+                }
                 lote.Nombre = Request.Form["nombre"];
                 lote.Descripcion = Request.Form["descripcion"];
                 lote.ClienteId = Request.Form["clienteId"];
@@ -84,8 +91,14 @@ namespace Subasta.Controllers
             try
             {
                 LoteDto lote = new LoteDto();
-                if(Request.Form.Files != null && Request.Form.Files.Count > 0)
+                if (Request.Form.Files.Count > 0)
+                {
                     lote.Imagen = Request.Form.Files[0];
+                }
+                else
+                {
+                    lote.VideoLote = Request.Form["videoLote"];
+                }
                 lote.LoteId = Convert.ToInt32(Request.Form["loteId"]);
                 lote.Nombre = Request.Form["nombre"];
                 lote.Descripcion = Request.Form["descripcion"];

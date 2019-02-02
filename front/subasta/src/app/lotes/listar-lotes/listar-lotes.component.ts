@@ -46,6 +46,13 @@ export class ListarLotesComponent implements OnInit {
 
   ver(lote) {
     debugger;
+    let video = null;
+    let imagen = null;
+    if(/^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/.test(lote.fotoLote)){
+      video = lote.fotoLote;
+    }else{
+      imagen = lote.fotoLote;
+    }
     this.alertService.showDetails('Detalles del lote', {
       Nombre: lote.nombre,
       Descripción: lote.descripcion,
@@ -53,8 +60,9 @@ export class ListarLotesComponent implements OnInit {
       "Peso Total": lote.pesoTotal,
       "Precio base": lote.precioBase,
       "Valor de anticipo": lote.valorAnticipo,
-      imagen: lote.fotoLote,
-      Propietario: lote.cliente.nombre + '(Documento: ' + lote.cliente.clienteId + ')',
+      imagen: imagen,
+      video: video,
+      Propietario: lote.cliente.nombre,
       Ciudad: lote.municipio.descripcion,
       Subasta: lote.subasta.descripcion
     });

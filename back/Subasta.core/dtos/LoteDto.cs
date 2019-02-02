@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Subasta.core.dtos
 {
@@ -19,6 +18,8 @@ namespace Subasta.core.dtos
 
         public string FotoLote { get; set; }
 
+        public string VideoLote { get; set; }
+
         public decimal PrecioInicial { get; set; }
 
         public decimal ValorAnticipo { get; set; }
@@ -35,6 +36,6 @@ namespace Subasta.core.dtos
 
         public SubastaDto Subasta { get; set; }
 
-        public IFormFile Imagen { get; set; }
+        public Microsoft.AspNetCore.Http.IFormFile Imagen { get; set; }
     }
 }

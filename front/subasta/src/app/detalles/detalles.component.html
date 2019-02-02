@@ -4,12 +4,12 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div *ngIf="!withImage">
+<div *ngIf="!withImage && !withVideo">
   <mat-card>
     <div class="col-md-12 vertical-modal">
       <p *ngFor="let obj of keys">
         <span *ngIf="mesagge[obj]">
-          {{obj}} : {{mesagge[obj]}}
+          <strong>{{obj}}</strong> : {{mesagge[obj]}}
         </span>
       </p>
     </div>
@@ -18,11 +18,25 @@
 <div *ngIf="withImage">
   <mat-card>
     <mat-card-content>
-      <img mat-card-image src="{{getImage(mesagge['imagen'])}}" alt="Photo of a Shiba Inu">
+      <img mat-card-image src="{{getImage()}}" alt="Photo of a Shiba Inu">
       <div class="col-md-12 vertical-modal">
         <p *ngFor="let obj of keys">
           <span *ngIf="mesagge[obj] && obj != 'imagen'">
-            {{obj}} : {{mesagge[obj]}}
+            <strong>{{obj}} </strong> : {{mesagge[obj]}}
+          </span>
+        </p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div *ngIf="withVideo">
+  <mat-card>
+    <mat-card-content>
+      <iframe width="100%" height="300" [src]='getVideo()' allowfullscreen></iframe>
+      <div class="col-md-12 vertical-modal">
+        <p *ngFor="let obj of keys">
+          <span *ngIf="mesagge[obj] && obj != 'video'">
+            <strong>{{obj}} </strong>: {{mesagge[obj]}}
           </span>
         </p>
       </div>

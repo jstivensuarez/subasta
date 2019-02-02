@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 
 namespace Subasta.core.services
 {
@@ -31,9 +32,15 @@ namespace Subasta.core.services
         {
             try
             {
-                string fileName = ContentDispositionHeaderValue.Parse(dto.Imagen.ContentDisposition).FileName.Trim('"');
-                dto.FotoLote = $"{Guid.NewGuid().ToString()}{Path.GetExtension(fileName)}";
-                fileHelper.DownLoadFile("images//LOTES", dto.Imagen, dto.FotoLote);
+                if (dto.Imagen != null) {
+                    string fileName = ContentDispositionHeaderValue.Parse(dto.Imagen.ContentDisposition).FileName.Trim('"');
+                    dto.FotoLote = $"{Guid.NewGuid().ToString()}{Path.GetExtension(fileName)}";
+                    fileHelper.DownLoadFile("images//LOTES", dto.Imagen, dto.FotoLote);
+                }
+                else
+                {
+                    dto.FotoLote = dto.VideoLote;
+                }          
                 uowService.LoteRepository.Add(mapper.Map<Lote>(dto));
                 uowService.Save();
             }
@@ -70,12 +77,19 @@ namespace Subasta.core.services
         {
             try
             {
+                var regex = @"^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$";
+                var esVideo = Regex.Match(dto.FotoLote, regex, RegexOptions.IgnoreCase);
+                if (!esVideo.Success)
+                    fileHelper.RemoveFile("images//LOTES", dto.FotoLote);
                 if (dto.Imagen != null)
                 {
-                    fileHelper.RemoveFile("images//LOTES", dto.FotoLote);
                     string fileName = ContentDispositionHeaderValue.Parse(dto.Imagen.ContentDisposition).FileName.Trim('"');
                     dto.FotoLote = $"{Guid.NewGuid().ToString()}{Path.GetExtension(fileName)}";
                     fileHelper.DownLoadFile("images//LOTES", dto.Imagen, dto.FotoLote);
+                }
+                if (dto.VideoLote != null)
+                {
+                    dto.FotoLote = dto.VideoLote;
                 }
                 uowService.LoteRepository.Edit(mapper.Map<Lote>(dto));
                 uowService.Save();

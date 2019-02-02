@@ -29,17 +29,20 @@ export class UsuarioService {
   logout() {
     window.location.reload();
     localStorage.removeItem('token');
-    this.router.navigate(['login']);
+    setTimeout(function() {
+      debugger;
+      this.router.navigate(['login']);
+    }, 2500);
+
   }
 
   getClaims() {
     const token = localStorage.getItem('token');
     const tokenPayload = decode(token);
-    return tokenPayload
+    return tokenPayload;
   }
 
-  redirectToMenu(){
+  redirectToMenu() {
     window.location.reload();
-    this.router.navigate(['/listar-lote']);
   }
 }
