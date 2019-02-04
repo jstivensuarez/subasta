@@ -30,7 +30,6 @@ export class UsuarioService {
     window.location.reload();
     localStorage.removeItem('token');
     setTimeout(function() {
-      debugger;
       this.router.navigate(['login']);
     }, 2500);
 
@@ -44,5 +43,6 @@ export class UsuarioService {
 
   redirectToMenu() {
     window.location.reload();
+    this.router.navigate(['listar-lote']);
   }
 }

@@ -57,7 +57,6 @@ export class ListarEventosComponent implements OnInit {
   obtenerEventos() {
     this.eventoService.get().subscribe(
       resp => {
-        debugger;
         this.eventos = resp;
       }, err => {
         console.error(err);

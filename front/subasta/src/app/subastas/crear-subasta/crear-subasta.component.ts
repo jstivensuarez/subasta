@@ -37,7 +37,6 @@ export class CrearSubastaComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger;
     const subasta = new Subasta();
     subasta.fechaLimite = this.fechaLimite.value;
     subasta.horaFin = this.fechaFin.value;
@@ -56,13 +55,11 @@ export class CrearSubastaComponent implements OnInit {
 
   crearSubasta(subas) {
     this.subastaService.post(subas).subscribe(res => {
-      debugger;
       this.alertService.
         showSimpleMessage(constants.successTitle, constants.success, constants.successCreate);
       this.completo.emit();
       this.activeModal.close();
     }, err => {
-      debugger;
       this.alertService.
         showSimpleMessage(constants.errorTitle, constants.error, constants.errorCreate);
       console.error(err);
@@ -84,7 +81,6 @@ export class CrearSubastaComponent implements OnInit {
   }
 
   createForm() {
-    debugger;
     if(this.subasta.horaInicio && this.subasta.horaFin){
       this.horaInicioActual = this.datepipe.transform(this.subasta.horaInicio, 'HH:mm');
       this.horaFinActual = this.datepipe.transform(this.subasta.horaFin, 'HH:mm');

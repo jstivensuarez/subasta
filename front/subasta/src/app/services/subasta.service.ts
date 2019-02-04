@@ -34,7 +34,6 @@ export class SubastaService {
   }
 
   delete(id: string): Observable<any> {
-    debugger;
     return this.http.delete<any>(environment.endpointSubasta + '/' + id, { headers: this.httpHeaders });
   }
 

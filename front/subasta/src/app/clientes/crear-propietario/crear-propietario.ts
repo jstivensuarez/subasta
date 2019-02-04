@@ -152,7 +152,6 @@ export class CrearPropietarioComponent implements OnInit {
 
   verificarUrl() {
     this.route.queryParams.subscribe(params => {
-      debugger;
       if (params['id']) {
         this.isEditing = true;
         this.title = 'Editar propietario';

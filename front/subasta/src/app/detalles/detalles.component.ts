@@ -39,7 +39,6 @@ export class DetallesComponent implements OnInit {
   }
 
   getFinalMesagge() {
-    debugger;
     this.keys = Object.keys(this.mesagge);
     this.withImage = this.haveImage();
     this.withVideo = this.haveVideo();

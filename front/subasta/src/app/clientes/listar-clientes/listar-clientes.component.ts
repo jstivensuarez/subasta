@@ -40,7 +40,6 @@ export class ListarClientesComponent implements OnInit {
   }
 
   eliminar(cliente) {
-    debugger;
     this.alertService.showConfirmMessage(constants.deleteTitle, constants.confirmDelete).subscribe(
       resp => {
         if (resp) {

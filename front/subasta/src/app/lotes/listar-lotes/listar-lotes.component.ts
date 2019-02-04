@@ -45,7 +45,6 @@ export class ListarLotesComponent implements OnInit {
   }
 
   ver(lote) {
-    debugger;
     let video = null;
     let imagen = null;
     if(/^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/.test(lote.fotoLote)){
@@ -86,7 +85,6 @@ export class ListarLotesComponent implements OnInit {
   }
 
   getImage(nombre) {
-    debugger;
     const urlImages = 'http://localhost:50553/images/LOTES/';
     return urlImages + nombre;
   }

@@ -137,7 +137,6 @@ export class CrearLotesComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger;
     this.validateFile();
     if (this.form.valid) {
       const payload = new FormData();
@@ -174,12 +173,13 @@ export class CrearLotesComponent implements OnInit {
       if (!this.video.value && !this.foto.value) {
         this.video.setValidators([Validators.required, Validators.pattern('^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$')])
         this.foto.setErrors({ 'invalid': true });
+        this.video.updateValueAndValidity();
       } else {
         this.foto.setErrors({});
         this.foto.updateValueAndValidity({
           onlySelf: true
         });
-        this.video.clearValidators();
+        this.video.setValidators([Validators.pattern('^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$')]);
         this.video.updateValueAndValidity();
       }
     }else{
@@ -187,7 +187,7 @@ export class CrearLotesComponent implements OnInit {
         this.foto.updateValueAndValidity({
           onlySelf: true
         });
-        this.video.clearValidators();
+        this.video.setValidators([Validators.pattern('^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$')]);
         this.video.updateValueAndValidity();
     }
   }
@@ -259,7 +259,6 @@ export class CrearLotesComponent implements OnInit {
   }
 
   uploadImage(files) {
-    debugger;
     if (files.length === 0 && !this.isEditing) {
       this.foto.setErrors({ 'invalid': true });
       return;

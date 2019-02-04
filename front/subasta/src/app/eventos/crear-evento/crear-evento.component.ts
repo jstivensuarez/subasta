@@ -154,7 +154,6 @@ export class CrearEventoComponent implements OnInit {
     evento.fechaInicio = this.fechaInicio.value;
     evento.municipioId = this.municipio.value;
     if (this.evento.eventoId) {
-      debugger;
       evento.eventoId = this.evento.eventoId; 
       this.editarEvento(evento);
     } else {
@@ -195,7 +194,6 @@ export class CrearEventoComponent implements OnInit {
                 showSimpleMessage(constants.successTitle, constants.success, constants.successDelete);
               this.obtenerSubastas();
             }, err => {
-              debugger;
               this.alertService.
                 showSimpleMessage(constants.errorTitle, constants.error, constants.errorDelete);
             }
@@ -206,7 +204,6 @@ export class CrearEventoComponent implements OnInit {
   }
 
   editarSubasta(subasta){
-    debugger;
     const component = this.modalService.open(CrearSubastaComponent).componentInstance;
     component.evento = this.evento;
     component.subasta = subasta;
@@ -217,7 +214,6 @@ export class CrearEventoComponent implements OnInit {
   }
 
   agregarSubasta() {
-    debugger;
     const component = this.modalService.open(CrearSubastaComponent).componentInstance;
     component.evento = this.evento;
     component.createForm();
