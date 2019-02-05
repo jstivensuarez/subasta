@@ -8,3 +8,13 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     suffix: "",
     thousands: "."
 };
+
+export const CustomWeightMaskConfig: CurrencyMaskConfig = {
+    align: "left",
+    allowNegative: false,
+    decimal: ",",
+    precision: 0,
+    prefix: "Kg ",
+    suffix: "",
+    thousands: "."
+};

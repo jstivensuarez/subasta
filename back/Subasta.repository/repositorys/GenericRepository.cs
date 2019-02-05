@@ -62,6 +62,7 @@ namespace Subasta.repository.repositorys
             try
             {
                 IQueryable<T> query = context.Set<T>().Where(predicate);
+                context.Entry(query).State = EntityState.Detached;
                 return query;
             }
             catch (Exception ex)

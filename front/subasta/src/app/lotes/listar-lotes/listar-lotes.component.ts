@@ -50,7 +50,7 @@ export class ListarLotesComponent implements OnInit {
     if(/^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/.test(lote.fotoLote)){
       video = lote.fotoLote;
     }else{
-      imagen = lote.fotoLote;
+      imagen = 'LOTES/'+lote.fotoLote;
     }
     this.alertService.showDetails('Detalles del lote', {
       Nombre: lote.nombre,

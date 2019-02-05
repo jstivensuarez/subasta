@@ -18,7 +18,7 @@ export class DetallesComponent implements OnInit {
   result: boolean;
   withImage: boolean;
   withVideo: boolean;
-  imageUrl: string = "http://localhost:3001/images/LOTES/";
+  imageUrl: string = "http://localhost:3001/images/";
   safeURL: any;
   constructor(public activeModal: NgbActiveModal,
     private _sanitizer: DomSanitizer) {

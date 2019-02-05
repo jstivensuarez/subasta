@@ -32,7 +32,8 @@ namespace Subasta.core.services
         {
             try
             {
-                if (dto.Imagen != null) {
+                if (dto.Imagen != null)
+                {
                     string fileName = ContentDispositionHeaderValue.Parse(dto.Imagen.ContentDisposition).FileName.Trim('"');
                     dto.FotoLote = $"{Guid.NewGuid().ToString()}{Path.GetExtension(fileName)}";
                     fileHelper.DownLoadFile("images//LOTES", dto.Imagen, dto.FotoLote);
@@ -40,7 +41,7 @@ namespace Subasta.core.services
                 else
                 {
                     dto.FotoLote = dto.VideoLote;
-                }          
+                }
                 uowService.LoteRepository.Add(mapper.Map<Lote>(dto));
                 uowService.Save();
             }
@@ -77,18 +78,22 @@ namespace Subasta.core.services
         {
             try
             {
-                var regex = @"^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$";
-                var esVideo = Regex.Match(dto.FotoLote, regex, RegexOptions.IgnoreCase);
-                if (!esVideo.Success)
-                    fileHelper.RemoveFile("images//LOTES", dto.FotoLote);
                 if (dto.Imagen != null)
                 {
+                    var regex = @"^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$";
+                    var esVideo = Regex.Match(dto.FotoLote, regex, RegexOptions.IgnoreCase);
+                    if (!esVideo.Success)
+                        fileHelper.RemoveFile("images//LOTES", dto.FotoLote);
                     string fileName = ContentDispositionHeaderValue.Parse(dto.Imagen.ContentDisposition).FileName.Trim('"');
                     dto.FotoLote = $"{Guid.NewGuid().ToString()}{Path.GetExtension(fileName)}";
                     fileHelper.DownLoadFile("images//LOTES", dto.Imagen, dto.FotoLote);
                 }
                 if (dto.VideoLote != null)
                 {
+                    var regex = @"^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$";
+                    var esVideo = Regex.Match(dto.FotoLote, regex, RegexOptions.IgnoreCase);
+                    if (!esVideo.Success)
+                        fileHelper.RemoveFile("images//LOTES", dto.FotoLote);
                     dto.FotoLote = dto.VideoLote;
                 }
                 uowService.LoteRepository.Edit(mapper.Map<Lote>(dto));

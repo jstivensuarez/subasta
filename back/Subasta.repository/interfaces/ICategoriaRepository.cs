@@ -5,8 +5,7 @@ using System.Text;
 
 namespace Subasta.repository.interfaces
 {
-    public interface IAnimalRepository : IGenericRepository<Animal>
+    public interface ICategoriaRepository: IGenericRepository<Categoria>
     {
-        List<Animal> GetllWithInclude();
     }
 }

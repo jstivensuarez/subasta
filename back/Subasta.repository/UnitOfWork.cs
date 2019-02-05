@@ -18,7 +18,9 @@ namespace Subasta.repository
         private DepartamentoRepository departamentoRepository;
         private MunicipioRepository municipioRepository;
         private UsuarioRepository usuarioRepository;
-
+        private CategoriaRepository categoriaRepository;
+        private RazaRepository razaRepository;
+        private SexoRepository sexoRepository;
         public UnitOfWork(SubastaContext context)
         {
             this.context = context;
@@ -129,6 +131,42 @@ namespace Subasta.repository
                     this.usuarioRepository = new UsuarioRepository(context);
                 }
                 return usuarioRepository;
+            }
+        }
+
+        public ICategoriaRepository CategoriaRepository
+        {
+            get
+            {
+                if (this.categoriaRepository == null)
+                {
+                    this.categoriaRepository = new CategoriaRepository(context);
+                }
+                return categoriaRepository;
+            }
+        }
+
+        public IRazaRepository RazaRepository
+        {
+            get
+            {
+                if (this.razaRepository == null)
+                {
+                    this.razaRepository = new RazaRepository(context);
+                }
+                return razaRepository;
+            }
+        }
+
+        public ISexoRepository SexoRepository
+        {
+            get
+            {
+                if (this.sexoRepository == null)
+                {
+                    this.sexoRepository = new SexoRepository(context);
+                }
+                return sexoRepository;
             }
         }
 

@@ -7,27 +7,41 @@ using Subasta.repository.interfaces;
 using Subasta.repository.models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net.Http.Headers;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Subasta.core.services
 {
-    public class AnimalService: IAnimalService
+    public class AnimalService : IAnimalService
     {
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
-
-        public AnimalService(IMapper mapper, IUnitOfWork uowService)
+        readonly IFileHelper fileHelper;
+        public AnimalService(IMapper mapper, IUnitOfWork uowService, IFileHelper fileHelper)
         {
             this.mapper = mapper;
             this.uowService = uowService;
+            this.fileHelper = fileHelper;
         }
 
         public void Add(AnimalDto dto)
         {
             try
             {
+                if (dto.Imagen != null)
+                {
+                    string fileName = ContentDispositionHeaderValue.Parse(dto.Imagen.ContentDisposition).FileName.Trim('"');
+                    dto.Foto = $"{Guid.NewGuid().ToString()}{Path.GetExtension(fileName)}";
+                    fileHelper.DownLoadFile("images//ANIMALES", dto.Imagen, dto.Foto);
+                }
+                else
+                {
+                    dto.Foto = dto.Video;
+                }
                 uowService.AnimalRepository.Add(mapper.Map<Animal>(dto));
                 uowService.Save();
             }
@@ -60,11 +74,30 @@ namespace Subasta.core.services
             }
         }
 
-        public void Edit(AnimalDto entity)
+        public void Edit(AnimalDto dto)
         {
             try
             {
-                uowService.AnimalRepository.Edit(mapper.Map<Animal>(entity));
+
+                if (dto.Imagen != null)
+                {
+                    var regex = @"^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$";
+                    var esVideo = Regex.Match(dto.Foto, regex, RegexOptions.IgnoreCase);
+                    if (!esVideo.Success)
+                        fileHelper.RemoveFile("images//ANIMALES", dto.Foto);
+                    string fileName = ContentDispositionHeaderValue.Parse(dto.Imagen.ContentDisposition).FileName.Trim('"');
+                    dto.Foto = $"{Guid.NewGuid().ToString()}{Path.GetExtension(fileName)}";
+                    fileHelper.DownLoadFile("images//ANIMALES", dto.Imagen, dto.Foto);
+                }
+                if (dto.Video != null)
+                {
+                    var regex = @"^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$";
+                    var esVideo = Regex.Match(dto.Foto, regex, RegexOptions.IgnoreCase);
+                    if (!esVideo.Success)
+                        fileHelper.RemoveFile("images//ANIMALES", dto.Foto);
+                    dto.Foto = dto.Video;
+                }
+                uowService.AnimalRepository.Edit(mapper.Map<Animal>(dto));
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -99,7 +132,9 @@ namespace Subasta.core.services
         {
             try
             {
-                return mapper.Map<AnimalDto>(uowService.AnimalRepository.Find(id));
+                var result = uowService.AnimalRepository.GetllWithInclude()
+                    .SingleOrDefault(a => a.AnimalId == Convert.ToInt32(id));
+                return mapper.Map<AnimalDto>(result);
             }
             catch (ExceptionData)
             {
@@ -116,7 +151,7 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.AnimalRepository.GetAll();
+                var result = uowService.AnimalRepository.GetllWithInclude();
                 return mapper.Map<List<AnimalDto>>(result);
             }
             catch (ExceptionData)

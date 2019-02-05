@@ -16,6 +16,9 @@ namespace Subasta.repository.interfaces
         IDepartamentoRepository DepartamentoRepository { get; }
         IMunicipioRepository MunicipioRepository { get; }
         IUsuarioRepository UsuarioRepository { get; }
+        ICategoriaRepository CategoriaRepository { get; }
+        IRazaRepository RazaRepository { get; }
+        ISexoRepository SexoRepository { get; }
         void Save();
     }
 }

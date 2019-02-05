@@ -1,0 +1,132 @@
+<div class="container">
+  <h2 class="title">
+    {{title}}
+  </h2>
+  <mat-card class="center-card">
+    <form class="example-form" [formGroup]="form" (submit)="onSubmit()">
+
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field class="example-full-width">
+            <input matInput [formControl]="descripcion" maxlength="25" placeholder="Descripción" required>
+            <mat-error *ngIf="descripcion.hasError('required')">
+              La descripción es <strong>requerida</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field class="example-full-width">
+            <input matInput [formControl]="peso" maxlength="25" placeholder="Peso"
+            currencyMask required>
+            <mat-error *ngIf="peso.hasError('required')">
+              El peso es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Lote" [formControl]="lote" [(value)]="selectedLote" required>
+          <mat-option *ngFor="let lote of lotes" [value]="lote.loteId">
+            {{lote.descripcion}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="lote.hasError('required')">Por favor seleccione una categoria</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Categoria" [formControl]="categoria" [(value)]="selectedCategoria" required>
+          <mat-option *ngFor="let cat of categorias" [value]="cat.categoriaId">
+            {{cat.descripcion}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="categoria.hasError('required')">Por favor seleccione una categoria</mat-error>
+      </mat-form-field>
+      
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Raza" [formControl]="raza" [(value)]="selectedRaza" required>
+          <mat-option *ngFor="let raza of razas" [value]="raza.razaId">
+            {{raza.descripcion}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="raza.hasError('required')">Por favor seleccione un lote</mat-error>
+      </mat-form-field>
+    
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Sexo" [formControl]="sexo" [(value)]="selectedSexo" required>
+          <mat-option *ngFor="let sexo of sexos" [value]="sexo.sexoId">
+            {{sexo.descripcion}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="sexo.hasError('required')">Por favor seleccione el sexo del animal</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Departamento" [formControl]="departamento" [(value)]="selectedDepartamento"
+          (selectionChange)="obtenerCiudades($event.value)" required>
+          <mat-option *ngFor="let depar of departamentos" [value]="depar.departamentoId">
+            {{depar.descripcion}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="departamento.hasError('required')">Por favor seleccione un departamento</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Municipio" [formControl]="municipio" [(value)]="selectedMunicipio" required>
+          <mat-option *ngFor="let muni of municipios" [value]="muni.municipioId">
+            {{muni.descripcion}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="municipio.hasError('required')">Por favor seleccione un municipio</mat-error>
+      </mat-form-field>
+
+
+      <mat-tab-group>
+        <mat-tab label="Subir Imagen">
+          <br>
+          <br>
+          <div class="example-full-width">
+            <input accept="image/*" type="file" #file [formControl]="foto" placeholder="Foto" (change)="uploadImage(file.files)">
+          </div>
+          <mat-error *ngIf="!foto.valid">
+            La imagen del lote es <strong>requerida</strong>
+          </mat-error>
+        </mat-tab>
+
+        <mat-tab label="Enlazar video">
+          <br>
+          <mat-form-field class="example-full-width">
+            <input matInput [formControl]="video" maxlength="200" placeholder="Url del video" (input)="uploadVideo($event.target.value)"
+              required>
+            <mat-error *ngIf="video.hasError('required') && !foto.value">
+              La url del video es <strong>requerida</strong>
+            </mat-error>
+            <mat-error *ngIf="video.hasError('pattern')">
+              La url del video no es <strong>válida, </strong> asegurese que el enlace sea correcto
+            </mat-error>
+          </mat-form-field>
+        </mat-tab>
+      </mat-tab-group>
+
+      <br>
+      <div *ngIf="foto.value">
+          <strong>Imagen cargada: </strong> {{recursoCargado}}
+      </div>
+      <div *ngIf="video.value">
+          <strong>Url enlazada: </strong> <a href="{{recursoCargado}}" target="_blank">Video</a>
+      </div>
+      <br>
+      <br>
+
+      <div class="row">
+        <div class="col-12 text-align-right">
+          <button class="btn btn-default margin-right15" (click)="regresar()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>

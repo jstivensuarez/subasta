@@ -7,6 +7,8 @@
 
         public string Foto { get; set; }
 
+        public string Video { get; set; }
+
         public decimal Peso { get; set; }
 
         public string Descripcion { get; set; }
@@ -30,5 +32,7 @@
         public int LoteId { get; set; }
 
         public LoteDto Lote { get; set; }
+
+        public Microsoft.AspNetCore.Http.IFormFile Imagen { get; set; }
     }
 }

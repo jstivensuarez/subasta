@@ -71,6 +71,15 @@ namespace Subasta
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IUsuarioService, UsuarioService>();
 
+            services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+            services.AddScoped<ICategoriaService, CategoriaService>();
+
+            services.AddScoped<IRazaRepository, RazaRepository>();
+            services.AddScoped<IRazaService, RazaService>();
+
+            services.AddScoped<ISexoRepository, SexoRepository>();
+            services.AddScoped<ISexoService, SexoService>();
+
             services.AddScoped<IFileHelper, FileHelper>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

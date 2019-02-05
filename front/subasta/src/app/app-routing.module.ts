@@ -9,6 +9,8 @@ import { CrearEventoComponent } from './eventos/crear-evento/crear-evento.compon
 import { ListarEventosComponent } from './eventos/listar-eventos/listar-eventos.component';
 import { CrearLotesComponent } from './lotes/crear-lotes/crear-lotes.component';
 import { ListarLotesComponent } from './lotes/listar-lotes/listar-lotes.component';
+import { CrearComponent } from './animales/crear/crear.component';
+import { ListarComponent } from './animales/listar/listar.component';
 
 const routes: Routes = [
   {
@@ -55,6 +57,24 @@ const routes: Routes = [
   },
   {
     path: 'crear-lote', component: CrearLotesComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'crear-animal', component: CrearComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'crear-animal/:id', component: CrearComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'listar-animal', component: ListarComponent, canActivate: [AutenticacionService, RoleguardService],
     data: {
       expectedRole: 'Administrador'
     }
