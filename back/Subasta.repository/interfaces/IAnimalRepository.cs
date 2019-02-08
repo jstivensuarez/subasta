@@ -8,5 +8,7 @@ namespace Subasta.repository.interfaces
     public interface IAnimalRepository : IGenericRepository<Animal>
     {
         List<Animal> GetllWithInclude();
+
+        void LogicDelete(int id);
     }
 }

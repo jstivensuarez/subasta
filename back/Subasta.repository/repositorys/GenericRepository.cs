@@ -41,7 +41,6 @@ namespace Subasta.repository.repositorys
             {
                 throw new ExceptionData("error al eliminar la entidad", ex);
             }
-
         }
 
         public void Edit(T entity)

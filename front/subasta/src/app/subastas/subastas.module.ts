@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { CustomCurrencyMaskConfig } from '../util/numberMaskConfig';
 import { CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config';
+import { SubastasComponent } from './subastas/subastas.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config
     MaterialModule,
     FormsModule, ReactiveFormsModule, BrowserModule, BrowserAnimationsModule, CurrencyMaskModule
   ],
-  declarations: [CrearSubastaComponent],
+  declarations: [CrearSubastaComponent, SubastasComponent],
   exports: [CrearSubastaComponent],
   providers:[DatePipe,  { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }]
 })

@@ -49,7 +49,7 @@ namespace Subasta.core.services
         {
             try
             {
-                uowService.SubastaRepository.Delete(mapper.Map<repository.models.Subasta>(entity));
+                uowService.SubastaRepository.LogicDelete(entity.SubastaId);
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -123,7 +123,7 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.SubastaRepository.GetAll();
+                var result = uowService.SubastaRepository.GetAllWithInclude();
                 return mapper.Map<List<SubastaDto>>(result);
             }
             catch (ExceptionData)

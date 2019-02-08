@@ -64,7 +64,7 @@ namespace Subasta.core.services
         {
             try
             {
-                uowService.EventoRepository.Delete(mapper.Map<Evento>(entity));
+                uowService.EventoRepository.LogicDelete(entity.EventoId);
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -134,7 +134,7 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.EventoRepository.GetllWithInclude();
+                var result = uowService.EventoRepository.GetAllWithInclude();
                 return mapper.Map<List<EventoDto>>(result);
             }
             catch (ExceptionData)

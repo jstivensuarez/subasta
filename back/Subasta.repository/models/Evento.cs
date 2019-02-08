@@ -23,6 +23,9 @@ namespace Subasta.repository.models
         [Column("FECHA_FIN_EVEN")]
         public DateTime FechaFin { get; set; }
 
+        [Column("ACTIVO_EVEN")]
+        public bool Activo { get; set; }
+
         [Column("UBICACION_EVEN")]
         public int MunicipioId { get; set; }
 

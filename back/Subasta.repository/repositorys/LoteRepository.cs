@@ -26,12 +26,27 @@ namespace Subasta.repository.repositorys
                     .Include(c => c.Municipio)
                     .Include(c => c.Subasta)
                     .Include(c => c.Cliente)
+                    .Where(a => a.Activo)
                     .ToList();
                 return entitys;
             }
             catch (Exception ex)
             {
                 throw new ExceptionData("error al buscar la entidad", ex);
+            }
+        }
+
+        public void LogicDelete(int id)
+        {
+            try
+            {
+                var entity = context.Lotes.Find(id);
+                entity.Activo = false;
+                context.Lotes.Update(entity);
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionData("error al eliminar la entidad", ex);
             }
         }
     }

@@ -11,13 +11,18 @@ import { DetallesComponent } from '../detalles/detalles.component';
 import { CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config';
 import { CustomWeightMaskConfig } from '../util/numberMaskConfig';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { DataTableModule } from 'angular-6-datatable';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     MaterialModule,
-    FormsModule, ReactiveFormsModule, BrowserModule, BrowserAnimationsModule, CurrencyMaskModule
+    FormsModule, ReactiveFormsModule, 
+    BrowserModule, 
+    BrowserAnimationsModule,
+    CurrencyMaskModule,
+    DataTableModule
   ],
   declarations: [CrearComponent, ListarComponent],
   exports: [CrearComponent, ListarComponent],

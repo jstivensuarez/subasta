@@ -31,8 +31,8 @@ namespace Subasta.repository.models
         [Column("USUARIO_CLI")]
         public string Usuario { get; set; }
 
-        [Column("ESTADO_CLI")]
-        public string Estado { get; set; }
+        [Column("ACTIVO_CLI")]
+        public bool Activo { get; set; }
 
         [Column("CODIGO_TD_CLI")]
         public int TipoDocumentoId { get; set; }

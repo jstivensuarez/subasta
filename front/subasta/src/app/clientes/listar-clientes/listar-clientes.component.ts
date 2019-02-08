@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { Cliente } from 'src/app/dtos/cliente';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MesaggesManagerService } from 'src/app/services/mesagges-manager.service';
 import { constants } from 'src/app/util/constants';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { MunicipioService } from 'src/app/services/municipio.service';
 
 export interface PeriodicElement {
@@ -21,6 +21,10 @@ export interface PeriodicElement {
   styleUrls: ['./listar-clientes.component.css']
 })
 export class ListarClientesComponent implements OnInit {
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  dataSource: MatTableDataSource<Cliente>;
   title = 'Propietarios';
   displayedColumns: string[] = ['nombre', 'correo', 'telefono', 'usuario', 'acciones'];
   clientes: Cliente[];
@@ -82,9 +86,29 @@ export class ListarClientesComponent implements OnInit {
     this.clienteService.get().subscribe(
       resp => {
         this.clientes = resp;
+        this.dataSource = new MatTableDataSource(resp);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       }, err => {
         console.error(err);
       });
   }
+
+  applyFilter(filtro: string) {
+    const clientesFiltrados = this.clientes.filter(
+      option => option.correo.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
+        option.correo.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
+        option.nombre.toString().toLowerCase().lastIndexOf(filtro.toLowerCase()) === 0 ||
+        option.nombre.toString().toLowerCase().lastIndexOf(filtro.toLowerCase()) > 0 ||
+        option.telefono.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
+        option.telefono.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
+        option.tipoDocumento.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
+        option.tipoDocumento.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
+        option.municipio.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
+        option.municipio.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) > 0);
+    this.dataSource.data = clientesFiltrados;
+    this.dataSource.paginator.firstPage();
+  }
+
 }
 

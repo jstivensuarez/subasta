@@ -13,9 +13,10 @@ namespace Subasta.core
             CreateMap<AnimalDto, Animal>();
 
             CreateMap<Categoria, CategoriaDto>();
+            CreateMap<CategoriaDto, Categoria>();
 
             CreateMap<Cliente, ClienteDto>();
-            CreateMap<CategoriaDto, Categoria>();
+            CreateMap<ClienteDto, Cliente>();
 
             CreateMap<Departamento, DepartamentoDto>();
             CreateMap<DepartamentoDto, Departamento>();
@@ -52,6 +53,6 @@ namespace Subasta.core
 
             CreateMap<Rol, RolDto>();
             CreateMap<RolDto, Rol>();
-        } 
+        }
     }
 }

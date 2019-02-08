@@ -21,6 +21,7 @@ namespace Subasta.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Get()
         {
             try

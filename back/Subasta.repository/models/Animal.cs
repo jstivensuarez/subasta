@@ -23,6 +23,9 @@ namespace Subasta.repository.models
         [Column("DESCRIPCION_ANI")]
         public string Descripcion { get; set; }
 
+        [Column("ACTIVO_ANI")]
+        public bool Activo { get; set; }
+
         [Column("COD_CATEGORIA_ANI")]
         public int CategoriaId { get; set; }
 

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LotesService } from 'src/app/services/lotes.service';
 import { Lote } from 'src/app/dtos/lote';
 import { MesaggesManagerService } from 'src/app/services/mesagges-manager.service';
 import { constants } from 'src/app/util/constants';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-listar-lotes',
@@ -14,6 +15,10 @@ export class ListarLotesComponent implements OnInit {
   lotes: Lote[];
   displayedColumns: string[] = ['nombre', 'cantidadElementos', 'precioBase', 'municipio', 'subasta', 'acciones'];
   title: string;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  dataSource: MatTableDataSource<Lote>;
+
   constructor(private lotesService: LotesService,
     private alertService: MesaggesManagerService,
     private route: ActivatedRoute,
@@ -47,10 +52,10 @@ export class ListarLotesComponent implements OnInit {
   ver(lote) {
     let video = null;
     let imagen = null;
-    if(/^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/.test(lote.fotoLote)){
+    if (/^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/.test(lote.fotoLote)) {
       video = lote.fotoLote;
-    }else{
-      imagen = 'LOTES/'+lote.fotoLote;
+    } else {
+      imagen = 'LOTES/' + lote.fotoLote;
     }
     this.alertService.showDetails('Detalles del lote', {
       Nombre: lote.nombre,
@@ -75,6 +80,9 @@ export class ListarLotesComponent implements OnInit {
     this.lotesService.get().subscribe(
       resp => {
         this.lotes = resp;
+        this.dataSource = new MatTableDataSource(resp);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       }, err => {
         console.error(err);
       });
@@ -88,4 +96,23 @@ export class ListarLotesComponent implements OnInit {
     const urlImages = 'http://localhost:50553/images/LOTES/';
     return urlImages + nombre;
   }
+
+  applyFilter(filtro: string) {
+    const lotesFiltrados = this.lotes.filter(
+      option => option.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
+        option.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
+        option.cantidadElementos.toString().toLowerCase().lastIndexOf(filtro.toLowerCase()) === 0 ||
+        option.cantidadElementos.toString().toLowerCase().lastIndexOf(filtro.toLowerCase()) > 0 ||
+        option.precioBase.toString().toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
+        option.precioBase.toString().toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
+        option.municipio.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
+        option.municipio.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
+        option.nombre.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
+        option.nombre.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
+        option.subasta.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
+        option.subasta.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) > 0);
+    this.dataSource.data = lotesFiltrados;
+    this.dataSource.paginator.firstPage();
+  }
+
 }

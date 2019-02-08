@@ -26,7 +26,7 @@ namespace Subasta.Controllers
         {
             try
             {
-                var lotes = loteService.GetllWithInclude();
+                var lotes = loteService.GetAll();
                 return Ok(lotes);
             }
             catch (Exception ex)
@@ -42,7 +42,7 @@ namespace Subasta.Controllers
         {
             try
             {
-                var lote = loteService.GetllWithInclude().SingleOrDefault(l => l.LoteId == id);
+                var lote = loteService.Find(id);
                 return Ok(lote);
             }
             catch (Exception)

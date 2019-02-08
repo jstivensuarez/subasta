@@ -26,6 +26,9 @@ namespace Subasta.repository.models
         [Column("FECHA_LIMITE_FIN_SUB")]
         public DateTime HoraFin { get; set; }
 
+        [Column("ACTIVO_SUB")]
+        public bool Activo { get; set; }
+
         [Column("CODIGO_EVENTO_SUB")]
         public int EventoId { get; set; }
 

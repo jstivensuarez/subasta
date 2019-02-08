@@ -8,6 +8,6 @@ namespace Subasta.core.interfaces
 {
     public interface IClienteService: IGenericCrudService<ClienteDto, Cliente>
     {
- 
+        void addUsuario(ClienteDto cliente);
     }
 }

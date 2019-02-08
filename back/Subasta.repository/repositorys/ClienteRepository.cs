@@ -18,6 +18,23 @@ namespace Subasta.repository.repositorys
             this.context = context;
         }
 
+        public List<Cliente> GetAllWithInclude()
+        {
+            try
+            {
+                var entitys = context.Clientes.AsNoTracking()
+                    .Include(c => c.Municipio)
+                    .Include(c => c.TipoDocumento)
+                    .Where(c => c.Activo)
+                    .ToList();
+                return entitys;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionData("error al buscar la entidad", ex);
+            }
+        }
+
         public Cliente GetWithAll(object id)
         {
             try
@@ -30,6 +47,20 @@ namespace Subasta.repository.repositorys
             catch (Exception ex)
             {
                 throw new ExceptionData("error al buscar la entidad", ex);
+            }
+        }
+
+        public void LogicDelete(string id)
+        {
+            try
+            {
+                var entity = context.Clientes.Find(id);
+                entity.Activo = false;
+                context.Clientes.Update(entity);
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionData("error al eliminar la entidad", ex);
             }
         }
     }

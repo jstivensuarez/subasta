@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import decode from 'jwt-decode';
+import { Cliente } from '../dtos/cliente';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +19,15 @@ export class UsuarioService {
     public jwtHelper: JwtHelperService) { }
 
   login(dto: Usuario): Observable<any> {
-    return this.http.post<any>(environment.endpointLogin, dto, { headers: this.httpHeaders });
+    return this.http.post<any>(environment.endpointLogin+'/login', dto, { headers: this.httpHeaders });
+  }
+
+  register(dto: Cliente): Observable<any> {
+    return this.http.post<any>(environment.endpointLogin+'/register', dto, { headers: this.httpHeaders });
+  }
+
+  validate(nombreUsuario: string): Observable<any> {
+    return this.http.post<any>(environment.endpointLogin+'/validateUser/'+nombreUsuario, { headers: this.httpHeaders });
   }
 
   public isAuthenticated(): boolean {
@@ -42,7 +51,13 @@ export class UsuarioService {
   }
 
   redirectToMenu() {
+    const claims = this.getClaims();
     window.location.reload();
-    this.router.navigate(['listar-lote']);
+    if(claims.Role == 'Administrador'){
+      this.router.navigate(['listar-evento']);
+    }
+    if(claims.Role == 'Pujador'){
+       this.router.navigate(['subastas']);
+    }
   }
 }

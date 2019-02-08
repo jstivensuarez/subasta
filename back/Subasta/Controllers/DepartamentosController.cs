@@ -24,6 +24,7 @@ namespace Subasta.Controllers
             this.departamentoService = departamentoService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Get()
         {

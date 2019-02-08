@@ -60,7 +60,7 @@ namespace Subasta.core.services
         {
             try
             {
-                uowService.LoteRepository.Delete(mapper.Map<Lote>(entity));
+                uowService.LoteRepository.LogicDelete(entity.LoteId);
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -145,23 +145,6 @@ namespace Subasta.core.services
         }
 
         public List<LoteDto> GetAll()
-        {
-            try
-            {
-                var result = uowService.LoteRepository.GetAll();
-                return mapper.Map<List<LoteDto>>(result);
-            }
-            catch (ExceptionData)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                throw new ExceptionCore("error al intentar obtener los lotes", ex);
-            }
-        }
-
-        public List<LoteDto> GetllWithInclude()
         {
             try
             {

@@ -24,14 +24,19 @@ namespace Subasta.Controllers
     {
         private IConfiguration config;
         private IUsuarioService usuarioService;
-        public LoginController(IConfiguration config, IUsuarioService usuarioService)
+        private IClienteService clienteService;
+        public LoginController(IConfiguration config,
+            IUsuarioService usuarioService,
+            IClienteService clienteService)
         {
             this.config = config;
             this.usuarioService = usuarioService;
+            this.clienteService = clienteService;
         }
 
         [AllowAnonymous]
         [HttpPost]
+        [Route("[action]")]
         public IActionResult Login(UsuarioDto usuario)
         {
             IActionResult response = Unauthorized();
@@ -44,6 +49,55 @@ namespace Subasta.Controllers
 
             return response;
         }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult Register(ClienteDto cliente)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var entity = clienteService.GetAll().Where(
+                     c => c.ClienteId == cliente.ClienteId
+                    || c.Correo == cliente.Correo).ToList();
+                if (entity.Count > 0)
+                {
+                    return BadRequest("Ya existe");
+                }
+                clienteService.addUsuario(cliente);
+                var usuario = new UsuarioDto
+                {
+                    Clave = cliente.Clave,
+                    Correo = cliente.Correo,
+                    Nombre = cliente.Usuario
+                };
+                var user = AuthenticateUser(usuario);
+                var tokenString = GenerateJSONWebToken(user);
+                return Ok(new { token = tokenString });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("[action]/{nombreUsuario}")]
+        public IActionResult ValidateUser(string nombreUsuario)
+        {
+            var usuario = usuarioService.GetAll().
+                SingleOrDefault(u => u.Nombre == nombreUsuario);
+            if (usuario == null)
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+
 
         private string GenerateJSONWebToken(UsuarioDto userInfo)
         {

@@ -24,6 +24,7 @@ namespace Subasta.Controllers
             this.municipioService = municipioService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("GetPorDepartamento/{id}")]
         public IActionResult GetPorDepartamento(int id)
@@ -41,6 +42,7 @@ namespace Subasta.Controllers
 
 
         [HttpGet()]
+        [AllowAnonymous]
         [Route("[action]/{id}")]
         public IActionResult Get(int id)
         {

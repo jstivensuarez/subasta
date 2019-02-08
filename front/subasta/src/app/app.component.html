@@ -1,5 +1,5 @@
 <div>
-  <mat-toolbar color="primary" *ngIf="claims">
+  <mat-toolbar color="primary" *ngIf="claims && claims.Role == 'Administrador'">
     <button mat-button [matMenuTriggerFor]="clientes">Propietarios</button>
     <button mat-button [matMenuTriggerFor]="eventos">Eventos</button>
     <button mat-button [matMenuTriggerFor]="lotes">Lotes</button>
@@ -31,6 +31,14 @@
       <mat-icon (click)="logout()">exit_to_app</mat-icon>
     </span>
   </mat-toolbar>
+  <mat-toolbar color="primary" *ngIf="claims && claims.Role == 'Pujador'">
+    <span class="example-fill-remaining-space"></span>
+    <span>
+      Bienvenido, {{usuario}}
+      <mat-icon (click)="logout()">exit_to_app</mat-icon>
+    </span>
+  </mat-toolbar>
+
   <mat-toolbar color="primary" *ngIf="!claims">
     <span class="example-fill-remaining-space"></span>
     <span>

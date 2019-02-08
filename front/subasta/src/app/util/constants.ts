@@ -16,5 +16,6 @@ export const constants = {
     errorUpdate: "Error al tratar de actualizar el registro!",
     errorLogin: "Error al tratar de ingresar al sistema!",
     errorAlreadyExists: "Este registro ya existe",
+    userAlreadyExists: "Este usuario ya se encuentra registrado en el sistema, por favor verifique su correo y su número de documento...",
     confirmDelete: "¿Está seguro que desea eliminar este registro?"
 }

@@ -36,6 +36,9 @@ namespace Subasta.repository.models
         [Column("VALOR_ANTICIPO_LOTE")]
         public decimal ValorAnticipo { get; set; }
 
+        [Column("ACTIVO_LOTE")]
+        public bool Activo { get; set; }
+
         [Column("ID_CLIENTE_LOTE")]
         public string ClienteId { get; set; }
 

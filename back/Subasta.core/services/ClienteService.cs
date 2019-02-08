@@ -19,12 +19,14 @@ namespace Subasta.core.services
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
         readonly IMunicipioService municipioService;
-
-        public ClienteService(IMapper mapper, IUnitOfWork uowService, IMunicipioService municipioService)
+        readonly IUsuarioService usuarioService;
+        public ClienteService(IMapper mapper, IUnitOfWork uowService, 
+            IMunicipioService municipioService, IUsuarioService usuarioService)
         {
             this.mapper = mapper;
             this.uowService = uowService;
             this.municipioService = municipioService;
+            this.usuarioService = usuarioService;
         }
 
         public void Add(ClienteDto dto)
@@ -45,11 +47,37 @@ namespace Subasta.core.services
             }
         }
 
+        public void addUsuario(ClienteDto dto)
+        {
+            try
+            {
+                var usuario = new Usuario
+                {
+                    Clave = dto.Clave,
+                    Correo = dto.Correo,
+                    Nombre = dto.Usuario,
+                    RolId = 2
+                };
+                uowService.UsuarioRepository.Add(usuario);
+                uowService.ClienteRepository.Add(mapper.Map<Cliente>(dto));
+                uowService.Save();
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+
+                throw new ExceptionCore("error al intentar agregar el cliente", ex);
+            }
+        }
+
         public void Delete(ClienteDto entity)
         {
             try
             {
-                uowService.ClienteRepository.Delete(mapper.Map<Cliente>(entity));
+                uowService.ClienteRepository.LogicDelete(entity.ClienteId);
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -120,7 +148,7 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.ClienteRepository.GetAll();
+                var result = uowService.ClienteRepository.GetAllWithInclude();
                 return mapper.Map<List<ClienteDto>>(result);
             }
             catch (ExceptionData)

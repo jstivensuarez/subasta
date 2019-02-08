@@ -44,6 +44,7 @@ namespace Subasta.repository
         {
             modelBuilder.Entity<Pujador>()
                 .HasKey(c => new { c.ClienteId, c.LoteId });
+            modelBuilder.Entity<Cliente>().ToTable("TBL_CLIENTES");
         }
 
     }

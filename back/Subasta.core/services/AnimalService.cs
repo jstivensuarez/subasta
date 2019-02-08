@@ -56,11 +56,11 @@ namespace Subasta.core.services
             }
         }
 
-        public void Delete(AnimalDto entity)
+        public void Delete(AnimalDto animal)
         {
             try
             {
-                uowService.AnimalRepository.Delete(mapper.Map<Animal>(entity));
+                uowService.AnimalRepository.LogicDelete(animal.AnimalId);
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -132,8 +132,7 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.AnimalRepository.GetllWithInclude()
-                    .SingleOrDefault(a => a.AnimalId == Convert.ToInt32(id));
+                var result = uowService.AnimalRepository.Find(id);
                 return mapper.Map<AnimalDto>(result);
             }
             catch (ExceptionData)

@@ -1,13 +1,19 @@
 <div class="container">
   <h2 class="title">
-      <button mat-fab color="primary" class="text-align-left" (click)="agregarPropietario()">
-          <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
-        </button>
+    <button mat-fab color="primary" class="text-align-left" (click)="agregarPropietario()">
+      <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+    </button>
     {{title}}
   </h2>
-
+  <div>
+    <span class="margin-right15"></span>
+    <mat-form-field class="example-50-width text-align-righ">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar...">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
   <mat-card class="center-card">
-    <table mat-table [dataSource]="clientes" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
       <ng-container matColumnDef="nombre">
         <th mat-header-cell *matHeaderCellDef>Nombre</th>
@@ -42,4 +48,5 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </mat-card>
+  <mat-paginator [pageSizeOptions]="[2, 10, 25, 100]"></mat-paginator>
   <div>

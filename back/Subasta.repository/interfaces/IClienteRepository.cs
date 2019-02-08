@@ -7,6 +7,8 @@ namespace Subasta.repository.interfaces
 {
     public interface IClienteRepository: IGenericRepository<Cliente>
     {
+        List<Cliente> GetAllWithInclude();
         Cliente GetWithAll(object id);
+        void LogicDelete(string id);
     }
 }

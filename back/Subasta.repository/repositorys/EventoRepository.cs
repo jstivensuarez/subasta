@@ -47,18 +47,33 @@ namespace Subasta.repository.repositorys
             }
         }
 
-        public List<Evento> GetllWithInclude()
+        public List<Evento> GetAllWithInclude()
         {
             try
             {
                 var entitys = context.Eventos.AsNoTracking()
                     .Include(c => c.Municipio)
+                    .Where(c => c.Activo)
                     .ToList();
                 return entitys;
             }
             catch (Exception ex)
             {
                 throw new ExceptionData("error al buscar la entidad", ex);
+            }
+        }
+
+        public void LogicDelete(int id)
+        {
+            try
+            {
+                var entity = context.Eventos.Find(id);
+                entity.Activo = false;
+                context.Eventos.Update(entity);
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionData("error al eliminar la entidad", ex);
             }
         }
     }

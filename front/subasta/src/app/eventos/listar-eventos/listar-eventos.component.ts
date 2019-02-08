@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Evento } from 'src/app/dtos/evento';
 import { EventoService } from 'src/app/services/evento.service';
 import { MesaggesManagerService } from 'src/app/services/mesagges-manager.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { constants } from 'src/app/util/constants';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-listar-eventos',
@@ -12,6 +13,9 @@ import { constants } from 'src/app/util/constants';
 })
 export class ListarEventosComponent implements OnInit {
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  dataSource: MatTableDataSource<Evento>;
   eventos: Evento[];
   isEditing: boolean;
   displayedColumns: string[] = ['descripcion', 'fechaInicio', 'fechaFin', 'municipio', 'acciones'];
@@ -20,7 +24,7 @@ export class ListarEventosComponent implements OnInit {
     private router: Router,
     private alertService: MesaggesManagerService,
     private route: ActivatedRoute) {
-   this.title = "Eventos";
+    this.title = "Eventos";
     this.obtenerEventos();
   }
 
@@ -58,8 +62,25 @@ export class ListarEventosComponent implements OnInit {
     this.eventoService.get().subscribe(
       resp => {
         this.eventos = resp;
+        this.dataSource = new MatTableDataSource(resp);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       }, err => {
         console.error(err);
       });
+  }
+
+  applyFilter(filtro: string) {
+    const eventosFiltrados = this.eventos.filter(
+      option => option.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
+        option.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
+        option.fechaFin.toString().toLowerCase().lastIndexOf(filtro.toLowerCase()) === 0 ||
+        option.fechaFin.toString().toLowerCase().lastIndexOf(filtro.toLowerCase()) > 0 ||
+        option.fechaInicio.toString().toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
+        option.fechaInicio.toString().toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
+        option.municipio.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
+        option.municipio.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) > 0);
+    this.dataSource.data = eventosFiltrados;
+    this.dataSource.paginator.firstPage();
   }
 }

@@ -10,6 +10,7 @@ export class Cliente {
     direccion: string;
     representante: string;
     usuario: string;
+    clave: string;
     estado: string;
     tipoDocumentoId: number;
     municipioId: number;
