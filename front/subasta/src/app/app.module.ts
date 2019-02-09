@@ -18,13 +18,11 @@ import { JwtInterceptorService } from './services/autenticacion/jwt-interceptor.
 import { JwtModule, JwtModuleOptions } from '@auth0/angular-jwt';
 import { EventosModule } from './eventos/eventos.module';
 import { SubastasModule } from './subastas/subastas.module';
-import { CurrencyMaskModule } from "ng2-currency-mask";
-import { CURRENCY_MASK_CONFIG } from "ng2-currency-mask/src/currency-mask.config";
-import { CustomCurrencyMaskConfig } from './util/numberMaskConfig';
 import { LotesModule } from './lotes/lotes.module';
 import { AnimalesModule } from './animales/animales.module';
 import { PujadoresModule } from './pujadores/pujadores.module';
- 
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+
 export function getToken(){
   return localStorage.getItem('token');
 }
@@ -55,7 +53,8 @@ const JWT_Module_Options: JwtModuleOptions = {
     LotesModule,
     AnimalesModule,
     PujadoresModule,
-    JwtModule.forRoot(JWT_Module_Options)
+    JwtModule.forRoot(JWT_Module_Options),
+    [NgxMaterialTimepickerModule.forRoot()]
   ],
   providers: [
     {

@@ -75,6 +75,7 @@ namespace Subasta.core.services
         {
             try
             {
+                dto.Activo = true;
                 dto.HoraFin = new DateTime(dto.HoraFin.Year, dto.HoraFin.Month, dto.HoraFin.Day,
                   dto.HoraFinAux.Hour, dto.HoraFinAux.Minute, dto.HoraFinAux.Second);
                 dto.HoraInicio = new DateTime(dto.HoraInicio.Year, dto.HoraInicio.Month, dto.HoraInicio.Day,

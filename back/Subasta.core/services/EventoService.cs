@@ -93,6 +93,7 @@ namespace Subasta.core.services
         {
             try
             {
+                entity.Activo = true;
                 uowService.EventoRepository.Edit(mapper.Map<Evento>(entity));
                 uowService.Save();
             }

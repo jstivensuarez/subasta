@@ -103,6 +103,7 @@ namespace Subasta.core.services
                         fileHelper.RemoveFile("images//LOTES", dto.FotoLote);
                     dto.FotoLote = dto.VideoLote;
                 }
+                dto.Activo = true;
                 uowService.LoteRepository.Edit(mapper.Map<Lote>(dto));
                 uowService.Save();
             }
@@ -138,7 +139,9 @@ namespace Subasta.core.services
         {
             try
             {
-                return mapper.Map<LoteDto>(uowService.LoteRepository.Find(id));
+                var result = uowService.LoteRepository.GetAllWithInclude()
+                   .Find(a => a.LoteId == Convert.ToInt32(id));
+                return mapper.Map<LoteDto>(result);
             }
             catch (ExceptionData)
             {

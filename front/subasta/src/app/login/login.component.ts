@@ -84,11 +84,17 @@ export class LoginComponent implements OnInit {
   login(usuario) {
     this.usuarioService.login(usuario).subscribe(
       res => {
+        debugger;
         localStorage.setItem('token', res.token);
         this.usuarioService.redirectToMenu();
       }, err => {
-        this.alertService.
-          showSimpleMessage(constants.errorTitle, constants.error, constants.errorLogin);
+        if (err.includes(401)) {
+          this.alertService.
+            showSimpleMessage(constants.errorTitle, constants.alert, constants.errorUnautorized);
+        } else {
+          this.alertService.
+            showSimpleMessage(constants.errorTitle, constants.error, constants.errorLogin);
+        }
         console.error(err);
       }
     );
@@ -113,22 +119,22 @@ export class LoginComponent implements OnInit {
   }
 
   validarCliente(nombre) {
-    if(nombre){
-       this.usuarioService.validate(nombre).subscribe(res => {
-      this.usuarioRegister.setErrors({});
-      this.usuarioRegister.updateValueAndValidity({
-        onlySelf: true
+    if (nombre) {
+      this.usuarioService.validate(nombre).subscribe(res => {
+        this.usuarioRegister.setErrors({});
+        this.usuarioRegister.updateValueAndValidity({
+          onlySelf: true
+        });
+      }, err => {
+        this.usuarioRegister.setErrors({ 'invalid': true });
       });
-    }, err => {
-      this.usuarioRegister.setErrors({ 'invalid': true });
-    });
-    }else{
+    } else {
       debugger;
       this.usuarioRegister.setErrors({});
       this.usuarioRegister.updateValueAndValidity({
         onlySelf: true
       });
-    } 
+    }
   }
 
   createForm() {
@@ -153,7 +159,7 @@ export class LoginComponent implements OnInit {
       departamento: new FormControl(this.selectedDepartamento),
       direccion: new FormControl(this.cliente.direccion, [Validators.required]),
       usuario: new FormControl(this.cliente.usuario, [Validators.required, Validators.minLength(8)]),
-      clave: new FormControl(this.cliente.clave, [Validators.required,  Validators.minLength(8)]),
+      clave: new FormControl(this.cliente.clave, [Validators.required, Validators.minLength(8)]),
       claveRepeat: new FormControl(this.claveRepeat, [Validators.required])
     }, [Validation.MatchValidator]);
   }

@@ -15,8 +15,10 @@ export const constants = {
     errorDelete: "Error al tratar de eliminar el registro!",
     errorUpdate: "Error al tratar de actualizar el registro!",
     errorLogin: "Error al tratar de ingresar al sistema!",
+    errorUnautorized: "Por favor verifique sus credenciales!",
     errorAlreadyExists: "Este registro ya existe",
     userAlreadyExists: "Este usuario ya se encuentra registrado en el sistema, por favor verifique su correo y su número de documento...",
     confirmDelete: "¿Está seguro que desea eliminar este registro?",
-    confirmDeleteEvento: "¿Está seguro que desea eliminar este evento, también se eliminarán los elementos asociados como subastas, lotes, animales...?"
+    confirmDeleteEvento: "¿Está seguro que desea eliminar este evento, también se eliminarán los elementos asociados como subastas, lotes y animales...?",
+    confirmDeleteSubasta: "¿Está seguro que desea eliminar esta subasta, también se eliminarán los elementos asociados como lotes y animales...?"
 }

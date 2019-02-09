@@ -37,7 +37,7 @@ export class CrearEventoComponent implements OnInit {
   modalRef: any;
   selectedDepartamento: number;
   selectedMunicipio: number;
-  displayedColumns: string[] = ['descripcion', 'fechaLimite', 'horaInicio', 'horaFin', 'acciones'];
+  displayedColumns: string[] = ['descripcion', 'horaInicio', 'horaFin', 'acciones'];
   subastas: Subasta[];
   isEditing: boolean;
   subasta: Subasta;
@@ -204,9 +204,12 @@ export class CrearEventoComponent implements OnInit {
   }
 
   editarSubasta(subasta){
+    debugger;
     const component = this.modalService.open(CrearSubastaComponent).componentInstance;
-    component.evento = this.evento;
-    component.subasta = subasta;
+    component.eventoInput = this.evento;
+    component.subastaInput = subasta;
+    component.minDate = new Date(this.evento.fechaInicio);
+    component.maxDate = new Date(this.evento.fechaFin);
     component.createForm();
     component.completo.subscribe( res=> {
       this.obtenerSubastas();
@@ -215,7 +218,9 @@ export class CrearEventoComponent implements OnInit {
 
   agregarSubasta() {
     const component = this.modalService.open(CrearSubastaComponent).componentInstance;
-    component.evento = this.evento;
+    component.eventoInput = this.evento;
+    component.minDate = new Date(this.evento.fechaInicio);
+    component.maxDate = new Date(this.evento.fechaFin);
     component.createForm();
     component.completo.subscribe( res=> {
       this.obtenerSubastas();

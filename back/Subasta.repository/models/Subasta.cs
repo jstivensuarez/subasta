@@ -17,9 +17,6 @@ namespace Subasta.repository.models
         [Column("DESCRIPCION_SUB")]
         public string Descripcion { get; set; }
 
-        [Column("FECHA_HORA_INS_SUB")]
-        public DateTime FechaLimite { get; set; }
-
         [Column("FECHA_HORA_INI_SUB")]
         public DateTime HoraInicio { get; set; }
 

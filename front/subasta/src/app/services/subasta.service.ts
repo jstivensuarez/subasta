@@ -21,7 +21,7 @@ export class SubastaService {
   }
 
   getDto(id): Observable<any> {
-    return this.http.get<any>(environment.endpointSubasta + '/Get/' + id).pipe(
+    return this.http.get<any>(environment.endpointSubasta + '/GetSubasta/' + id).pipe(
       map((data: any) => data));
   }
 

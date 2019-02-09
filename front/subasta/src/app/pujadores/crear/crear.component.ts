@@ -81,18 +81,20 @@ export class CrearPujadorComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    const pujador = new Pujador();
-    pujador.banco = this.banco.value;
-    pujador.clienteId = this.cliente.value;
-    pujador.loteId = this.lote.value;
-    pujador.numeroConsignacion = this.numeroConsignacion.value;
-    pujador.valorConsignacion = this.valorConsignacion.value;
+    if (this.form.valid) {
+      const pujador = new Pujador();
+      pujador.banco = this.banco.value;
+      pujador.clienteId = this.cliente.value;
+      pujador.loteId = this.lote.value;
+      pujador.numeroConsignacion = this.numeroConsignacion.value;
+      pujador.valorConsignacion = this.valorConsignacion.value;
 
-    if (this.isEditing) {
-      pujador.pujadorId = this.pujador.pujadorId;
-      this.editarPujador(pujador)
-    } else {
-      this.crearPujador(pujador);
+      if (this.isEditing) {
+        pujador.pujadorId = this.pujador.pujadorId;
+        this.editarPujador(pujador)
+      } else {
+        this.crearPujador(pujador);
+      }
     }
   }
 
@@ -156,7 +158,7 @@ export class CrearPujadorComponent implements OnInit {
   }
 
   createForm() {
-    if(!this.isEditing)
+    if (!this.isEditing)
       this.obtenerLotes(this.selectedCliente);
     else
       this.obtenerTodosLotes();
@@ -178,7 +180,7 @@ export class CrearPujadorComponent implements OnInit {
     }
     return true;
   }
-  
+
   get cliente() {
     return this.form.get('cliente');
   }

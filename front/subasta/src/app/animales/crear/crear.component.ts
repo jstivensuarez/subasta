@@ -171,7 +171,6 @@ export class CrearComponent implements OnInit {
 
   onSubmit(form: any) {
     this.validateFile();
-    debugger;
     if (this.form.valid) {
       const payload = new FormData();
       payload.append('descripcion', this.descripcion.value);

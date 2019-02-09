@@ -131,22 +131,24 @@ export class CrearPropietarioComponent implements OnInit {
     });
   }
 
-  onSubmit(form: any) {
-    const cliente = new Cliente();
-    cliente.nombre = this.nombre.value;
-    cliente.correo = this.correo.value;
-    cliente.telefono = this.telefono.value;
-    cliente.direccion = this.direccion.value;
-    cliente.representante = this.representante.value;
-    cliente.tipoDocumentoId = this.td.value;
-    cliente.clienteId = this.documento.value;
-    cliente.municipioId = this.municipio.value;
-    if (!this.selectedRepresentante)
-      cliente.representante = null;
-    if (this.isEditing) {
-      this.editarCliente(cliente)
-    } else {
-      this.crearCliente(cliente);
+  onSubmit() {
+    if (this.form.valid) {
+      const cliente = new Cliente();
+      cliente.nombre = this.nombre.value;
+      cliente.correo = this.correo.value;
+      cliente.telefono = this.telefono.value;
+      cliente.direccion = this.direccion.value;
+      cliente.representante = this.representante.value;
+      cliente.tipoDocumentoId = this.td.value;
+      cliente.clienteId = this.documento.value;
+      cliente.municipioId = this.municipio.value;
+      if (!this.selectedRepresentante)
+        cliente.representante = null;
+      if (this.isEditing) {
+        this.editarCliente(cliente)
+      } else {
+        this.crearCliente(cliente);
+      }
     }
   }
 

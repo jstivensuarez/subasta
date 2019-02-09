@@ -1,41 +1,88 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Time } from '@angular/common';
-import { DatePipe } from '@angular/common'
+import { Component, OnInit } from '@angular/core';
 import { SubastaService } from 'src/app/services/subasta.service';
 import { MesaggesManagerService } from 'src/app/services/mesagges-manager.service';
+import { DatePipe } from '@angular/common';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subasta } from 'src/app/dtos/subasta';
 import { constants } from 'src/app/util/constants';
-import { Evento } from 'src/app/dtos/evento';
 import { Validation } from 'src/app/util/validations';
-@Component({
-  selector: 'app-crear-subasta',
-  templateUrl: './crear-subasta.component.html',
-  styleUrls: ['./crear-subasta.component.css'],
-})
-export class CrearSubastaComponent implements OnInit {
+import { Evento } from 'src/app/dtos/evento';
+import { Router, ActivatedRoute } from '@angular/router';
+import { EventoService } from 'src/app/services/evento.service';
 
-  @Input() eventoInput: Evento;
-  @Input() subastaInput: Subasta;
-  @Output() completo: EventEmitter<any> = new EventEmitter();
+@Component({
+  selector: 'app-crear-subasta-nueva',
+  templateUrl: './crear-subasta-nueva.component.html',
+  styleUrls: ['./crear-subasta-nueva.component.css']
+})
+export class CrearSubastaNuevaComponent implements OnInit {
+
+  eventos: Evento[];
+  subasta: Subasta;
   form: FormGroup;
   minDate: Date;
   maxDate: Date;
   horaInicioActual: string;
   horaFinActual: string;
+  isEditing: boolean;
+  selectedEvento: number;
+  title: string;
   constructor(
     private subastaService: SubastaService,
     private alertService: MesaggesManagerService,
-    public activeModal: NgbActiveModal,
-    public datepipe: DatePipe
+    public datepipe: DatePipe,
+    private router: Router,
+    private eventoService: EventoService,
+    private route: ActivatedRoute,
   ) {
+    this.title = "Crear subasta";
+    this.eventos = [];
     this.minDate = new Date();
     this.maxDate = new Date();
-    this.subastaInput = new Subasta();
+    this.subasta = new Subasta();
+    this.obtenerEventos();
+    this.verificarUrl();
+    this.createForm();
   }
 
   ngOnInit() {
+  }
+
+
+  verificarUrl() {
+    this.route.queryParams.subscribe(params => {
+      if (params['id']) {
+        this.isEditing = true;
+        this.title = 'Editar subasta';
+        this.obtenerSubasta(params['id']);
+      } else {
+        this.isEditing = false;
+        this.subasta = new Subasta();
+        this.createForm();
+        this.title = 'Crear subasta';
+      }
+    });
+  }
+
+  obtenerSubasta(id: string) {
+    this.subastaService.getDto(id).subscribe(res => {
+      this.subasta = res;
+      this.selectedEvento = this.subasta.eventoId;
+      this.limitarHoras(this.selectedEvento);
+      this.createForm();
+    }, err => {
+      console.error(err);
+    });
+  }
+
+  obtenerEventos() {
+    this.eventoService.get().subscribe(
+      resp => {
+        this.eventos = resp;
+      }, err => {
+        console.error(err);
+      }
+    )
   }
 
   onSubmit() {
@@ -46,9 +93,9 @@ export class CrearSubastaComponent implements OnInit {
       subasta.horaInicio = this.fechaInicio.value;
       subasta.horaFinAux = this.horaFin.value;
       subasta.descripcion = this.descripcion.value;
-      subasta.eventoId = this.eventoInput.eventoId;
-      if (this.subastaInput.subastaId) {
-        subasta.subastaId = this.subastaInput.subastaId;
+      subasta.eventoId = this.evento.value;
+      if (this.isEditing) {
+        subasta.subastaId = this.subasta.subastaId;
         this.editarSubasta(subasta);
       } else {
         this.crearSubasta(subasta);
@@ -60,8 +107,7 @@ export class CrearSubastaComponent implements OnInit {
     this.subastaService.post(subas).subscribe(res => {
       this.alertService.
         showSimpleMessage(constants.successTitle, constants.success, constants.successCreate);
-      this.completo.emit();
-      this.activeModal.close();
+      this.regresar();
     }, err => {
       this.alertService.
         showSimpleMessage(constants.errorTitle, constants.error, constants.errorCreate);
@@ -73,9 +119,7 @@ export class CrearSubastaComponent implements OnInit {
     this.subastaService.put(subasta).subscribe(res => {
       this.alertService.
         showSimpleMessage(constants.successTitle, constants.success, constants.successUpdate);
-      this.completo.emit();
-      this.activeModal.close();
-
+      this.regresar();
     }, err => {
       this.alertService.
         showSimpleMessage(constants.errorTitle, constants.error, constants.errorUpdate);
@@ -83,23 +127,36 @@ export class CrearSubastaComponent implements OnInit {
     });
   }
 
+  limitarHoras(id){
+    this.fechaFin.setValue(null);
+    this.fechaInicio.setValue(null);
+    const evento = this.eventos.find(e => e.eventoId === id);
+    this.minDate = new Date(evento.fechaInicio);
+    this.maxDate = new Date(evento.fechaFin);
+  }
+
+  regresar() {
+    this.router.navigate(['/listar-subasta']);
+  }
+
   createForm() {
     debugger;
-    if (this.subastaInput.horaInicio && this.subastaInput.horaFin) {
-      this.horaInicioActual = this.datepipe.transform(this.subastaInput.horaInicio, 'HH:mm');
-      this.horaFinActual = this.datepipe.transform(this.subastaInput.horaFin, 'HH:mm');
+    if (this.subasta.horaInicio && this.subasta.horaFin) {
+      this.horaInicioActual = this.datepipe.transform(this.subasta.horaInicio, 'HH:mm');
+      this.horaFinActual = this.datepipe.transform(this.subasta.horaFin, 'HH:mm');
       this.horaInicioActual = this.tConvert(this.horaInicioActual);
       this.horaFinActual = this.tConvert(this.horaFinActual);
     }
     this.form = new FormGroup({
-      fechaInicio: new FormControl(this.subastaInput.horaInicio, [Validators.required]),
-      fechaFin: new FormControl(this.subastaInput.horaFin, [Validators.required]),
-      descripcion: new FormControl(this.subastaInput.descripcion, [Validators.required]),
+      fechaInicio: new FormControl(this.subasta.horaInicio, [Validators.required]),
+      fechaFin: new FormControl(this.subasta.horaFin, [Validators.required]),
+      descripcion: new FormControl(this.subasta.descripcion, [Validators.required]),
       horaInicio: new FormControl(this.horaInicioActual, [Validators.required]),
       horaFin: new FormControl(this.horaFinActual, [Validators.required]),
+      evento: new FormControl(this.selectedEvento),
     }, [Validation.SubastaFechas, Validation.SubastaHoras]);
   }
-  
+
   tConvert(time) {
     time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
   
@@ -110,13 +167,21 @@ export class CrearSubastaComponent implements OnInit {
     }
     return time.join ('');
   }
-
+  
   date(date: any, arg1: string): any {
     throw new Error("Method not implemented.");
   }
 
+  get evento() {
+    return this.form.get('evento');
+  }
+
   get descripcion() {
     return this.form.get('descripcion');
+  }
+
+  get fechaLimite() {
+    return this.form.get('fechaLimite');
   }
 
   get fechaInicio() {

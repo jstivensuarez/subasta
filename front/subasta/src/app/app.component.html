@@ -5,10 +5,11 @@
     <button mat-button [matMenuTriggerFor]="lotes">Lotes</button>
     <button mat-button [matMenuTriggerFor]="animales">Animales</button>
     <button mat-button [matMenuTriggerFor]="pujadores">Pujadores</button>
+    <button mat-button [matMenuTriggerFor]="subastas">Subastas</button>
 
     <mat-menu #clientes="matMenu">
-      <button mat-menu-item routerLink="/listar-propietario">Listar propietarios</button>
-      <button mat-menu-item routerLink="/crear-propietario">Crear propietario</button>
+      <button mat-menu-item routerLink="/listar-propietario">Listar</button>
+      <button mat-menu-item routerLink="/crear-propietario">Crear</button>
     </mat-menu>
 
     <mat-menu #eventos="matMenu">
@@ -16,6 +17,11 @@
       <button mat-menu-item routerLink="/crear-evento">Crear</button>
     </mat-menu>
 
+    <mat-menu #subastas="matMenu">
+      <button mat-menu-item routerLink="/listar-subasta">Listar</button>
+      <button mat-menu-item routerLink="/crear-subasta">Crear</button>
+    </mat-menu>
+    
     <mat-menu #lotes="matMenu">
       <button mat-menu-item routerLink="/listar-lote">Listar</button>
       <button mat-menu-item routerLink="/crear-lote">Crear</button>

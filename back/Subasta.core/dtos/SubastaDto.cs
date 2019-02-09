@@ -9,8 +9,6 @@ namespace Subasta.core.dtos
 
         public string Descripcion { get; set; }
 
-        public DateTime FechaLimite { get; set; }
-
         public DateTime HoraInicio { get; set; }
 
         public DateTime HoraFin { get; set; }

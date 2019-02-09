@@ -57,7 +57,7 @@ namespace Subasta.Controllers
 
         [HttpGet()]
         [Route("[action]/{id}")]
-        public IActionResult Get(string id)
+        public IActionResult GetSubasta(int id)
         {
             try
             {

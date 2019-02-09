@@ -21,11 +21,15 @@ namespace Subasta.core.services
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
         readonly IFileHelper fileHelper;
-        public AnimalService(IMapper mapper, IUnitOfWork uowService, IFileHelper fileHelper)
+        readonly ILoteService loteService;
+        public AnimalService(IMapper mapper, IUnitOfWork uowService, 
+            IFileHelper fileHelper,
+            ILoteService loteService)
         {
             this.mapper = mapper;
             this.uowService = uowService;
             this.fileHelper = fileHelper;
+            this.loteService = loteService;
         }
 
         public void Add(AnimalDto dto)
@@ -41,9 +45,10 @@ namespace Subasta.core.services
                 else
                 {
                     dto.Foto = dto.Video;
-                }
+                }           
                 dto.Activo = true;
                 uowService.AnimalRepository.Add(mapper.Map<Animal>(dto));
+                AgregarAnimalALote(dto.LoteId);
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -99,6 +104,7 @@ namespace Subasta.core.services
                         fileHelper.RemoveFile("images//ANIMALES", dto.Foto);
                     dto.Foto = dto.Video;
                 }
+                dto.Activo = true;
                 uowService.AnimalRepository.Edit(mapper.Map<Animal>(dto));
                 uowService.Save();
             }
@@ -134,7 +140,8 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.AnimalRepository.Find(id);
+                var result = uowService.AnimalRepository.GetllWithInclude()
+                    .Find(a => a.AnimalId == Convert.ToInt32(id));
                 return mapper.Map<AnimalDto>(result);
             }
             catch (ExceptionData)
@@ -163,6 +170,13 @@ namespace Subasta.core.services
             {
                 throw new ExceptionCore("error al intentar obtener los animales", ex);
             }
+        }
+
+        private void AgregarAnimalALote(int loteId)
+        {
+            var lote = loteService.Find(loteId);
+            lote.CantidadElementos += 1;
+            loteService.Edit(lote);
         }
     }
 }

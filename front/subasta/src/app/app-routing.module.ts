@@ -14,6 +14,9 @@ import { ListarComponent } from './animales/listar/listar.component';
 import { SubastasComponent } from './subastas/subastas/subastas.component';
 import { CrearPujadorComponent } from './pujadores/crear/crear.component';
 import { ListarPujadorComponent } from './pujadores/listar/listar.component';
+import { CrearSubastaComponent } from './subastas/crear-subasta/crear-subasta.component';
+import { ListarSubastaComponent } from './subastas/listar-subasta/listar-subasta.component';
+import { CrearSubastaNuevaComponent } from './subastas/crear-subasta-nueva/crear-subasta-nueva.component';
 
 const routes: Routes = [
   {
@@ -90,6 +93,30 @@ const routes: Routes = [
   },
   {
     path: 'crear-pujador', component: CrearPujadorComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'crear-pujador/:id', component: CrearPujadorComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'listar-subasta', component: ListarSubastaComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'crear-subasta', component: CrearSubastaNuevaComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'crear-subasta/:id', component: CrearSubastaNuevaComponent, canActivate: [AutenticacionService, RoleguardService],
     data: {
       expectedRole: 'Administrador'
     }

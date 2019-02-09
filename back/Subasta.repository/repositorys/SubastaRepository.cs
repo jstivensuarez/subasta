@@ -23,6 +23,7 @@ namespace Subasta.repository.repositorys
             try
             {
                 var entitys = context.Subastas.AsNoTracking()
+                    .Include(s => s.Evento)
                     .Where(c => c.Activo)
                     .ToList();
                 return entitys;
