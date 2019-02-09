@@ -60,7 +60,8 @@ namespace Subasta.core.services
         {
             try
             {
-                uowService.AnimalRepository.LogicDelete(animal.AnimalId);
+                animal.Activo = false;
+                uowService.AnimalRepository.Edit(mapper.Map<Animal>(animal));
                 uowService.Save();
             }
             catch (ExceptionData)

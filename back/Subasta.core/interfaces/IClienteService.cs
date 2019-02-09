@@ -9,5 +9,8 @@ namespace Subasta.core.interfaces
     public interface IClienteService: IGenericCrudService<ClienteDto, Cliente>
     {
         void addUsuario(ClienteDto cliente);
+
+        List<ClienteDto> GetPujadores();
+        List<ClienteDto> GetPropietarios();
     }
 }

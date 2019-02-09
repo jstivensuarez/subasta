@@ -2,7 +2,6 @@
 using Subasta.repository.exceptions;
 using Subasta.repository.interfaces;
 using Subasta.repository.models;
-using Subasta.repository.repositorys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,26 +9,23 @@ using System.Text;
 
 namespace Subasta.repository.repositorys
 {
-    public class AnimalRepository: GenericRepository<Animal>, IAnimalRepository
+    public class PujadorRepository : GenericRepository<Pujador>, IPujadorRepository
     {
         readonly SubastaContext context;
 
-        public AnimalRepository(SubastaContext context) : base(context)
+        public PujadorRepository(SubastaContext context) : base(context)
         {
             this.context = context;
         }
 
-        public List<Animal> GetllWithInclude()
+
+        public List<Pujador> GetllWithInclude()
         {
             try
             {
-                var entitys = context.Animales.AsNoTracking()
-                    .Include(c => c.Municipio)
-                    .Include(c => c.Categoria)
-                    .Include(c => c.Lote)
-                    .Include(c => c.Raza)
-                    .Include(c => c.Sexo)
-                    .Where(a => a.Activo)
+                var entitys = context.Pujadores.AsNoTracking()
+                    .Include(p => p.Cliente)
+                    .Include(p => p.Lote)
                     .ToList();
                 return entitys;
             }
@@ -39,4 +35,5 @@ namespace Subasta.repository.repositorys
             }
         }
     }
+
 }

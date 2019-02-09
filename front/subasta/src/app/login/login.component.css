@@ -9,5 +9,12 @@
 }
 
 .login{
-  width: 30%;
+  width: 400px;
+  
 }
+
+.maxHeight{
+  max-height: 750px;
+  height: 400px !important;
+}
+

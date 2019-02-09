@@ -8,7 +8,5 @@ namespace Subasta.repository.interfaces
     {
         List<models.Subasta> GetAllWithInclude();
         List<Subasta.repository.models.Subasta> GetPorEvento(object id);
-
-        void LogicDelete(int id);
     }
 }

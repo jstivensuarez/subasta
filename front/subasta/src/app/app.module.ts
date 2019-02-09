@@ -23,6 +23,7 @@ import { CURRENCY_MASK_CONFIG } from "ng2-currency-mask/src/currency-mask.config
 import { CustomCurrencyMaskConfig } from './util/numberMaskConfig';
 import { LotesModule } from './lotes/lotes.module';
 import { AnimalesModule } from './animales/animales.module';
+import { PujadoresModule } from './pujadores/pujadores.module';
  
 export function getToken(){
   return localStorage.getItem('token');
@@ -53,6 +54,7 @@ const JWT_Module_Options: JwtModuleOptions = {
     SubastasModule,
     LotesModule,
     AnimalesModule,
+    PujadoresModule,
     JwtModule.forRoot(JWT_Module_Options)
   ],
   providers: [

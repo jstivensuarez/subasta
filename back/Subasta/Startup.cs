@@ -80,6 +80,9 @@ namespace Subasta
             services.AddScoped<ISexoRepository, SexoRepository>();
             services.AddScoped<ISexoService, SexoService>();
 
+            services.AddScoped<IPujadorRepository, PujadorRepository>();
+            services.AddScoped<IPujadorService, PujadorService>();
+
             services.AddScoped<IFileHelper, FileHelper>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

@@ -24,6 +24,11 @@ export class ClienteService {
       map((data: any) => data));
   }
 
+  getPujadores(): Observable<any> {
+    return this.http.get<any>(environment.endpointClientes + '/GetPujadores').pipe(
+      map((data: any) => data));
+  }
+
   post(dto: Cliente): Observable<any> {
     return this.http.post<any>(environment.endpointClientes, dto, { headers: this.httpHeaders });
   }

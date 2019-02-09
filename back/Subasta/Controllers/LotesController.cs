@@ -51,6 +51,21 @@ namespace Subasta.Controllers
             }
         }
 
+        [HttpGet()]
+        [Route("[action]/{id}")]
+        public IActionResult GetNoAsociados(string id)
+        {
+            try
+            {
+                var lotes = loteService.GetAllNoAssociate(id);
+                return Ok(lotes);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         [HttpPost, DisableRequestSizeLimit]
         public IActionResult Post()
         {

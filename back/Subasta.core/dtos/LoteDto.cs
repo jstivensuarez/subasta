@@ -36,6 +36,8 @@ namespace Subasta.core.dtos
 
         public SubastaDto Subasta { get; set; }
 
+        public bool Activo { get; set; }
+
         public Microsoft.AspNetCore.Http.IFormFile Imagen { get; set; }
     }
 }

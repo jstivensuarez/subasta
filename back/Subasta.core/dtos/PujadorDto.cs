@@ -4,6 +4,7 @@ namespace Subasta.core.dtos
 {
     public class PujadorDto
     {
+        public int PujadorId { get; set; }
         public int LoteId { get; set; }
 
         public LoteDto Lote { get; set; }

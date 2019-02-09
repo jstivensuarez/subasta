@@ -33,6 +33,8 @@
 
         public LoteDto Lote { get; set; }
 
+        public bool Activo { get; set; }
+
         public Microsoft.AspNetCore.Http.IFormFile Imagen { get; set; }
     }
 }

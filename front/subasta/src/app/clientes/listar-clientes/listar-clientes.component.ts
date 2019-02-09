@@ -82,6 +82,7 @@ export class ListarClientesComponent implements OnInit {
   agregarPropietario() {
     this.router.navigate(['/crear-propietario']);
   }
+  
   obtenerClientes() {
     this.clienteService.get().subscribe(
       resp => {

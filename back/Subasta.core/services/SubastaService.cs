@@ -49,7 +49,8 @@ namespace Subasta.core.services
         {
             try
             {
-                uowService.SubastaRepository.LogicDelete(entity.SubastaId);
+                entity.Activo = false;
+                uowService.SubastaRepository.Edit(Mapper.Map<repository.models.Subasta>(entity));
                 uowService.Save();
             }
             catch (ExceptionData)

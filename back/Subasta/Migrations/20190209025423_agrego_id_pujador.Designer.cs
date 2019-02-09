@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Subasta.repository;
 
 namespace Subasta.Migrations
 {
     [DbContext(typeof(SubastaContext))]
-    partial class SubastaContextModelSnapshot : ModelSnapshot
+    [Migration("20190209025423_agrego_id_pujador")]
+    partial class agrego_id_pujador
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

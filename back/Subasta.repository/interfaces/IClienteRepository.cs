@@ -9,6 +9,5 @@ namespace Subasta.repository.interfaces
     {
         List<Cliente> GetAllWithInclude();
         Cliente GetWithAll(object id);
-        void LogicDelete(string id);
     }
 }

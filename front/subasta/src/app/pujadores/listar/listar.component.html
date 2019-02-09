@@ -1,3 +1,56 @@
-<p>
-  listar works!
-</p>
+<div class="container">
+  <h2 class="title">
+    <button mat-fab color="primary" class="text-align-left" (click)="agregarPujador()">
+      <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+    </button>
+    {{title}}
+  </h2>
+  <div>
+    <span class="margin-right15"></span>
+    <mat-form-field class="example-50-width text-align-righ">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar...">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+  <mat-card class="center-card">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="cliente">
+        <th mat-header-cell *matHeaderCellDef>Nombre del cliente</th>
+        <td mat-cell *matCellDef="let element"> {{element.cliente.nombre}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="lote">
+        <th mat-header-cell *matHeaderCellDef> Lote </th>
+        <td mat-cell *matCellDef="let element"> {{element.lote.nombre}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="banco">
+        <th mat-header-cell *matHeaderCellDef> Banco </th>
+        <td mat-cell *matCellDef="let element"> {{element.banco}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="numeroConsignacion">
+        <th mat-header-cell *matHeaderCellDef> Número de consignación </th>
+        <td mat-cell *matCellDef="let element"> {{element.numeroConsignacion}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="valorConsignacion">
+        <th mat-header-cell *matHeaderCellDef> Valor de consignación </th>
+        <td mat-cell *matCellDef="let element"> {{element.valorConsignacion}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon (click)="eliminar(element)" class="margin-right15">delete</mat-icon>
+          <mat-icon (click)="editar(element)" class="margin-right15">edit</mat-icon>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card>
+  <mat-paginator [pageSizeOptions]="[6, 10, 25, 100]"></mat-paginator>
+  <div>

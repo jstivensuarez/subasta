@@ -12,6 +12,8 @@ import { ListarLotesComponent } from './lotes/listar-lotes/listar-lotes.componen
 import { CrearComponent } from './animales/crear/crear.component';
 import { ListarComponent } from './animales/listar/listar.component';
 import { SubastasComponent } from './subastas/subastas/subastas.component';
+import { CrearPujadorComponent } from './pujadores/crear/crear.component';
+import { ListarPujadorComponent } from './pujadores/listar/listar.component';
 
 const routes: Routes = [
   {
@@ -76,6 +78,18 @@ const routes: Routes = [
   },
   {
     path: 'listar-animal', component: ListarComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'listar-pujador', component: ListarPujadorComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'crear-pujador', component: CrearPujadorComponent, canActivate: [AutenticacionService, RoleguardService],
     data: {
       expectedRole: 'Administrador'
     }

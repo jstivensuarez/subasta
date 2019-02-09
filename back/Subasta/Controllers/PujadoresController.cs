@@ -6,10 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Subasta.core.constants;
 using Subasta.core.dtos;
 using Subasta.core.interfaces;
-using Subasta.core.states;
 
 namespace Subasta.Controllers
 {
@@ -17,22 +15,22 @@ namespace Subasta.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class ClientesController : ControllerBase
+    public class PujadoresController : ControllerBase
     {
-        readonly IClienteService clienteService;
+        readonly IPujadorService pujadorService;
 
-        public ClientesController(IClienteService clienteService)
+        public PujadoresController(IPujadorService pujadorService)
         {
-            this.clienteService = clienteService;
+            this.pujadorService = pujadorService;
         }
-        // GET: api/Clientes
+
         [HttpGet]
         public IActionResult Get()
         {
             try
             {
-                var clientes = clienteService.GetAll();
-                return Ok(clientes);
+                var pujadores = pujadorService.GetAll();
+                return Ok(pujadores);
             }
             catch (Exception ex)
             {
@@ -40,14 +38,15 @@ namespace Subasta.Controllers
             }
         }
 
+
         [HttpGet()]
         [Route("[action]/{id}")]
-        public IActionResult Get(string id)
+        public IActionResult Get(int id)
         {
             try
             {
-                var cliente = clienteService.Find(id);
-                return Ok(cliente);
+                var pujador = pujadorService.Find(id);
+                return Ok(pujador);
             }
             catch (Exception)
             {
@@ -55,24 +54,8 @@ namespace Subasta.Controllers
             }
         }
 
-        [HttpGet()]
-        [Route("[action]")]
-        public IActionResult GetPujadores()
-        {
-            try
-            {
-                var clientes = clienteService.GetPujadores();
-                return Ok(clientes);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        // POST: api/Clientes
         [HttpPost]
-        public IActionResult Post(ClienteDto cliente)
+        public IActionResult Post(PujadorDto pujador)
         {
             try
             {
@@ -80,14 +63,8 @@ namespace Subasta.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var entity = clienteService.Find(cliente.ClienteId);
-                if (entity != null)
-                {
-                    return BadRequest("Ya existe");
-                }
-                cliente.Tipo = TipoUsuarios.PROPIETARIO;
-                clienteService.Add(cliente);
-                return Ok(cliente);
+                pujadorService.Add(pujador);
+                return Ok(pujador);
             }
             catch (Exception)
             {
@@ -95,9 +72,8 @@ namespace Subasta.Controllers
             }
         }
 
-        // PUT: api/Clientes/5
         [HttpPut]
-        public IActionResult Put( ClienteDto cliente)
+        public IActionResult Put(PujadorDto pujador)
         {
             try
             {
@@ -105,8 +81,8 @@ namespace Subasta.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                clienteService.Edit(cliente);
-                return Ok(cliente);
+                pujadorService.Edit(pujador);
+                return Ok(pujador);
             }
             catch (Exception)
             {
@@ -114,18 +90,17 @@ namespace Subasta.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id)
         {
             try
             {
-                var entity = clienteService.Find(id);
+                var entity = pujadorService.Find(id);
                 if (entity == null)
                 {
                     return NotFound();
                 }
-                clienteService.Delete(entity);
+                pujadorService.Delete(entity);
                 return Ok();
             }
             catch (Exception)

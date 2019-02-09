@@ -24,6 +24,11 @@ export class LotesService {
       map((data: any) => data));
   }
 
+  getNoAsociados(clienteId): Observable<any> {
+    return this.http.get<any>(environment.endpointLote + '/GetNoAsociados/' + clienteId).pipe(
+      map((data: any) => data));
+  }
+
   post(dto: FormData): Observable<any> {
     return this.http.post<any>(environment.endpointLote, dto);
   }

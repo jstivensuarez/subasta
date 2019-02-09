@@ -18,7 +18,7 @@ namespace Subasta.repository.repositorys
             this.context = context;
         }
 
-        public List<Lote> GetllWithInclude()
+        public List<Lote> GetAllWithInclude()
         {
             try
             {
@@ -36,17 +36,22 @@ namespace Subasta.repository.repositorys
             }
         }
 
-        public void LogicDelete(int id)
+        public List<Lote> GetAllNoAssociate(string clienteId)
         {
             try
             {
-                var entity = context.Lotes.Find(id);
-                entity.Activo = false;
-                context.Lotes.Update(entity);
+                var entitys = (from lotes in context.Lotes
+                               where (from p in context.Pujadores
+                                      where p.LoteId == lotes.LoteId
+                                      && p.ClienteId == clienteId
+                                      select p).Count() == 0
+                                      
+                        select lotes).ToList();
+                return entitys;
             }
             catch (Exception ex)
             {
-                throw new ExceptionData("error al eliminar la entidad", ex);
+                throw new ExceptionData("error al buscar la entidad", ex);
             }
         }
     }

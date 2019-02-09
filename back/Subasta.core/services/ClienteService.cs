@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Subasta.core.constants;
 using Subasta.core.dtos;
 using Subasta.core.exceptions;
 using Subasta.core.interfaces;
@@ -77,7 +78,8 @@ namespace Subasta.core.services
         {
             try
             {
-                uowService.ClienteRepository.LogicDelete(entity.ClienteId);
+                entity.Activo = false;
+                uowService.ClienteRepository.Edit(mapper.Map<Cliente>(entity));
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -161,5 +163,40 @@ namespace Subasta.core.services
             }
         }
 
+        public List<ClienteDto> GetPujadores()
+        {
+            try
+            {
+                var result = uowService.ClienteRepository.GetAllWithInclude()
+                    .Where(c => c.Tipo == TipoUsuarios.PUJADOR); ;
+                return mapper.Map<List<ClienteDto>>(result);
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener los clientes", ex);
+            }
+        }
+
+        public List<ClienteDto> GetPropietarios()
+        {
+            try
+            {
+                var result = uowService.ClienteRepository.GetAllWithInclude()
+                    .Where(c => c.Tipo == TipoUsuarios.PUJADOR); ;
+                return mapper.Map<List<ClienteDto>>(result);
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener los clientes", ex);
+            }
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace Subasta.repository.interfaces
         ICategoriaRepository CategoriaRepository { get; }
         IRazaRepository RazaRepository { get; }
         ISexoRepository SexoRepository { get; }
+        IPujadorRepository PujadorRepository { get; }
         void Save();
     }
 }

@@ -42,8 +42,6 @@ namespace Subasta.repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Pujador>()
-                .HasKey(c => new { c.ClienteId, c.LoteId });
             modelBuilder.Entity<Cliente>().ToTable("TBL_CLIENTES");
         }
 

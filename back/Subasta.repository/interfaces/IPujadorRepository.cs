@@ -5,10 +5,8 @@ using System.Text;
 
 namespace Subasta.repository.interfaces
 {
-    public interface ILoteRepository: IGenericRepository<Lote>
+    public interface IPujadorRepository: IGenericRepository<Pujador>
     {
-        List<Lote> GetAllWithInclude();
-
-        List<Lote> GetAllNoAssociate(string clienteId);
+        List<Pujador> GetllWithInclude();
     }
 }

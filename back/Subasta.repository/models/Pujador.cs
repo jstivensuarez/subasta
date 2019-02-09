@@ -8,6 +8,9 @@ namespace Subasta.repository.models
     public class Pujador
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("ID_PUJADOR")]
+        public int PujadorId { get; set; }
+
         [Column("CODIGO_LOTE_PUJADOR")]
         public int LoteId { get; set; }
 

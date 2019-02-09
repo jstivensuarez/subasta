@@ -30,5 +30,8 @@ namespace Subasta.core.dtos
         public string Clave { get; set; }
 
         public MunicipioDto Municipio { get; set; }
+
+        public string Tipo { get; set; }
+        public bool Activo { get; set; }
     }
 }

@@ -12,5 +12,6 @@ export const environment = {
   endpointCategoria: 'http://localhost:3001/api/categorias',
   endpointRaza: 'http://localhost:3001/api/razas',
   endpointSexo: 'http://localhost:3001/api/sexos',
-  endpointAnimal: 'http://localhost:3001/api/animales'
+  endpointAnimal: 'http://localhost:3001/api/animales',
+  endpointPujador: 'http://localhost:3001/api/pujadores'
 };

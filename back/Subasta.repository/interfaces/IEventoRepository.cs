@@ -12,7 +12,5 @@ namespace Subasta.repository.interfaces
         Evento GetWithAll(object id);
 
         List<Evento> GetAllWithInclude();
-
-        void LogicDelete(int id);
     }
 }

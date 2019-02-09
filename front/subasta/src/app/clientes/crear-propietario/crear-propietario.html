@@ -3,7 +3,7 @@
     {{title}}
   </h2>
   <mat-card class="center-card">
-    <form class="example-form" [formGroup]="form" (submit)="onSubmit(form.value)">
+    <form class="example-form" [formGroup]="form" (submit)="onSubmit()">
 
       <mat-form-field class="example-full-width">
         <mat-select placeholder="Tipo de documento" [formControl]="td" [(value)]="selectedTd" required>

@@ -6,8 +6,8 @@ using System.Text;
 
 namespace Subasta.core.interfaces
 {
-    public interface ILoteService : IGenericCrudService<LoteDto, Lote>
+    public interface IPujadorService : IGenericCrudService<PujadorDto, Pujador>
     {
-        List<LoteDto> GetAllNoAssociate(string clienteId);
+        
     }
 }

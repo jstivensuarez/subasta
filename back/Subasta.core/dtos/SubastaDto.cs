@@ -22,5 +22,7 @@ namespace Subasta.core.dtos
         public int EventoId { get; set; }
 
         public EventoDto Evento { get; set; }
+
+        public bool Activo { get; set; }
     }
 }

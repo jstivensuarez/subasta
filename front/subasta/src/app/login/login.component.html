@@ -1,7 +1,7 @@
 <br>
 <br>
 
-<div class="container login">
+<div class="container login maxHeight">
   <mat-card>
     <mat-tab-group>
       <mat-tab label="Ingresar">
@@ -46,10 +46,10 @@
           </form>
         </mat-card>
       </mat-tab>
-      <mat-tab label="Registrarse"> 
+      <mat-tab label="Registrarse">
         <mat-card class="center-card">
-          <form class="example-form" [formGroup]="formRegister" (submit)="onSubmitRegister()">
-      
+          <form class="example-form maxHeight" [formGroup]="formRegister" (submit)="onSubmitRegister()">
+
             <mat-form-field class="example-full-width">
               <mat-select placeholder="Tipo de documento" [formControl]="td" [(value)]="selectedTd" required>
                 <mat-option *ngFor="let td of tipoDocumentos" [value]="td.tipoDocumentoId">
@@ -58,78 +58,57 @@
               </mat-select>
               <mat-error *ngIf="td.hasError('required')">Por favor seleccione un tipo de documento</mat-error>
             </mat-form-field>
-      
-            <div class="row">
-              <div class="col-md-12">
-                <mat-form-field class="example-full-width">
-                  <input matInput [formControl]="documento" maxlength="25" placeholder="Número de documento"
-                  (keypress)="isNumberKey($event)" required>
-                  <mat-error *ngIf="documento.hasError('required')">
-                    El documento es <strong>requerido</strong>
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-      
-            <div class="row">
-              <div class="col-md-12">
-                <mat-form-field class="example-full-width">
-                  <input matInput [formControl]="nombre" maxlength="25" placeholder="Nombre" required>
-                  <mat-error *ngIf="nombre.hasError('required')">
-                    El nombre es <strong>requerido</strong>
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-            
-            <div class="row">
-              <div class="col-md-12">
-                <mat-form-field class="example-full-width">
-                  <input matInput [formControl]="telefono" maxlength="25" placeholder="Teléfono"
-                  (keypress)="isNumberKey($event)" required>
-                  <mat-error *ngIf="telefono.hasError('required')">
-                    El teléfono es <strong>requerido</strong>
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-      
-            <div class="row">
-              <div class="col-md-12">
-                <mat-form-field class="example-full-width">
-                  <input matInput [formControl]="correo" maxlength="25" placeholder="Correo" required>
-                  <mat-error *ngIf="correo.hasError('required')">
-                    El correo es <strong>requerido</strong>
-                  </mat-error>
-                  <mat-error *ngIf="correo.hasError('email')">
-                      El correo no es <strong>válido</strong>
-                    </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-      
-      
-            <div class="row">
-              <div class="col-md-12">
-                <mat-form-field class="example-full-width">
-                  <input matInput [formControl]="direccion" maxlength="25" placeholder="Dirección" required>
-                  <mat-error *ngIf="direccion.hasError('required')">
-                   La dirección es <strong>requerido</strong>
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-      
+
             <mat-form-field class="example-full-width">
-              <mat-select placeholder="Departamento" [formControl]="departamento"
-               [(value)]="selectedDepartamento" (selectionChange)="obtenerCiudades($event.value)" required>
+              <input matInput [formControl]="documento" maxlength="25" placeholder="Número de documento" (keypress)="isNumberKey($event)"
+                required>
+              <mat-error *ngIf="documento.hasError('required')">
+                El documento es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <input matInput [formControl]="nombre" maxlength="25" placeholder="Nombre" required>
+              <mat-error *ngIf="nombre.hasError('required')">
+                El nombre es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <input matInput [formControl]="telefono" maxlength="25" placeholder="Teléfono" (keypress)="isNumberKey($event)"
+                required>
+              <mat-error *ngIf="telefono.hasError('required')">
+                El teléfono es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <input matInput [formControl]="correo" maxlength="25" placeholder="Correo" required>
+              <mat-error *ngIf="correo.hasError('required')">
+                El correo es <strong>requerido</strong>
+              </mat-error>
+              <mat-error *ngIf="correo.hasError('email')">
+                El correo no es <strong>válido</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <input matInput [formControl]="direccion" maxlength="25" placeholder="Dirección" required>
+              <mat-error *ngIf="direccion.hasError('required')">
+                La dirección es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Departamento" [formControl]="departamento" [(value)]="selectedDepartamento"
+                (selectionChange)="obtenerCiudades($event.value)" required>
                 <mat-option *ngFor="let depar of departamentos" [value]="depar.departamentoId">
                   {{depar.descripcion}}
                 </mat-option>
               </mat-select>
               <mat-error *ngIf="departamento.hasError('required')">Por favor seleccione un departamento</mat-error>
             </mat-form-field>
-      
+
             <mat-form-field class="example-full-width">
               <mat-select placeholder="Municipio" [formControl]="municipio" [(value)]="selectedMunicipio" required>
                 <mat-option *ngFor="let muni of municipios" [value]="muni.municipioId">
@@ -138,68 +117,57 @@
               </mat-select>
               <mat-error *ngIf="municipio.hasError('required')">Por favor seleccione un municipio</mat-error>
             </mat-form-field>
-      
+
             <br>
             <br>
             <mat-divider></mat-divider>
-      
-              <div class="row">
-                <div class="col-md-12">
-                  <mat-form-field class="example-full-width">
-                    <input matInput [formControl]="usuarioRegister" maxlength="25" 
-                    (keyup)="validarCliente($event.target.value)" placeholder="Usuario" required>
-                    <mat-error *ngIf="usuarioRegister.hasError('required')">
-                      El usuario es <strong>requerido</strong>
-                    </mat-error>
-                    <mat-error *ngIf="usuarioRegister.hasError('minlength') && !usuarioRegister.hasError('required')">
-                      Mínimo <strong>8 caracteres</strong>
-                    </mat-error>
-                    <mat-error *ngIf="!usuarioRegister.valid && !usuarioRegister.hasError('required')
+
+            <mat-form-field class="example-full-width">
+              <input matInput [formControl]="usuarioRegister" maxlength="25" (keyup)="validarCliente($event.target.value)"
+                placeholder="Usuario" required>
+              <mat-error *ngIf="usuarioRegister.hasError('required')">
+                El usuario es <strong>requerido</strong>
+              </mat-error>
+              <mat-error *ngIf="usuarioRegister.hasError('minlength') && !usuarioRegister.hasError('required')">
+                Mínimo <strong>8 caracteres</strong>
+              </mat-error>
+              <mat-error *ngIf="!usuarioRegister.valid && !usuarioRegister.hasError('required')
                     && !usuarioRegister.hasError('minlength')">
-                      Este nombre de usuario no está <strong>disponible</strong>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
+                Este nombre de usuario no está <strong>disponible</strong>
+              </mat-error>
+            </mat-form-field>
 
-              <div class="row">
-                <div class="col-md-12">
-                  <mat-form-field class="example-full-width">
-                    <input type="password" matInput [formControl]="claveRegister" maxlength="25" placeholder="Contraseña" required>
-                    <mat-error *ngIf="claveRegister.hasError('required')">
-                      La contraseña es <strong>requerida</strong>
-                    </mat-error>
-                    <mat-error *ngIf="claveRegister.hasError('minlength')">
-                      Mínimo <strong>8 caracteres</strong>
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
+            <mat-form-field class="example-full-width">
+              <input type="password" matInput [formControl]="claveRegister" maxlength="25" placeholder="Contraseña"
+                required>
+              <mat-error *ngIf="claveRegister.hasError('required')">
+                La contraseña es <strong>requerida</strong>
+              </mat-error>
+              <mat-error *ngIf="claveRegister.hasError('minlength')">
+                Mínimo <strong>8 caracteres</strong>
+              </mat-error>
+            </mat-form-field>
 
-              <div class="row">
-                <div class="col-md-12">
-                  <mat-form-field class="example-full-width">
-                    <input type="password" matInput [formControl]="claveRegisterRepeat" 
-                    maxlength="25" placeholder="Validar contraseña" required>
-                    <mat-error *ngIf="claveRegisterRepeat.hasError('required')">
-                     Es <strong>requerido</strong> validar la contraseña
-                    </mat-error>
-                    <mat-error *ngIf="claveRegisterRepeat.hasError('claveMala')">
-                      La clave no coincide
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
+            <mat-form-field class="example-full-width">
+              <input type="password" matInput [formControl]="claveRegisterRepeat" maxlength="25" placeholder="Validar contraseña"
+                required>
+              <mat-error *ngIf="claveRegisterRepeat.hasError('required')">
+                Es <strong>requerido</strong> validar la contraseña
+              </mat-error>
+              <mat-error *ngIf="claveRegisterRepeat.hasError('claveMala')">
+                La clave no coincide
+              </mat-error>
+            </mat-form-field>
 
             <br>
-      
+
             <div class="row">
               <div class="col-12 text-align-right">
                 <button class="btn btn-default margin-right15" (click)="regresar()">Cancelar</button>
                 <button type="submit" [disabled]="formRegister.invalid" class="btn btn-primary">Guardar</button>
               </div>
             </div>
-            
+
           </form>
         </mat-card>
       </mat-tab>

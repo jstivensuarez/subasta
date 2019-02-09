@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Subasta.repository;
 
 namespace Subasta.Migrations
 {
     [DbContext(typeof(SubastaContext))]
-    partial class SubastaContextModelSnapshot : ModelSnapshot
+    [Migration("20190208223527_agrego_campo_tipo_cliente")]
+    partial class agrego_campo_tipo_cliente
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,36 +252,37 @@ namespace Subasta.Migrations
                     b.Property<DateTime>("HoraPuja")
                         .HasColumnName("HORA_PUJA");
 
+                    b.Property<string>("PujadorClienteId");
+
                     b.Property<int>("PujadorId")
                         .HasColumnName("COD_SUBASTA_PUJADOR");
+
+                    b.Property<int?>("PujadorLoteId");
 
                     b.Property<decimal>("Valor")
                         .HasColumnName("VALOR_PUJA");
 
                     b.HasKey("PujaId");
 
-                    b.HasIndex("PujadorId");
+                    b.HasIndex("PujadorClienteId", "PujadorLoteId");
 
                     b.ToTable("TBL_PUJAS");
                 });
 
             modelBuilder.Entity("Subasta.repository.models.Pujador", b =>
                 {
-                    b.Property<int>("PujadorId")
+                    b.Property<string>("ClienteId")
+                        .HasColumnName("ID_CLI_PUJADOR");
+
+                    b.Property<int>("LoteId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("ID_PUJADOR");
+                        .HasColumnName("CODIGO_LOTE_PUJADOR");
 
                     b.Property<string>("Banco")
                         .HasColumnName("BANCO_CONSIGNACION_PUJADOR");
 
-                    b.Property<string>("ClienteId")
-                        .HasColumnName("ID_CLI_PUJADOR");
-
                     b.Property<string>("Estado")
                         .HasColumnName("ESTADO_PUJADOR");
-
-                    b.Property<int>("LoteId")
-                        .HasColumnName("CODIGO_LOTE_PUJADOR");
 
                     b.Property<string>("NumeroConsignacion")
                         .HasColumnName("NRO_CONSIGNACION_PUJADOR");
@@ -287,9 +290,7 @@ namespace Subasta.Migrations
                     b.Property<decimal>("ValorConsignacion")
                         .HasColumnName("VALOR_CONSIGNACION_PUJADOR");
 
-                    b.HasKey("PujadorId");
-
-                    b.HasIndex("ClienteId");
+                    b.HasKey("ClienteId", "LoteId");
 
                     b.HasIndex("LoteId");
 
@@ -489,15 +490,15 @@ namespace Subasta.Migrations
                 {
                     b.HasOne("Subasta.repository.models.Pujador", "Pujador")
                         .WithMany("Pujas")
-                        .HasForeignKey("PujadorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PujadorClienteId", "PujadorLoteId");
                 });
 
             modelBuilder.Entity("Subasta.repository.models.Pujador", b =>
                 {
                     b.HasOne("Subasta.repository.models.Cliente", "Cliente")
                         .WithMany("Pujadores")
-                        .HasForeignKey("ClienteId");
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Subasta.repository.models.Lote", "Lote")
                         .WithMany("Pujadores")

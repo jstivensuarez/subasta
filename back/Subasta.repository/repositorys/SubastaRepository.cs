@@ -46,19 +46,5 @@ namespace Subasta.repository.repositorys
                 throw new ExceptionData("error al buscar las entidades", ex);
             }
         }
-
-        public void LogicDelete(int id)
-        {
-            try
-            {
-                var entity = context.Subastas.Find(id);
-                entity.Activo = false;
-                context.Subastas.Update(entity);
-            }
-            catch (Exception ex)
-            {
-                throw new ExceptionData("error al eliminar la entidad", ex);
-            }
-        }
     }
 }

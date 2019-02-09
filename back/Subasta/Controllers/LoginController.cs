@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Subasta.core.constants;
 using Subasta.core.dtos;
 using Subasta.core.interfaces;
 
@@ -68,6 +69,7 @@ namespace Subasta.Controllers
                 {
                     return BadRequest("Ya existe");
                 }
+                cliente.Tipo = TipoUsuarios.PUJADOR;
                 clienteService.addUsuario(cliente);
                 var usuario = new UsuarioDto
                 {
