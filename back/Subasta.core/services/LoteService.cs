@@ -21,11 +21,15 @@ namespace Subasta.core.services
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
         readonly IFileHelper fileHelper;
-        public LoteService(IMapper mapper, IUnitOfWork uowService, IFileHelper fileHelper)
+        readonly IAnimalService animalService;
+        public LoteService(IMapper mapper, IUnitOfWork uowService,
+            IFileHelper fileHelper,
+            IAnimalService animalService)
         {
             this.mapper = mapper;
             this.uowService = uowService;
             this.fileHelper = fileHelper;
+            this.animalService = animalService;
         }
 
         public void Add(LoteDto dto)
@@ -42,6 +46,7 @@ namespace Subasta.core.services
                 {
                     dto.FotoLote = dto.VideoLote;
                 }
+                dto.Activo = true;
                 uowService.LoteRepository.Add(mapper.Map<Lote>(dto));
                 uowService.Save();
             }
@@ -62,6 +67,7 @@ namespace Subasta.core.services
             {
                 entity.Activo = false;
                 uowService.LoteRepository.Edit(mapper.Map<Lote>(entity));
+                eliminarAnimales(entity.LoteId);
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -176,6 +182,16 @@ namespace Subasta.core.services
             catch (Exception ex)
             {
                 throw new ExceptionCore("error al intentar obtener los lotes", ex);
+            }
+        }
+
+        private void eliminarAnimales(int loteId)
+        {
+            var animales = animalService.GetAll()
+                .Where(a => a.LoteId == loteId).ToList();
+            foreach (var animal in animales)
+            {
+                animalService.Delete(animal);
             }
         }
     }

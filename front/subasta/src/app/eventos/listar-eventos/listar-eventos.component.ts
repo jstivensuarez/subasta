@@ -36,7 +36,7 @@ export class ListarEventosComponent implements OnInit {
   }
 
   eliminar(evento) {
-    this.alertService.showConfirmMessage(constants.deleteTitle, constants.confirmDelete).subscribe(
+    this.alertService.showConfirmMessage(constants.deleteTitle, constants.confirmDeleteEvento).subscribe(
       resp => {
         if (resp) {
           this.eventoService.delete(evento.eventoId).subscribe(

@@ -1,7 +1,7 @@
 <br>
 <br>
 
-<div class="container login maxHeight">
+<div class="container login">
   <mat-card>
     <mat-tab-group>
       <mat-tab label="Ingresar">
@@ -48,7 +48,7 @@
       </mat-tab>
       <mat-tab label="Registrarse">
         <mat-card class="center-card">
-          <form class="example-form maxHeight" [formGroup]="formRegister" (submit)="onSubmitRegister()">
+          <form class="example-form" [formGroup]="formRegister" (submit)="onSubmitRegister()">
 
             <mat-form-field class="example-full-width">
               <mat-select placeholder="Tipo de documento" [formControl]="td" [(value)]="selectedTd" required>

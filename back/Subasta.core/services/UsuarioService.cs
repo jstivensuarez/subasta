@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Subasta.core.dtos;
 using Subasta.core.exceptions;
+using Subasta.core.helpers;
 using Subasta.core.interfaces;
 using Subasta.repository.exceptions;
 using Subasta.repository.interfaces;
@@ -28,6 +29,7 @@ namespace Subasta.core.services
         {
             try
             {
+                dto.Clave = Hash.GetHash(dto.Clave);
                 uowService.UsuarioRepository.Add(mapper.Map<Usuario>(dto));
                 uowService.Save();
             }
@@ -46,6 +48,7 @@ namespace Subasta.core.services
         {
             try
             {
+                usuario.Clave = Hash.GetHash(usuario.Clave);
                 var entity = uowService.UsuarioRepository.AutenticarUsuario(usuario.Nombre,usuario.Correo, usuario.Clave);
                 return mapper.Map<UsuarioDto>(entity);
             }

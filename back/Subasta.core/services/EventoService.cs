@@ -17,17 +17,26 @@ namespace Subasta.core.services
     {
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
-
-        public EventoService(IMapper mapper, IUnitOfWork uowService)
+        readonly ISubastaService subastaService;
+        readonly ILoteService loteService;
+        readonly IAnimalService animalService;
+        public EventoService(IMapper mapper, IUnitOfWork uowService,
+             ISubastaService subastaService,
+             ILoteService loteService,
+             IAnimalService animalService)
         {
             this.mapper = mapper;
             this.uowService = uowService;
+            this.subastaService = subastaService;
+            this.loteService = loteService;
+            this.animalService = animalService;
         }
 
         public void Add(EventoDto dto)
         {
             try
             {
+                dto.Activo = true;
                 uowService.EventoRepository.Add(mapper.Map<Evento>(dto));
                 uowService.Save();
             }
@@ -66,6 +75,7 @@ namespace Subasta.core.services
             {
                 entity.Activo = false;
                 uowService.EventoRepository.Edit(mapper.Map<Evento>(entity));
+                EliminarSubastasEnCascada(entity.EventoId);
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -145,6 +155,39 @@ namespace Subasta.core.services
             catch (Exception ex)
             {
                 throw new ExceptionCore("error al intentar obtener los eventos", ex);
+            }
+        }
+
+
+        private void EliminarSubastasEnCascada(int eventoId)
+        {
+            var subastas = subastaService.GetAll()
+                .Where(s => s.EventoId == eventoId).ToList();
+            foreach (var subasta in subastas)
+            {
+                EliminarLotes(subasta.SubastaId);
+                subastaService.Delete(subasta);
+            }
+        }
+
+        private void EliminarLotes(int subastaId)
+        {
+            var lotes = loteService.GetAll()
+                    .Where(l => l.SubastaId == subastaId).ToList();
+            foreach (var lote in lotes)
+            {
+                eliminarAnimales(lote.LoteId);
+                loteService.Delete(lote);
+            }
+        }
+
+        private void eliminarAnimales(int loteId)
+        {
+            var animales = animalService.GetAll()
+                .Where(a => a.LoteId == loteId).ToList();
+            foreach (var animal in animales)
+            {
+                animalService.Delete(animal);
             }
         }
     }

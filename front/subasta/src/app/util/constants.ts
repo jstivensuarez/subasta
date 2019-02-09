@@ -17,5 +17,6 @@ export const constants = {
     errorLogin: "Error al tratar de ingresar al sistema!",
     errorAlreadyExists: "Este registro ya existe",
     userAlreadyExists: "Este usuario ya se encuentra registrado en el sistema, por favor verifique su correo y su número de documento...",
-    confirmDelete: "¿Está seguro que desea eliminar este registro?"
+    confirmDelete: "¿Está seguro que desea eliminar este registro?",
+    confirmDeleteEvento: "¿Está seguro que desea eliminar este evento, también se eliminarán los elementos asociados como subastas, lotes, animales...?"
 }

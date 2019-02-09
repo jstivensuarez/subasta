@@ -2,6 +2,7 @@
 using Subasta.core.constants;
 using Subasta.core.dtos;
 using Subasta.core.exceptions;
+using Subasta.core.helpers;
 using Subasta.core.interfaces;
 using Subasta.repository;
 using Subasta.repository.exceptions;
@@ -34,6 +35,7 @@ namespace Subasta.core.services
         {
             try
             {
+                dto.Activo = true;
                 uowService.ClienteRepository.Add(mapper.Map<Cliente>(dto));
                 uowService.Save();
             }
@@ -52,14 +54,14 @@ namespace Subasta.core.services
         {
             try
             {
-                var usuario = new Usuario
+                var usuario = new UsuarioDto
                 {
                     Clave = dto.Clave,
                     Correo = dto.Correo,
                     Nombre = dto.Usuario,
                     RolId = 2
                 };
-                uowService.UsuarioRepository.Add(usuario);
+                usuarioService.Add(usuario);
                 uowService.ClienteRepository.Add(mapper.Map<Cliente>(dto));
                 uowService.Save();
             }

@@ -12,25 +12,31 @@ using System.Text;
 
 namespace Subasta.core.services
 {
-    public class SubastaService: ISubastaService
+    public class SubastaService : ISubastaService
     {
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
-
-        public SubastaService(IMapper mapper, IUnitOfWork uowService)
+        readonly ILoteService loteService;
+        readonly IAnimalService animalService;
+        public SubastaService(IMapper mapper, IUnitOfWork uowService,
+              ILoteService loteService,
+              IAnimalService animalService)
         {
             this.mapper = mapper;
             this.uowService = uowService;
+            this.loteService = loteService;
+            this.animalService = animalService;
         }
 
         public void Add(SubastaDto dto)
         {
             try
             {
-                dto.HoraFin = new DateTime(dto.HoraFin.Year, dto.HoraFin.Month, dto.HoraFin.Day, 
+                dto.HoraFin = new DateTime(dto.HoraFin.Year, dto.HoraFin.Month, dto.HoraFin.Day,
                     dto.HoraFinAux.Hour, dto.HoraFinAux.Minute, dto.HoraFinAux.Second);
                 dto.HoraInicio = new DateTime(dto.HoraInicio.Year, dto.HoraInicio.Month, dto.HoraInicio.Day,
                     dto.HoraInicioAux.Hour, dto.HoraInicioAux.Minute, dto.HoraInicioAux.Second);
+                dto.Activo = true;
                 uowService.SubastaRepository.Add(mapper.Map<repository.models.Subasta>(dto));
                 uowService.Save();
             }
@@ -50,7 +56,8 @@ namespace Subasta.core.services
             try
             {
                 entity.Activo = false;
-                uowService.SubastaRepository.Edit(Mapper.Map<repository.models.Subasta>(entity));
+                uowService.SubastaRepository.Edit(mapper.Map<repository.models.Subasta>(entity));
+                EliminarLotes(entity.SubastaId);
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -151,6 +158,27 @@ namespace Subasta.core.services
             catch (Exception ex)
             {
                 throw new ExceptionCore("error al intentar obtener las subastas", ex);
+            }
+        }
+
+        private void EliminarLotes(int subastaId)
+        {
+            var lotes = loteService.GetAll()
+                    .Where(l => l.SubastaId == subastaId).ToList();
+            foreach (var lote in lotes)
+            {
+                eliminarAnimales(lote.LoteId);
+                loteService.Delete(lote);
+            }
+        }
+
+        private void eliminarAnimales(int loteId)
+        {
+            var animales = animalService.GetAll()
+                .Where(a => a.LoteId == loteId).ToList();
+            foreach (var animal in animales)
+            {
+                animalService.Delete(animal);
             }
         }
     }

@@ -42,6 +42,7 @@ namespace Subasta.core.services
                 {
                     dto.Foto = dto.Video;
                 }
+                dto.Activo = true;
                 uowService.AnimalRepository.Add(mapper.Map<Animal>(dto));
                 uowService.Save();
             }
