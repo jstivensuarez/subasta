@@ -122,11 +122,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'subastas', component: SubastasComponent, canActivate: [AutenticacionService, RoleguardService],
-    data: {
-      expectedRole: 'Pujador'
-    }
-  },
+    path: 'subastas', component: SubastasComponent},
   { path: 'login', component: LoginComponent },
   { path: '**', component: LoginComponent },
 ];

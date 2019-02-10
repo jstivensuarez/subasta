@@ -143,6 +143,9 @@ table {
   font-weight: bold;
 }
 
+.bold{
+  font-weight: bold;
+}
 .margin-top-cero{
   margin-top: 0 !important;
   padding-top: 0 !important;

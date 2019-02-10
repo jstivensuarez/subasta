@@ -60,16 +60,6 @@ namespace Subasta.core.services
             }
         }
 
-        private void ActualizarInformacionLote(int loteId, int cantidad, decimal peso)
-        {
-            var lote = mapper.Map<LoteDto>(uowService.LoteRepository.GetAllWithInclude()
-                                .Find(a => a.LoteId == loteId));
-            lote.CantidadElementos += cantidad;
-            lote.PesoTotal += peso;
-            lote.PesoPromedio = lote.PesoTotal / lote.CantidadElementos;
-            uowService.LoteRepository.Edit(mapper.Map<Lote>(lote));
-        }
-
         public void Delete(AnimalDto animal)
         {
             try
@@ -97,6 +87,7 @@ namespace Subasta.core.services
             try
             {
 
+                var animal = uowService.AnimalRepository.Find(dto.AnimalId);
                 if (dto.Imagen != null)
                 {
                     var regex = @"^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$";
@@ -117,6 +108,13 @@ namespace Subasta.core.services
                 }
                 dto.Activo = true;
                 uowService.AnimalRepository.Edit(mapper.Map<Animal>(dto));
+
+                if (animal.LoteId != dto.LoteId)
+                {
+                    ActualizarInformacionLote(dto.LoteId, 1, dto.Peso);
+                    ActualizarInformacionLote(animal.LoteId, -1, -dto.Peso);
+                }
+
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -183,6 +181,16 @@ namespace Subasta.core.services
             {
                 throw new ExceptionCore("error al intentar obtener los animales", ex);
             }
+        }
+
+        private void ActualizarInformacionLote(int loteId, int cantidad, decimal peso)
+        {
+            var lote = mapper.Map<LoteDto>(uowService.LoteRepository.GetAllWithInclude()
+                                .Find(a => a.LoteId == loteId));
+            lote.CantidadElementos += cantidad;
+            lote.PesoTotal += peso;
+            lote.PesoPromedio = lote.PesoTotal / lote.CantidadElementos;
+            uowService.LoteRepository.Edit(mapper.Map<Lote>(lote));
         }
     }
 }

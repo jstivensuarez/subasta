@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { interval } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-subastas',
@@ -7,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubastasComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {
+  title: string;
+  constructor() {
+    this.title = "Subastas";
   }
 
+  ngOnInit() {
+    
+  }
 }
