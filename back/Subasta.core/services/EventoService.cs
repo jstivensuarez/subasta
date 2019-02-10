@@ -146,7 +146,8 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.EventoRepository.GetAllWithInclude();
+                var result = uowService.EventoRepository.GetAllWithInclude()
+                    .OrderBy(e => e.FechaInicio);
                 return mapper.Map<List<EventoDto>>(result);
             }
             catch (ExceptionData)

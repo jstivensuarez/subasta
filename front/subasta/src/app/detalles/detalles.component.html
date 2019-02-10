@@ -8,7 +8,7 @@
   <mat-card>
     <div class="col-md-12 vertical-modal">
       <p *ngFor="let obj of keys">
-        <span *ngIf="mesagge[obj]">
+        <span *ngIf="mesagge[obj] || mesagge[obj] === 0">
           <strong>{{obj}}</strong> : {{mesagge[obj]}}
         </span>
       </p>
@@ -21,7 +21,7 @@
       <img mat-card-image src="{{getImage()}}" alt="Photo of a Shiba Inu">
       <div class="col-md-12 vertical-modal">
         <p *ngFor="let obj of keys">
-          <span *ngIf="mesagge[obj] && obj != 'imagen'">
+          <span *ngIf="mesagge[obj] && obj != 'imagen' || mesagge[obj] === 0">
             <strong>{{obj}} </strong> : {{mesagge[obj]}}
           </span>
         </p>
@@ -35,7 +35,7 @@
       <iframe width="100%" height="300" [src]='getVideo()' allowfullscreen></iframe>
       <div class="col-md-12 vertical-modal">
         <p *ngFor="let obj of keys">
-          <span *ngIf="mesagge[obj] && obj != 'video'">
+          <span *ngIf="mesagge[obj] && obj != 'video' || mesagge[obj] === 0">
             <strong>{{obj}} </strong>: {{mesagge[obj]}}
           </span>
         </p>

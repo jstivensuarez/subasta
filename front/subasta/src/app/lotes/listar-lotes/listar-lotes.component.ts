@@ -50,6 +50,7 @@ export class ListarLotesComponent implements OnInit {
   }
 
   ver(lote) {
+    debugger;
     let video = null;
     let imagen = null;
     if (/^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/.test(lote.fotoLote)) {
@@ -62,6 +63,7 @@ export class ListarLotesComponent implements OnInit {
       Descripción: lote.descripcion,
       "Cantidad de elementos": lote.cantidadElementos,
       "Peso Total": lote.pesoTotal,
+      "Promedio": lote.pesoPromedio,
       "Precio base": lote.precioBase,
       "Valor de anticipo": lote.valorAnticipo,
       imagen: imagen,

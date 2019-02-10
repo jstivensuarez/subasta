@@ -22,6 +22,8 @@ import { LotesModule } from './lotes/lotes.module';
 import { AnimalesModule } from './animales/animales.module';
 import { PujadoresModule } from './pujadores/pujadores.module';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 export function getToken(){
   return localStorage.getItem('token');
@@ -35,7 +37,7 @@ const JWT_Module_Options: JwtModuleOptions = {
 
 @NgModule({
   declarations: [
-    AppComponent, ModalMessageComponent, DetallesComponent, LoginComponent
+    AppComponent, ModalMessageComponent, DetallesComponent, LoginComponent, HeaderComponent, FooterComponent
   ],
   imports: [
   BrowserModule,

@@ -158,7 +158,8 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.LoteRepository.GetAllWithInclude();
+                var result = uowService.LoteRepository.GetAllWithInclude()
+                    .OrderBy(l => l.Nombre);
                 return mapper.Map<List<LoteDto>>(result);
             }
             catch (ExceptionData)
@@ -175,7 +176,8 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.LoteRepository.GetAllNoAssociate(clienteId);
+                var result = uowService.LoteRepository.GetAllNoAssociate(clienteId)
+                    .OrderBy(l => l.Nombre);
                 return mapper.Map<List<LoteDto>>(result);
             }
             catch (ExceptionData)

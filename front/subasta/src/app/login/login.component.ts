@@ -59,26 +59,29 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    const usuario = new Usuario();
-    usuario.clave = this.clave.value;
-    usuario.correo = this.ingreso.value;
-    usuario.nombre = this.ingreso.value;
-    this.login(usuario);
+    if (this.form.valid) {
+      const usuario = new Usuario();
+      usuario.clave = this.clave.value;
+      usuario.correo = this.ingreso.value;
+      usuario.nombre = this.ingreso.value;
+      this.login(usuario);
+    }
   }
 
   onSubmitRegister() {
-    const cliente = new Cliente();
-    cliente.nombre = this.nombre.value;
-    cliente.correo = this.correo.value;
-    cliente.telefono = this.telefono.value;
-    cliente.direccion = this.direccion.value;
-    cliente.tipoDocumentoId = this.td.value;
-    cliente.clienteId = this.documento.value;
-    cliente.municipioId = this.municipio.value;
-    cliente.usuario = this.usuarioRegister.value;
-    cliente.clave = this.claveRegister.value;
-    this.crearCliente(cliente);
-
+    if (this.formRegister.valid) {
+      const cliente = new Cliente();
+      cliente.nombre = this.nombre.value;
+      cliente.correo = this.correo.value;
+      cliente.telefono = this.telefono.value;
+      cliente.direccion = this.direccion.value;
+      cliente.tipoDocumentoId = this.td.value;
+      cliente.clienteId = this.documento.value;
+      cliente.municipioId = this.municipio.value;
+      cliente.usuario = this.usuarioRegister.value;
+      cliente.clave = this.claveRegister.value;
+      this.crearCliente(cliente);
+    }
   }
 
   login(usuario) {

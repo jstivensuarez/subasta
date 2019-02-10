@@ -15,7 +15,7 @@ namespace Subasta.core.dtos
         public decimal PesoTotal { get; set; }
 
         public decimal PrecioBase { get; set; }
-
+        public decimal PesoPromedio { get; set; }
         public string FotoLote { get; set; }
 
         public string VideoLote { get; set; }

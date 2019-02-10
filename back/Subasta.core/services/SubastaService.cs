@@ -132,7 +132,9 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.SubastaRepository.GetAllWithInclude();
+                var result = uowService.SubastaRepository.GetAllWithInclude()
+                    .OrderBy(s => s.EventoId)
+                    .OrderBy(s => s.Descripcion);
                 return mapper.Map<List<SubastaDto>>(result);
             }
             catch (ExceptionData)
@@ -149,7 +151,9 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.SubastaRepository.GetPorEvento(id);
+                var result = uowService.SubastaRepository.GetPorEvento(id)
+                    .OrderBy(s => s.EventoId)
+                    .OrderBy(s => s.Descripcion);
                 return mapper.Map<List<SubastaDto>>(result);
             }
             catch (ExceptionData)

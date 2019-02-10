@@ -21,21 +21,19 @@ namespace Subasta.core.services
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
         readonly IFileHelper fileHelper;
-        readonly ILoteService loteService;
-        public AnimalService(IMapper mapper, IUnitOfWork uowService, 
-            IFileHelper fileHelper,
-            ILoteService loteService)
+        public AnimalService(IMapper mapper, IUnitOfWork uowService,
+            IFileHelper fileHelper)
         {
             this.mapper = mapper;
             this.uowService = uowService;
             this.fileHelper = fileHelper;
-            this.loteService = loteService;
         }
 
         public void Add(AnimalDto dto)
         {
             try
             {
+
                 if (dto.Imagen != null)
                 {
                     string fileName = ContentDispositionHeaderValue.Parse(dto.Imagen.ContentDisposition).FileName.Trim('"');
@@ -45,10 +43,10 @@ namespace Subasta.core.services
                 else
                 {
                     dto.Foto = dto.Video;
-                }           
+                }
                 dto.Activo = true;
                 uowService.AnimalRepository.Add(mapper.Map<Animal>(dto));
-                AgregarAnimalALote(dto.LoteId);
+                ActualizarInformacionLote(dto.LoteId, 1, dto.Peso);
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -62,12 +60,25 @@ namespace Subasta.core.services
             }
         }
 
+        private void ActualizarInformacionLote(int loteId, int cantidad, decimal peso)
+        {
+            var lote = mapper.Map<LoteDto>(uowService.LoteRepository.GetAllWithInclude()
+                                .Find(a => a.LoteId == loteId));
+            lote.CantidadElementos += cantidad;
+            lote.PesoTotal += peso;
+            lote.PesoPromedio = lote.PesoTotal / lote.CantidadElementos;
+            uowService.LoteRepository.Edit(mapper.Map<Lote>(lote));
+        }
+
         public void Delete(AnimalDto animal)
         {
             try
             {
+                var lote = mapper.Map<LoteDto>(uowService.LoteRepository.GetAllWithInclude()
+                  .Find(a => a.LoteId == animal.LoteId));
                 animal.Activo = false;
                 uowService.AnimalRepository.Edit(mapper.Map<Animal>(animal));
+                ActualizarInformacionLote(animal.LoteId, -1, -animal.Peso);
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -159,7 +170,9 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.AnimalRepository.GetllWithInclude();
+                var result = uowService.AnimalRepository.GetllWithInclude()
+                    .OrderBy(a => a.LoteId)
+                    .OrderBy(a => a.Descripcion);
                 return mapper.Map<List<AnimalDto>>(result);
             }
             catch (ExceptionData)
@@ -170,13 +183,6 @@ namespace Subasta.core.services
             {
                 throw new ExceptionCore("error al intentar obtener los animales", ex);
             }
-        }
-
-        private void AgregarAnimalALote(int loteId)
-        {
-            var lote = loteService.Find(loteId);
-            lote.CantidadElementos += 1;
-            loteService.Edit(lote);
         }
     }
 }

@@ -153,7 +153,8 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.ClienteRepository.GetAllWithInclude();
+                var result = uowService.ClienteRepository.GetAllWithInclude()
+                    .OrderBy(c => c.Nombre);
                 return mapper.Map<List<ClienteDto>>(result);
             }
             catch (ExceptionData)
@@ -171,7 +172,8 @@ namespace Subasta.core.services
             try
             {
                 var result = uowService.ClienteRepository.GetAllWithInclude()
-                    .Where(c => c.Tipo == TipoUsuarios.PUJADOR); ;
+                    .Where(c => c.Tipo == TipoUsuarios.PUJADOR)
+                    .OrderBy(c => c.Nombre);
                 return mapper.Map<List<ClienteDto>>(result);
             }
             catch (ExceptionData)

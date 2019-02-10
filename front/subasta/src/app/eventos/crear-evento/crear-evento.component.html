@@ -1,11 +1,10 @@
+<div class="great">  
+  <h1 class="title margin-top-cero contet-great">{{titleEvento}}</h1>  
+</div>
 <mat-horizontal-stepper #stepper [linear]="true">
-
   <mat-step [stepControl]="firstFormGroup">
     <ng-template matStepLabel>Evento</ng-template>
     <div class="container">
-      <h2 class="title">
-        {{titleEvento}}
-      </h2>
       <mat-card class="center-card">
         <form class="example-form" [formGroup]="firstFormGroup" (submit)="onSubmitEvento()">
 
@@ -61,7 +60,7 @@
 
 
           <div class="text-align-center">
-            <button class="btn btn-primary " mat-button matStepperNext [disabled]="firstFormGroup.invalid">Continuar</button>
+            <button class="btn yellow " mat-button matStepperNext [disabled]="firstFormGroup.invalid">Continuar</button>
           </div>
         </form>
       </mat-card>
@@ -75,7 +74,7 @@
         {{titleSubastas}}
       </h2>
       <mat-card>
-        <button mat-fab color="primary" class="text-align-left" (click)="agregarSubasta()">
+        <button mat-fab color="primary" class="text-align-left yellow" (click)="agregarSubasta()">
           <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
         </button>
         <div class="container center-card">
@@ -116,7 +115,7 @@
         <br>
 
         <div class="text-align-center">
-          <button class="btn btn-primary margin-right15" mat-button matStepperPrevious>Regresar</button>
+          <button class="btn yellow margin-right15" mat-button matStepperPrevious>Regresar</button>
         </div>
       </mat-card>
     </div>

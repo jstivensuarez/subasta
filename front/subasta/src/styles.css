@@ -126,3 +126,35 @@ table {
 .example-50-width{
   width: 30%;
 }
+
+.green {
+  background:#00d1b2 !important;
+  color: #fff !important;
+}
+
+.yellow{
+  background:rgb(234, 193, 0) !important;
+  color: #fff !important;
+}
+
+.mat-toolbar.mat-primary {
+  background: #363636;
+  color: #f5f5f5;
+  font-weight: bold;
+}
+
+.margin-top-cero{
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.great {
+  background-color: #00d1b2;
+  color: #fff;
+  height: 80px;
+}
+
+.contet-great{
+  margin-left: 120px;
+  vertical-align: middle;
+}

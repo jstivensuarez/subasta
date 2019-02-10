@@ -8,21 +8,7 @@ import { UsuarioService } from './services/usuario.service';
 })
 export class AppComponent {
   title = 'subasta';
-  claims: any;
-  usuario: string;
-  constructor(private usuarioService: UsuarioService) {
-    this.usuario = '';
-    this.getClaims();
-  }
+  constructor() {
 
-  getClaims() {
-    if (this.usuarioService.isAuthenticated()) {
-      this.claims = this.usuarioService.getClaims();
-      this.usuario = this.claims.sub;
-    }
-  }
-
-  logout() {
-    this.usuarioService.logout();
   }
 }

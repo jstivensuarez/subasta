@@ -110,8 +110,10 @@ export class CrearLotesComponent implements OnInit {
 
   obtenerLote(id: string) {
     this.lotesService.getDto(id).subscribe(res => {
+      debugger;
       this.lote = res;
       this.selectedDepartamento = this.lote.municipio.departamentoId;
+      this.selectedSubasta = this.lote.subastaId;
       if (this.lote.valorAnticipo)
         this.selectedAnticipo = true;
       this.form = this.createForm();
@@ -231,6 +233,7 @@ export class CrearLotesComponent implements OnInit {
   }
 
   createForm() {
+    debugger;
     this.obtenerMunicipios(this.selectedDepartamento);
     this.selectedMunicipio = this.lote.municipioId;
     this.selectedPropietario = this.lote.clienteId;

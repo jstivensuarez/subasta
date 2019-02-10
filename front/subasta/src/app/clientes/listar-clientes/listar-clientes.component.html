@@ -1,16 +1,18 @@
-<div class="container">
-  <h2 class="title">
-    <button mat-fab color="primary" class="text-align-left" (click)="agregarPropietario()">
+<div class="great">
+  <h1 class="title margin-top-cero contet-great">{{title}}</h1>
+</div>
+<div class="container margin-top-cero">
+  <div>
+    <br>
+    <button mat-fab color="primary" class="text-align-left yellow" (click)="agregarPropietario()">
       <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
     </button>
-    {{title}}
-  </h2>
-  <div>
     <span class="margin-right15"></span>
     <mat-form-field class="example-50-width text-align-righ">
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar...">
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
+    <br>
   </div>
   <mat-card class="center-card">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
