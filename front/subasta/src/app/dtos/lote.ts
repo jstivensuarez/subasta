@@ -12,6 +12,7 @@ export class Lote {
     precioBase: number;
     pesoPromedio: number;
     valorAnticipo: number;
+    precioInicial: number;
     fotoLote: string;
     clienteId: string;
     cliente: Cliente;
@@ -21,5 +22,7 @@ export class Lote {
     subasta: Subasta;
     imagen: File;
     video: string;
+    lotesDto: Lote[];
+
     constructor() { }
 }

@@ -51,7 +51,6 @@ export class ListarComponent implements OnInit {
   }
 
   ver(animal) {
-    debugger;
     let video = null;
     let imagen = null;
     if (/^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/.test(animal.foto)) {

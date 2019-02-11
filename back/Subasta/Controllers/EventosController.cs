@@ -25,6 +25,22 @@ namespace Subasta.Controllers
         }
 
         [HttpGet]
+        [Route("[action]")]
+        [AllowAnonymous]
+        public IActionResult GetForClients()
+        {
+            try
+            {
+                var eventos = eventoService.GetForClients();
+                return Ok(eventos);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet]
         public IActionResult Get()
         {
             try

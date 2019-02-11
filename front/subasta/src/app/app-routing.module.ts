@@ -17,6 +17,7 @@ import { ListarPujadorComponent } from './pujadores/listar/listar.component';
 import { CrearSubastaComponent } from './subastas/crear-subasta/crear-subasta.component';
 import { ListarSubastaComponent } from './subastas/listar-subasta/listar-subasta.component';
 import { CrearSubastaNuevaComponent } from './subastas/crear-subasta-nueva/crear-subasta-nueva.component';
+import { Subasta } from './dtos/subasta';
 
 const routes: Routes = [
   {
@@ -124,7 +125,7 @@ const routes: Routes = [
   {
     path: 'subastas', component: SubastasComponent},
   { path: 'login', component: LoginComponent },
-  { path: '**', component: LoginComponent },
+  { path: '**', component: SubastasComponent },
 ];
 
 @NgModule({

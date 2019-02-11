@@ -169,7 +169,7 @@ export class CrearComponent implements OnInit {
     this.obtenerMunicipios(departamentoId);
   }
 
-  onSubmit(form: any) {
+  onSubmit() {
     this.validateFile();
     if (this.form.valid) {
       const payload = new FormData();

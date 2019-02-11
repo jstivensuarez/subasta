@@ -2,11 +2,11 @@
     <mat-toolbar color="primary" *ngIf="claims && claims.Role == 'Administrador'">
       <button mat-button [matMenuTriggerFor]="clientes">Propietarios</button>
       <button mat-button [matMenuTriggerFor]="eventos">Eventos</button>
+      <button mat-button [matMenuTriggerFor]="subastas">Subastas</button>
       <button mat-button [matMenuTriggerFor]="lotes">Lotes</button>
       <button mat-button [matMenuTriggerFor]="animales">Animales</button>
       <button mat-button [matMenuTriggerFor]="pujadores">Pujadores</button>
-      <button mat-button [matMenuTriggerFor]="subastas">Subastas</button>
-  
+      
       <mat-menu #clientes="matMenu">
         <button mat-menu-item routerLink="/listar-propietario">Listar</button>
         <button mat-menu-item routerLink="/crear-propietario">Crear</button>

@@ -7,6 +7,7 @@ import { constants } from 'src/app/util/constants';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { MunicipioService } from 'src/app/services/municipio.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 export interface PeriodicElement {
   name: string;
@@ -31,7 +32,8 @@ export class ListarClientesComponent implements OnInit {
   constructor(private clienteService: ClienteService,
     private router: Router,
     private alertService: MesaggesManagerService,
-    private municipioService: MunicipioService) {
+    private municipioService: MunicipioService,
+    private _sanitizer: DomSanitizer) {
     this.clientes = [];
     this.obtenerClientes();
   }
@@ -110,6 +112,5 @@ export class ListarClientesComponent implements OnInit {
     this.dataSource.data = clientesFiltrados;
     this.dataSource.paginator.firstPage();
   }
-
 }
 

@@ -77,11 +77,6 @@
         <button mat-fab color="primary" class="text-align-left yellow" (click)="agregarSubasta()">
           <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
         </button>
-        <div class="container center-card">
-          <h2 class="title">
-            {{title}}
-          </h2>
-        </div>
         <table mat-table [dataSource]="subastas" class="mat-elevation-z8" *ngIf="subastas.length > 0">
 
           <ng-container matColumnDef="descripcion">

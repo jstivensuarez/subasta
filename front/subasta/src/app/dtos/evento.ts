@@ -1,4 +1,5 @@
 import { Municipio } from "./municipio";
+import { Subasta } from "./subasta";
 
 export class Evento {
 
@@ -8,6 +9,6 @@ export class Evento {
     fechaFin: Date;
     municipioId: number;
     municipio: Municipio;
-    
+    subastasDto: Subasta[];
     constructor(){}
 }

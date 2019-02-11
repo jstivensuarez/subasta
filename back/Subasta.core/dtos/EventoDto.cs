@@ -20,5 +20,7 @@ namespace Subasta.core.dtos
         public MunicipioDto Municipio { get; set; }
 
         public bool Activo { get; set; }
+
+        public List<SubastaDto> SubastasDto { get; set; }
     }
 }

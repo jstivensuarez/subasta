@@ -22,5 +22,15 @@ namespace Subasta.core.dtos
         public EventoDto Evento { get; set; }
 
         public bool Activo { get; set; }
+
+        public List<LoteDto> LotesDto { get; set; }
+
+        public double TotalSegundos
+        {
+            get
+            {
+                return (HoraFin - HoraInicio).TotalSeconds;
+            }
+        }
     }
 }

@@ -9,5 +9,7 @@ namespace Subasta.core.interfaces
     public interface IEventoService: IGenericCrudService<EventoDto, Evento>
     {
         EventoDto AddWithReturn(EventoDto dto);
+
+        List<EventoDto> GetForClients();
     }
 }

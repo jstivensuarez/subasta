@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { constants } from '../util/constants';
-import { ThrowStmt } from '@angular/compiler';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({

@@ -12,21 +12,33 @@ import { SubastasComponent } from './subastas/subastas.component';
 import { ListarSubastaComponent } from './listar-subasta/listar-subasta.component';
 import { CrearSubastaNuevaComponent } from './crear-subasta-nueva/crear-subasta-nueva.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { CountdownModule } from 'ngx-countdown';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AppRoutingModule } from '../app-routing.module';
+import { ClientesModule } from '../clientes/clientes.module';
+
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
     MaterialModule,
     FormsModule, 
     ReactiveFormsModule, 
     BrowserModule, 
     BrowserAnimationsModule, 
     CurrencyMaskModule,
-    [NgxMaterialTimepickerModule.forRoot()]
+    [NgxMaterialTimepickerModule.forRoot()],
+    CountdownModule,
+     HttpClientModule,
+    RouterModule,
+    NgbModule,
+    AppRoutingModule,
   ],
   declarations: [CrearSubastaComponent, SubastasComponent, ListarSubastaComponent, CrearSubastaNuevaComponent],
   exports: [CrearSubastaComponent],
-  providers:[DatePipe,  { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }]
+  providers:[DatePipe,  
+    { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }]
 })
 export class SubastasModule { }

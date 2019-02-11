@@ -1,66 +1,99 @@
-<div class="great">
-  <h1 class="title margin-top-cero contet-great">{{title}}</h1>
-</div>
-<br>
 <mat-tab-group>
-  <mat-tab label="Todas las subastas">
+  <mat-tab label="Eventos activos">
     <br>
     <div class="container">
-      <mat-card>
-        <mat-card class="example-card">
-          <mat-card-header>
-            <mat-card-title class="bold">Nombre del lote: Bovinos y equinnos</mat-card-title>
-            <mat-card-subtitle>subasta (subasta de bovinos y equinos del lote principal)</mat-card-subtitle>
-          </mat-card-header>
-          <img mat-card-image src="http://localhost:3001/images/ANIMALES/158cb183-4ac0-4e02-b021-113e178bfce0.jpg" alt="Photo of a Shiba Inu">
-          <mat-card-content>
-            <p>
-              <span class="bold">Precio inicial:</span> 45.000.000
-            </p>
-            <p>
-              <span class="bold">Puja Actual:</span> 46.000.000
-            </p>
-            <p>
-              <span class="bold">La puja se cierra en:</span> 45 min con {{temp}} 
-            </p>
-          </mat-card-content>
-          <mat-card-actions>
-            <button class="btn green">Realizar puja</button>
-          </mat-card-actions>
-        </mat-card>
-        <br>
-        <mat-divider></mat-divider>
-        <br>
-      </mat-card>
+      <div *ngFor="let evento of eventos">
+        <div *ngIf="validarInicio(evento.fechaInicio)">
+          <h2>{{evento.descripcion}}</h2>
+          <mat-divider></mat-divider>
+          <br>
+          <div *ngFor="let subasta of evento.subastasDto">
+            <div>
+              <mat-card class="example-card" *ngFor="let lote of subasta.lotesDto">
+                <mat-card-header>
+                  <mat-card-title><span class="bold">Nombre del lote:</span> {{lote.nombre}}</mat-card-title>
+                  <mat-card-subtitle>subasta: ({{subasta.descripcion}})</mat-card-subtitle>
+                </mat-card-header>
+                <div *ngIf="!esVideo(lote.fotoLote)">
+                  <img mat-card-image src="{{getImage(lote.fotoLote)}}">
+                </div>
+                <div *ngIf="esVideo(lote.fotoLote)">
+                  <iframe width="100%" height="300" [src]="getVideo(lote.fotoLote)" allowfullscreen></iframe>
+                </div>
+                <mat-card-content>
+                  <p>
+                    {{lote.descripcion}}
+                  </p>
+                  <p>
+                    <span class="bold">Precio inicial: </span> {{lote.precioInicial}}
+                  </p>
+                  <p>
+                    <span class="bold">Puja Actual: </span> 0
+                  </p>
+                  <p *ngIf="validarInicio(subasta.horaInicio)">
+                    <span class="bold">La puja se cierra en: </span>
+                  </p>
+                  <p *ngIf="!validarInicio(subasta.horaInicio)">
+                    <span class="bold">Hora de inicio</span> {{subasta.horaInicio | date:"dd/MM/yyyy hh:mm a"}}
+                  </p>
+                  <p *ngIf="!validarInicio(subasta.horaInicio)">
+                    <span class="bold">Hora de finalización</span> {{subasta.horaFin | date:"dd/MM/yyyy hh:mm a"}}
+                  </p>
+                </mat-card-content>
+                <mat-card-actions *ngIf="validarInicio(subasta.horaInicio)">
+                  <button class="btn green">Realizar puja</button>
+                </mat-card-actions>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </mat-tab>
-
-  <mat-tab label="Subastas activas">
+  
+  <mat-tab label="Próximos eventos">
     <br>
     <div class="container">
-      <mat-card>
-        <mat-card class="example-card">
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Shiba Inu</mat-card-title>
-            <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-          </mat-card-header>
-          <img mat-card-image src="http://localhost:3001/images/ANIMALES/158cb183-4ac0-4e02-b021-113e178bfce0.jpg" alt="Photo of a Shiba Inu">
-          <mat-card-content>
-            <p>
-              The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-              A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-              bred for hunting.
-            </p>
-          </mat-card-content>
-          <mat-card-actions>
-            <button mat-button>Realizar puja</button>
-          </mat-card-actions>
-        </mat-card>
-        <br>
-        <mat-divider></mat-divider>
-        <br>
-      </mat-card>
+      <div *ngFor="let evento of eventos">
+        <div *ngIf="!validarInicio(evento.fechaInicio)">
+          <h2>{{evento.descripcion}}</h2>
+          <mat-divider></mat-divider>
+          <br>
+          <div *ngFor="let subasta of evento.subastasDto">
+            <div>
+
+              <mat-card class="example-card" *ngFor="let lote of subasta.lotesDto">
+                <mat-card-header>
+                  <mat-card-title><span class="bold">Nombre del lote:</span> {{lote.nombre}}</mat-card-title>
+                  <mat-card-subtitle>subasta: ({{subasta.descripcion}})</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image src="http://localhost:3001/images/ANIMALES/158cb183-4ac0-4e02-b021-113e178bfce0.jpg"
+                  alt="Photo of a Shiba Inu">
+                <mat-card-content>
+                  <p>
+                    {{lote.descripcion}}
+                  </p>
+                  <p>
+                    <span class="bold">Precio inicial: </span> {{lote.precioInicial}}
+                  </p>
+                  <p>
+                    <span class="bold">Puja Actual: </span> 0
+                  </p>
+                  <p>
+                    <span class="bold">Hora de inicio</span> {{subasta.horaInicio | date:"dd/MM/yyyy hh:mm a"}}
+                  </p>
+                  <p>
+                    <span class="bold">Hora de finalización</span> {{subasta.horaFin | date:"dd/MM/yyyy hh:mm a"}}
+                  </p>
+                </mat-card-content>
+                <mat-card-actions *ngIf="validarInicio(subasta.horaInicio)">
+                  <button class="btn green">Realizar puja</button>
+                </mat-card-actions>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </mat-tab>
 </mat-tab-group>

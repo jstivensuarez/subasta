@@ -189,7 +189,15 @@ namespace Subasta.core.services
                                 .Find(a => a.LoteId == loteId));
             lote.CantidadElementos += cantidad;
             lote.PesoTotal += peso;
-            lote.PesoPromedio = lote.PesoTotal / lote.CantidadElementos;
+            if (lote.PesoTotal != 0)
+            {
+                lote.PesoPromedio = lote.PesoTotal / lote.CantidadElementos;
+            }
+            else
+            {
+                lote.PesoPromedio = 0;
+            }
+            lote.PrecioInicial = lote.PrecioBase * lote.PesoPromedio;
             uowService.LoteRepository.Edit(mapper.Map<Lote>(lote));
         }
     }

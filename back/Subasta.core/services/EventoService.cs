@@ -55,6 +55,7 @@ namespace Subasta.core.services
         {
             try
             {
+                dto.Activo = true;
                 var result = uowService.EventoRepository.AddWithReturn(mapper.Map<Evento>(dto));
                 return mapper.Map<EventoDto>(result);
             }
@@ -161,6 +162,65 @@ namespace Subasta.core.services
         }
 
 
+        public List<EventoDto> GetForClients()
+        {
+            try
+            {
+                var hoy = DateTime.Today;
+                var eventos = (from evento in uowService.EventoRepository.GetAllWithInclude()
+                               where evento.FechaInicio >= hoy
+                               select new EventoDto
+                               {
+                                   EventoId = evento.EventoId,
+                                   Activo = evento.Activo,
+                                   Descripcion = evento.Descripcion,
+                                   FechaFin = evento.FechaFin,
+                                   FechaInicio = evento.FechaInicio,
+                                   Municipio = mapper.Map<MunicipioDto>(evento.Municipio),
+                                   MunicipioId = evento.MunicipioId,
+                                   SubastasDto = (from subasta in uowService.SubastaRepository.GetAllWithInclude()
+                                                  where subasta.EventoId == evento.EventoId
+                                                  select new SubastaDto
+                                                  {
+                                                      Descripcion = subasta.Descripcion,
+                                                      EventoId = subasta.EventoId,
+                                                      HoraFin = subasta.HoraFin,
+                                                      HoraInicio = subasta.HoraInicio,
+                                                      SubastaId = subasta.SubastaId,
+                                                      LotesDto = (from lote in uowService.LoteRepository.GetAllWithInclude()
+                                                                  where lote.SubastaId == subasta.SubastaId
+                                                                  select new LoteDto
+                                                                  {
+                                                                      CantidadElementos = lote.CantidadElementos,
+                                                                      Descripcion = lote.Descripcion,
+                                                                      FotoLote = lote.FotoLote,
+                                                                      LoteId = lote.LoteId, 
+                                                                      Nombre = lote.Nombre,
+                                                                      ValorAnticipo = lote.ValorAnticipo,
+                                                                      SubastaId = lote.SubastaId,
+                                                                      Subasta = mapper.Map<SubastaDto>(subasta),
+                                                                      PrecioInicial = lote.PrecioInicial,
+                                                                      PesoPromedio = lote.PesoPromedio,
+                                                                      PrecioBase = lote.PrecioBase,
+                                                                      Municipio = mapper.Map<MunicipioDto>(lote.Municipio),
+                                                                      MunicipioId = lote.MunicipioId,
+                                                                      PesoTotal = lote.PesoTotal,                                      
+                                                                  }).ToList()
+                                                  }).OrderBy(s => s.HoraInicio).ToList()
+                               });
+                return mapper.Map<List<EventoDto>>(eventos);
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener los eventos", ex);
+            }
+        }
+
+
         private void EliminarSubastasEnCascada(int eventoId)
         {
             var subastas = subastaService.GetAll()
@@ -192,5 +252,6 @@ namespace Subasta.core.services
                 animalService.Delete(animal);
             }
         }
+
     }
 }

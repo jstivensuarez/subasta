@@ -80,7 +80,7 @@ export class CrearPujadorComponent implements OnInit {
     );
   }
 
-  onSubmit(form: any) {
+  onSubmit() {
     if (this.form.valid) {
       const pujador = new Pujador();
       pujador.banco = this.banco.value;

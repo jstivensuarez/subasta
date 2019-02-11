@@ -13,6 +13,7 @@ export class Subasta {
     precioInicial: number;
     eventoId: number;
     evento: Evento;
+    totalSegundos: number;
     
     constructor(){}
 }

@@ -15,6 +15,12 @@ export class EventoService {
   
   constructor(private http: HttpClient) { }
 
+
+  getForClients(): Observable<any[]> {
+    return this.http.get<any[]>(environment.endpointEvento + '/GetForClients').pipe(
+      map((data: Evento[]) => data));
+  }
+
   get(): Observable<any[]> {
     return this.http.get<any[]>(environment.endpointEvento).pipe(
       map((data: Evento[]) => data));
