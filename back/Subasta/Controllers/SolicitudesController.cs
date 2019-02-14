@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Subasta.core.dtos;
 using Subasta.core.interfaces;
+using Subasta.core.states;
 
 namespace Subasta.Controllers
 {
@@ -31,7 +32,7 @@ namespace Subasta.Controllers
         {
             try
             {               
-                var solicitudes = solicitudService.GetAll();
+                var solicitudes = solicitudService.GetAll(Estados.PENDIENTE_APROBAR);
                 return Ok(solicitudes);
             }
             catch (Exception ex)

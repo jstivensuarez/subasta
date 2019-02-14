@@ -21,6 +21,7 @@ namespace Subasta.repository.interfaces
         ISexoRepository SexoRepository { get; }
         IPujadorRepository PujadorRepository { get; }
         ISolicitudRepository SolicitudRepository { get; }
+        IRolRepository RolRepository { get; }
         void Save();
     }
 }

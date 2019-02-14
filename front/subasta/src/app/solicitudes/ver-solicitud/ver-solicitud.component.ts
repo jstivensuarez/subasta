@@ -29,6 +29,7 @@ export class VerSolicitudComponent implements OnInit {
 
   aceptar() {
     this.solicitudService.aceptar(this.solicitud).subscribe(res => {
+      this.completo.emit();
       this.cancel();
     }, err => {
       console.error(err);

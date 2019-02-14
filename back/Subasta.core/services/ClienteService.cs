@@ -22,13 +22,16 @@ namespace Subasta.core.services
         readonly IUnitOfWork uowService;
         readonly IMunicipioService municipioService;
         readonly IUsuarioService usuarioService;
+        readonly IRolService rolService;
         public ClienteService(IMapper mapper, IUnitOfWork uowService, 
-            IMunicipioService municipioService, IUsuarioService usuarioService)
+            IMunicipioService municipioService, IUsuarioService usuarioService,
+            IRolService rolService)
         {
             this.mapper = mapper;
             this.uowService = uowService;
             this.municipioService = municipioService;
             this.usuarioService = usuarioService;
+            this.rolService = rolService;
         }
 
         public void Add(ClienteDto dto)
@@ -54,12 +57,14 @@ namespace Subasta.core.services
         {
             try
             {
+                var rol = rolService.GetAll().
+                    SingleOrDefault(r => r.Nombre.ToLower() == Roles.PUJADOR);
                 var usuario = new UsuarioDto
                 {
                     Clave = dto.Clave,
                     Correo = dto.Correo,
                     Nombre = dto.Usuario,
-                    RolId = 2
+                    RolId = rol.RolId
                 };
                 usuarioService.Add(usuario);
                 dto.Activo = true;

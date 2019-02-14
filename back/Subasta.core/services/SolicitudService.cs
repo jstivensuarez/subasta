@@ -171,5 +171,23 @@ namespace Subasta.core.services
             }
         }
 
+        public List<SolicitudSubastaDto> GetAll(string estado)
+        {
+            try
+            {
+                var result = uowService.SolicitudRepository.GetllWithInclude()
+                    .Where(s => s.Estado == estado);
+                return mapper.Map<List<SolicitudSubastaDto>>(result);
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener la solicitud", ex);
+            }
+        }
+   
     }
 }
