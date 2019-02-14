@@ -61,7 +61,7 @@ export class ListarLotesComponent implements OnInit {
     this.alertService.showDetails('Detalles del lote', {
       Nombre: lote.nombre,
       Descripción: lote.descripcion,
-      "Cantidad de elementos": lote.cantidadElementos,
+      "Cantidad de animales": lote.cantidadElementos,
       "Peso Total": lote.pesoTotal,
       "Promedio": lote.pesoPromedio,
       "Precio base": lote.precioBase,

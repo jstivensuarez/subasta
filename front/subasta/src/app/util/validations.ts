@@ -34,22 +34,14 @@ export class Validation {
     }
 
     static SubastaHoras(AC: AbstractControl) {
+        debugger;
         let fechaInicio = new Date(AC.get('fechaInicio').value);
-        let horaInicio = AC.get('horaInicio').value;
+        let horaInicio = Date.parse('01/01/2011 '+AC.get('horaInicio').value);
         let fechaFin = new Date(AC.get('fechaFin').value);
-        let horaFin = AC.get('horaFin').value;
+        let horaFin = Date.parse('01/01/2011 '+AC.get('horaFin').value);
         if (fechaInicio && fechaFin && fechaInicio.getTime() === fechaFin.getTime()) {
-            if (horaInicio && horaFin) {
-                horaInicio = horaInicio.split(':');
-                horaFin = horaFin.split(':');
-                if (horaInicio[0] === horaFin[0] && (horaInicio[1] > horaFin[1])) {
-                    AC.get('horaFin').setErrors({ horaMala: true })
-                }
-                else if (horaInicio[0] > horaFin[0]) {
-                    AC.get('horaFin').setErrors({ horaMala: true })
-                } else {
-                    return null
-                }
+            if (horaInicio && horaFin && horaInicio > horaFin) {
+                AC.get('horaFin').setErrors({ horaMala: true })
             } else {
                 return null
             }
@@ -66,5 +58,5 @@ export class Validation {
         } else {
             return null
         }
-      }
+    }
 }

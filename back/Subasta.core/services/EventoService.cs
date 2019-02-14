@@ -161,8 +161,14 @@ namespace Subasta.core.services
             }
         }
 
+        public List<EventoDto> GetForClientAutenticated(string clienteId)
+        {
+            var eventos = GetForClients();
 
-        public List<EventoDto> GetForClients()
+            return eventos;
+        }
+
+            public List<EventoDto> GetForClients()
         {
             try
             {
@@ -187,6 +193,8 @@ namespace Subasta.core.services
                                                       HoraFin = subasta.HoraFin,
                                                       HoraInicio = subasta.HoraInicio,
                                                       SubastaId = subasta.SubastaId,
+                                                      PuedePujar = false,
+                                                      ValorAnticipo = subasta.ValorAnticipo,
                                                       LotesDto = (from lote in uowService.LoteRepository.GetAllWithInclude()
                                                                   where lote.SubastaId == subasta.SubastaId
                                                                   select new LoteDto
@@ -194,9 +202,8 @@ namespace Subasta.core.services
                                                                       CantidadElementos = lote.CantidadElementos,
                                                                       Descripcion = lote.Descripcion,
                                                                       FotoLote = lote.FotoLote,
-                                                                      LoteId = lote.LoteId, 
-                                                                      Nombre = lote.Nombre,
-                                                                      ValorAnticipo = lote.ValorAnticipo,
+                                                                      LoteId = lote.LoteId,
+                                                                      Nombre = lote.Nombre,                                                                    
                                                                       SubastaId = lote.SubastaId,
                                                                       Subasta = mapper.Map<SubastaDto>(subasta),
                                                                       PrecioInicial = lote.PrecioInicial,
@@ -204,7 +211,7 @@ namespace Subasta.core.services
                                                                       PrecioBase = lote.PrecioBase,
                                                                       Municipio = mapper.Map<MunicipioDto>(lote.Municipio),
                                                                       MunicipioId = lote.MunicipioId,
-                                                                      PesoTotal = lote.PesoTotal,                                      
+                                                                      PesoTotal = lote.PesoTotal,
                                                                   }).ToList()
                                                   }).OrderBy(s => s.HoraInicio).ToList()
                                });
@@ -227,31 +234,8 @@ namespace Subasta.core.services
                 .Where(s => s.EventoId == eventoId).ToList();
             foreach (var subasta in subastas)
             {
-                EliminarLotes(subasta.SubastaId);
                 subastaService.Delete(subasta);
             }
         }
-
-        private void EliminarLotes(int subastaId)
-        {
-            var lotes = loteService.GetAll()
-                    .Where(l => l.SubastaId == subastaId).ToList();
-            foreach (var lote in lotes)
-            {
-                eliminarAnimales(lote.LoteId);
-                loteService.Delete(lote);
-            }
-        }
-
-        private void eliminarAnimales(int loteId)
-        {
-            var animales = animalService.GetAll()
-                .Where(a => a.LoteId == loteId).ToList();
-            foreach (var animal in animales)
-            {
-                animalService.Delete(animal);
-            }
-        }
-
     }
 }

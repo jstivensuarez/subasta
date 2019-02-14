@@ -177,6 +177,7 @@ namespace Subasta.core.services
             try
             {
                 var result = uowService.LoteRepository.GetAllNoAssociate(clienteId)
+                    .Where(l => l.Activo)
                     .OrderBy(l => l.Nombre);
                 return mapper.Map<List<LoteDto>>(result);
             }

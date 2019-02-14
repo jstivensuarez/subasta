@@ -25,7 +25,7 @@
                     {{lote.descripcion}}
                   </p>
                   <p>
-                    <span class="bold">Precio inicial: </span> {{lote.precioInicial}}
+                    <span class="bold">Precio inicial: </span> {{lote.precioInicial | currency:"USD":true}}
                   </p>
                   <p>
                     <span class="bold">Puja Actual: </span> 0
@@ -40,7 +40,7 @@
                     <span class="bold">Hora de finalización</span> {{subasta.horaFin | date:"dd/MM/yyyy hh:mm a"}}
                   </p>
                 </mat-card-content>
-                <mat-card-actions *ngIf="validarInicio(subasta.horaInicio)">
+                <mat-card-actions *ngIf="subasta.puedePujar">
                   <button class="btn green">Realizar puja</button>
                 </mat-card-actions>
               </mat-card>
@@ -67,14 +67,18 @@
                   <mat-card-title><span class="bold">Nombre del lote:</span> {{lote.nombre}}</mat-card-title>
                   <mat-card-subtitle>subasta: ({{subasta.descripcion}})</mat-card-subtitle>
                 </mat-card-header>
-                <img mat-card-image src="http://localhost:3001/images/ANIMALES/158cb183-4ac0-4e02-b021-113e178bfce0.jpg"
-                  alt="Photo of a Shiba Inu">
+                <div *ngIf="!esVideo(lote.fotoLote)">
+                  <img mat-card-image src="{{getImage(lote.fotoLote)}}">
+                </div>
+                <div *ngIf="esVideo(lote.fotoLote)">
+                  <iframe width="100%" height="300" [src]="getVideo(lote.fotoLote)" allowfullscreen></iframe>
+                </div>
                 <mat-card-content>
                   <p>
                     {{lote.descripcion}}
                   </p>
                   <p>
-                    <span class="bold">Precio inicial: </span> {{lote.precioInicial}}
+                    <span class="bold">Precio inicial: </span> {{lote.precioInicial | currency:"USD":false}}
                   </p>
                   <p>
                     <span class="bold">Puja Actual: </span> 0
@@ -86,9 +90,6 @@
                     <span class="bold">Hora de finalización</span> {{subasta.horaFin | date:"dd/MM/yyyy hh:mm a"}}
                   </p>
                 </mat-card-content>
-                <mat-card-actions *ngIf="validarInicio(subasta.horaInicio)">
-                  <button class="btn green">Realizar puja</button>
-                </mat-card-actions>
               </mat-card>
             </div>
           </div>

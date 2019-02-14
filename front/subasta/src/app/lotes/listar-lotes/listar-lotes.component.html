@@ -29,7 +29,7 @@
 
       <ng-container matColumnDef="precioBase">
         <th mat-header-cell *matHeaderCellDef> Precio base </th>
-        <td mat-cell *matCellDef="let element"> {{element.precioBase}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.precioBase | number}} </td>
       </ng-container>
 
       <ng-container matColumnDef="municipio">

@@ -9,6 +9,8 @@ namespace Subasta.core.dtos
 
         public string Descripcion { get; set; }
 
+        public decimal ValorAnticipo { get; set; }
+
         public DateTime HoraInicio { get; set; }
 
         public DateTime HoraFin { get; set; }
@@ -22,7 +24,7 @@ namespace Subasta.core.dtos
         public EventoDto Evento { get; set; }
 
         public bool Activo { get; set; }
-
+        public bool PuedePujar { get; set; }
         public List<LoteDto> LotesDto { get; set; }
 
         public double TotalSegundos

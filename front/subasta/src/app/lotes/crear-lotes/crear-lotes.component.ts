@@ -45,7 +45,6 @@ export class CrearLotesComponent implements OnInit {
     private alertService: MesaggesManagerService,
     private lotesService: LotesService,
     private subastaService: SubastaService) {
-    this.selectedAnticipo = false;
     this.title = 'Crear lote';
     this.lote = new Lote();
     this.departamentos = [];
@@ -114,8 +113,6 @@ export class CrearLotesComponent implements OnInit {
       this.lote = res;
       this.selectedDepartamento = this.lote.municipio.departamentoId;
       this.selectedSubasta = this.lote.subastaId;
-      if (this.lote.valorAnticipo)
-        this.selectedAnticipo = true;
       this.form = this.createForm();
     }, err => {
       console.error(err);
@@ -148,11 +145,7 @@ export class CrearLotesComponent implements OnInit {
       payload.append('municipioId', this.municipio.value);
       payload.append('precioBase', this.precioBase.value);
       payload.append('subastaId', this.subasta.value);
-      if (this.valorAnticipo.value && this.selectedAnticipo) {
-        payload.append('valorAnticipo', this.valorAnticipo.value);
-      } else {
-        payload.append('valorAnticipo', "0");
-      }
+
       if (this.foto.value) {
         payload.append('foto', this.lote.imagen[0]);
       }
@@ -222,18 +215,8 @@ export class CrearLotesComponent implements OnInit {
     this.router.navigate(['/listar-lote']);
   }
 
-  onChangeCheckAnticipo(evento) {
-    this.selectedAnticipo = evento.checked;
-    if (evento.checked) {
-      this.valorAnticipo.setValidators([Validators.required]);
-    } else {
-      this.valorAnticipo.clearValidators();
-      this.valorAnticipo.updateValueAndValidity();
-    }
-  }
 
   createForm() {
-    debugger;
     this.obtenerMunicipios(this.selectedDepartamento);
     this.selectedMunicipio = this.lote.municipioId;
     this.selectedPropietario = this.lote.clienteId;
@@ -242,12 +225,10 @@ export class CrearLotesComponent implements OnInit {
       nombre: new FormControl(this.lote.nombre, [Validators.required]),
       descripcion: new FormControl(this.lote.descripcion, [Validators.required]),
       precioBase: new FormControl(this.lote.precioBase, [Validators.required]),
-      valorAnticipo: new FormControl(this.lote.valorAnticipo),
       propietario: new FormControl(this.selectedPropietario),
       municipio: new FormControl(this.selectedMunicipio),
       departamento: new FormControl(this.selectedDepartamento),
       subasta: new FormControl(this.selectedSubasta),
-      esAnticipo: new FormControl(this.selectedAnticipo),
       foto: new FormControl(this.lote.imagen),
       video: new FormControl(this.lote.video, [Validators.pattern('^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$')])
     });
@@ -280,10 +261,6 @@ export class CrearLotesComponent implements OnInit {
     return this.form.get('foto');
   }
 
-  get valorAnticipo() {
-    return this.form.get('valorAnticipo');
-  }
-
   get precioBase() {
     return this.form.get('precioBase');
   }
@@ -310,9 +287,5 @@ export class CrearLotesComponent implements OnInit {
 
   get municipio() {
     return this.form.get('municipio');
-  }
-
-  get esAnticipo() {
-    return this.form.get('esAnticipo');
   }
 }

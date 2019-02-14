@@ -17,7 +17,7 @@
           </mat-form-field>
 
           <mat-form-field class="example-full-width">
-            <input matInput [formControl]="fechaInicio" [matDatepicker]="inicio" 
+            <input matInput [formControl]="fechaInicio" [matDatepicker]="inicio" [disabled]="isEditing"
             autocomplete="off" placeholder="Fecha de inicio" [min]="minDate" readonly required>
             <mat-datepicker-toggle matSuffix [for]="inicio"></mat-datepicker-toggle>
             <mat-datepicker #inicio></mat-datepicker>
@@ -27,8 +27,8 @@
           </mat-form-field>
 
           <mat-form-field class="example-full-width">
-            <input matInput [formControl]="fechaFin" [matDatepicker]="fin" 
-            autocomplete="off" placeholder="Fecha de fin" [min]="minDate" readonly required>
+            <input matInput [formControl]="fechaFin" [matDatepicker]="fin" [disabled]="isEditing"
+            autocomplete="off" placeholder="Fecha de finalización" [min]="minDate" readonly required>
             <mat-datepicker-toggle matSuffix [for]="fin"></mat-datepicker-toggle>
             <mat-datepicker #fin></mat-datepicker>
             <mat-error *ngIf="fechaFin.hasError('required')">

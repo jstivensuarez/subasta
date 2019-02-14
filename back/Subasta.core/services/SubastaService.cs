@@ -172,18 +172,7 @@ namespace Subasta.core.services
                     .Where(l => l.SubastaId == subastaId).ToList();
             foreach (var lote in lotes)
             {
-                eliminarAnimales(lote.LoteId);
                 loteService.Delete(lote);
-            }
-        }
-
-        private void eliminarAnimales(int loteId)
-        {
-            var animales = animalService.GetAll()
-                .Where(a => a.LoteId == loteId).ToList();
-            foreach (var animal in animales)
-            {
-                animalService.Delete(animal);
             }
         }
     }

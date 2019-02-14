@@ -11,7 +11,6 @@ export class Lote {
     pesoTotal: number;
     precioBase: number;
     pesoPromedio: number;
-    valorAnticipo: number;
     precioInicial: number;
     fotoLote: string;
     clienteId: string;

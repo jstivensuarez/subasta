@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Title, DomSanitizer } from '@angular/platform-browser';
 import { EventoService } from 'src/app/services/evento.service';
 import { Evento } from 'src/app/dtos/evento';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-subastas',
@@ -10,25 +12,32 @@ import { Evento } from 'src/app/dtos/evento';
 })
 export class SubastasComponent implements OnInit {
 
+  estaAutenticado: boolean;
   eventos: Evento[];
   title: string;
-  imageUrl: string = "http://localhost:3001/images/LOTES/";
   constructor(private eventoService: EventoService,
-    private _sanitizer: DomSanitizer) {
+    private _sanitizer: DomSanitizer,
+    private usuarioService: UsuarioService) {
     this.title = "Subastas";
     this.eventos = [];
-    this.getForClients();
+    this.obtenerEventos();
   }
 
   ngOnInit() {
-    
+
   }
 
-  onFinished(){
-    alert("Terminó");
+  obtenerEventos() {
+    debugger;
+    this.estaAutenticado = this.usuarioService.isAuthenticated();
+    if (this.estaAutenticado) {
+      this.obtenerParaClientes();
+    } else {
+      this.obtenerParaClientes();
+    }
   }
 
-  getForClients(){
+  obtenerParaClienteAutenticado() {
     this.eventoService.getForClients().subscribe(resp => {
       this.eventos = resp;
     }, err => {
@@ -36,17 +45,20 @@ export class SubastasComponent implements OnInit {
     });
   }
 
-  validarInicio(fechaInicio){
-    debugger;
+  obtenerParaClientes() {
+    this.eventoService.getForClients().subscribe(resp => {
+      this.eventos = resp;
+    }, err => {
+      console.error(err);
+    });
+  }
+
+  validarInicio(fechaInicio) {
     const hoy = new Date();
-    if(hoy >= new Date(fechaInicio)){
+    if (hoy >= new Date(fechaInicio)) {
       return true;
     }
     return false;
-  }
-
-  getSegundos(total) {
-    return total;
   }
 
   getVideo(video) {
@@ -56,11 +68,11 @@ export class SubastasComponent implements OnInit {
   }
 
   getImage(imagen) {
-    const url = this.imageUrl + imagen;
+    const url = environment.imageLotesUrl + imagen;
     return url;
   }
 
-  esVideo(imagen){
+  esVideo(imagen) {
     if (/^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/.test(imagen)) {
       return true;
     }

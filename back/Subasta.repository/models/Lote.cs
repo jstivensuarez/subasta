@@ -33,9 +33,6 @@ namespace Subasta.repository.models
         [Column("FOTO_LOTE")]
         public string FotoLote { get; set; }
 
-        [Column("VALOR_ANTICIPO_LOTE")]
-        public decimal ValorAnticipo { get; set; }
-
         [Column("ACTIVO_LOTE")]
         public bool Activo { get; set; }
 

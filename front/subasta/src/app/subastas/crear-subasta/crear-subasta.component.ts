@@ -24,12 +24,14 @@ export class CrearSubastaComponent implements OnInit {
   maxDate: Date;
   horaInicioActual: string;
   horaFinActual: string;
+  selectedAnticipo: boolean;
   constructor(
     private subastaService: SubastaService,
     private alertService: MesaggesManagerService,
     public activeModal: NgbActiveModal,
     public datepipe: DatePipe
   ) {
+    this.selectedAnticipo = false;
     this.minDate = new Date();
     this.maxDate = new Date();
     this.subastaInput = new Subasta();
@@ -47,6 +49,7 @@ export class CrearSubastaComponent implements OnInit {
       subasta.horaFinAux = this.horaFin.value;
       subasta.descripcion = this.descripcion.value;
       subasta.eventoId = this.eventoInput.eventoId;
+      subasta.valorAnticipo = this.valorAnticipo.value;
       if (this.subastaInput.subastaId) {
         subasta.subastaId = this.subastaInput.subastaId;
         this.editarSubasta(subasta);
@@ -84,7 +87,6 @@ export class CrearSubastaComponent implements OnInit {
   }
 
   createForm() {
-    debugger;
     if (this.subastaInput.horaInicio && this.subastaInput.horaFin) {
       this.horaInicioActual = this.datepipe.transform(this.subastaInput.horaInicio, 'HH:mm');
       this.horaFinActual = this.datepipe.transform(this.subastaInput.horaFin, 'HH:mm');
@@ -97,6 +99,8 @@ export class CrearSubastaComponent implements OnInit {
       descripcion: new FormControl(this.subastaInput.descripcion, [Validators.required]),
       horaInicio: new FormControl(this.horaInicioActual, [Validators.required]),
       horaFin: new FormControl(this.horaFinActual, [Validators.required]),
+      esAnticipo: new FormControl(this.selectedAnticipo),
+      valorAnticipo: new FormControl(this.subastaInput.valorAnticipo),
     }, [Validation.SubastaFechas, Validation.SubastaHoras]);
   }
   
@@ -111,8 +115,26 @@ export class CrearSubastaComponent implements OnInit {
     return time.join ('');
   }
 
+  onChangeCheckAnticipo(evento) {
+    this.selectedAnticipo = evento.checked;
+    if (evento.checked) {
+      this.valorAnticipo.setValidators([Validators.required]);
+    } else {
+      this.valorAnticipo.clearValidators();
+      this.valorAnticipo.updateValueAndValidity();
+    }
+  }
+
   date(date: any, arg1: string): any {
     throw new Error("Method not implemented.");
+  }
+
+  get esAnticipo() {
+    return this.form.get('esAnticipo');
+  }
+
+  get valorAnticipo() {
+    return this.form.get('valorAnticipo');
   }
 
   get descripcion() {

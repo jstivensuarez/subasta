@@ -11,5 +11,7 @@ namespace Subasta.core.interfaces
         EventoDto AddWithReturn(EventoDto dto);
 
         List<EventoDto> GetForClients();
+
+        List<EventoDto> GetForClientAutenticated(string clienteId);
     }
 }

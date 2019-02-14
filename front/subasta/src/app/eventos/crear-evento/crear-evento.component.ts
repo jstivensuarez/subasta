@@ -154,7 +154,7 @@ export class CrearEventoComponent implements OnInit {
     evento.fechaInicio = this.fechaInicio.value;
     evento.municipioId = this.municipio.value;
     if (this.evento.eventoId) {
-      evento.eventoId = this.evento.eventoId; 
+      evento.eventoId = this.evento.eventoId;
       this.editarEvento(evento);
     } else {
       this.crearEvento(evento);
@@ -203,15 +203,17 @@ export class CrearEventoComponent implements OnInit {
     );
   }
 
-  editarSubasta(subasta){
-    debugger;
+  editarSubasta(subasta) {
     const component = this.modalService.open(CrearSubastaComponent).componentInstance;
     component.eventoInput = this.evento;
     component.subastaInput = subasta;
     component.minDate = new Date(this.evento.fechaInicio);
     component.maxDate = new Date(this.evento.fechaFin);
+    debugger;
+    if (subasta.valorAnticipo)
+      component.selectedAnticipo = true;
     component.createForm();
-    component.completo.subscribe( res=> {
+    component.completo.subscribe(res => {
       this.obtenerSubastas();
     });
   }
@@ -222,7 +224,7 @@ export class CrearEventoComponent implements OnInit {
     component.minDate = new Date(this.evento.fechaInicio);
     component.maxDate = new Date(this.evento.fechaFin);
     component.createForm();
-    component.completo.subscribe( res=> {
+    component.completo.subscribe(res => {
       this.obtenerSubastas();
     });
   }

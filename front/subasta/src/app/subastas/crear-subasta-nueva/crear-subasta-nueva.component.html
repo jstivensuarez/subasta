@@ -1,6 +1,7 @@
-<div class="great">  
-  <h1 class="title margin-top-cero contet-great">{{title}}</h1>  
+<div class="great">
+  <h1 class="title margin-top-cero contet-great">{{title}}</h1>
 </div>
+<br>
 <div class="container">
   <mat-card class="center-card">
     <form class="example-form" [formGroup]="form">
@@ -13,6 +14,16 @@
           </mat-option>
         </mat-select>
         <mat-error *ngIf="evento.hasError('required')">Por favor seleccione un evento</mat-error>
+      </mat-form-field>
+      
+      <mat-checkbox [formControl]="esAnticipo" [(value)]="selectedAnticipo" (change)="onChangeCheckAnticipo($event)">¿Tiene
+        valor de anticipo?</mat-checkbox>
+      <mat-form-field class="example-full-width" *ngIf="selectedAnticipo">
+        <input matInput [formControl]="valorAnticipo" maxlength="25" placeholder="Anticipo" autocomplete="off"
+          currencyMask required>
+        <mat-error *ngIf="valorAnticipo.hasError('required')">
+          El valor de anticipo es <strong>requerido</strong>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="example-full-width">

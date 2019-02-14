@@ -41,17 +41,7 @@
           </mat-form-field>
         </div>
       </div>
-
-      <mat-checkbox [formControl]="esAnticipo" [(value)]="selectedAnticipo" (change)="onChangeCheckAnticipo($event)">¿Tiene
-        valor de anticipo?</mat-checkbox>
-      <mat-form-field class="example-full-width" *ngIf="selectedAnticipo">
-        <input matInput [formControl]="valorAnticipo" maxlength="25" placeholder="Anticipo" 
-        autocomplete="off" currencyMask required>
-        <mat-error *ngIf="valorAnticipo.hasError('required')">
-          El valor de anticipo es <strong>requerido</strong>
-        </mat-error>
-      </mat-form-field>
-
+      
       <mat-form-field class="example-full-width">
         <mat-select placeholder="Propietario" [formControl]="propietario" [(value)]="selectedPropietario" required>
           <mat-option *ngFor="let prop of propietarios" [value]="prop.clienteId">

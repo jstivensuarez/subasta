@@ -11,3 +11,12 @@
     position: fixed !important;
     z-index: 100000 !important; /* set value you need */
 }
+
+.modal-open .modal {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.modal-dialog {
+  flex-grow: 1;
+}

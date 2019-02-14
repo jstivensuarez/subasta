@@ -14,6 +14,6 @@ export class Subasta {
     eventoId: number;
     evento: Evento;
     totalSegundos: number;
-    
+    puedePujar: boolean;
     constructor(){}
 }

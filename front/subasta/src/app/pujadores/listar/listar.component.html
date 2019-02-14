@@ -39,7 +39,7 @@
 
       <ng-container matColumnDef="valorConsignacion">
         <th mat-header-cell *matHeaderCellDef> Valor de consignación </th>
-        <td mat-cell *matCellDef="let element"> {{element.valorConsignacion}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.valorConsignacion  | number}} </td>
       </ng-container>
 
       <ng-container matColumnDef="acciones">

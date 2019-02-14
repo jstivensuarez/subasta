@@ -8,10 +8,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalMessageComponent } from '../modal-message/modal-message.component';
 import { DetallesComponent } from '../detalles/detalles.component';
-import { CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config';
 import { CustomWeightMaskConfig } from '../util/numberMaskConfig';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { DataTableModule } from 'angular-6-datatable';
+import { CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config';
 
 @NgModule({
   imports: [

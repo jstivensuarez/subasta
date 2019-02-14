@@ -17,6 +17,9 @@ namespace Subasta.repository.models
         [Column("DESCRIPCION_SUB")]
         public string Descripcion { get; set; }
 
+        [Column("VALOR_ANTICIPO_SUB")]
+        public decimal ValorAnticipo { get; set; }
+
         [Column("FECHA_HORA_INI_SUB")]
         public DateTime HoraInicio { get; set; }
 
