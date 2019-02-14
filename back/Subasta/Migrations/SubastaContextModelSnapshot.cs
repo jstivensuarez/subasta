@@ -338,6 +338,30 @@ namespace Subasta.Migrations
                     b.ToTable("TBL_SEXOS");
                 });
 
+            modelBuilder.Entity("Subasta.repository.models.SolicitudSubasta", b =>
+                {
+                    b.Property<int>("SolicitudId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("CODIGO_SOLI");
+
+                    b.Property<string>("ClienteId")
+                        .HasColumnName("CLIENTE_SOLI");
+
+                    b.Property<string>("Estado")
+                        .HasColumnName("ESTADO_SOLI");
+
+                    b.Property<int>("SubastaId")
+                        .HasColumnName("SUBASTA_SOLI");
+
+                    b.HasKey("SolicitudId");
+
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("SubastaId");
+
+                    b.ToTable("TBL_SOLICITUDES");
+                });
+
             modelBuilder.Entity("Subasta.repository.models.Subasta", b =>
                 {
                     b.Property<int>("SubastaId")
@@ -499,6 +523,18 @@ namespace Subasta.Migrations
                     b.HasOne("Subasta.repository.models.Lote", "Lote")
                         .WithMany("Pujadores")
                         .HasForeignKey("LoteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Subasta.repository.models.SolicitudSubasta", b =>
+                {
+                    b.HasOne("Subasta.repository.models.Cliente", "Cliente")
+                        .WithMany("SolicitudSubastas")
+                        .HasForeignKey("ClienteId");
+
+                    b.HasOne("Subasta.repository.models.Subasta", "Subasta")
+                        .WithMany("SolicitudSubastas")
+                        .HasForeignKey("SubastaId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

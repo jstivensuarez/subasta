@@ -21,6 +21,11 @@ export class EventoService {
       map((data: Evento[]) => data));
   }
 
+  getForClientAutenticated(): Observable<any[]> {
+    return this.http.get<any[]>(environment.endpointEvento + '/GetForClientAutenticated').pipe(
+      map((data: Evento[]) => data));
+  }
+
   get(): Observable<any[]> {
     return this.http.get<any[]>(environment.endpointEvento).pipe(
       map((data: Evento[]) => data));

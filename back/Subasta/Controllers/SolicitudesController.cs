@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -15,59 +16,27 @@ namespace Subasta.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class EventosController : ControllerBase
+    public class SolicitudesController : ControllerBase
     {
-        readonly IEventoService eventoService;
+        // GET: api/Solicitudes
+        readonly ISolicitudService solicitudService;
 
-        public EventosController(IEventoService eventoService)
+        public SolicitudesController(ISolicitudService solicitudService)
         {
-            this.eventoService = eventoService;
+            this.solicitudService = solicitudService;
         }
-
-        [HttpGet]
-        [Route("[action]")]
-        [AllowAnonymous]
-        public IActionResult GetForClients()
-        {
-            try
-            {
-                var eventos = eventoService.GetForClients();
-                return Ok(eventos);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        [HttpGet]
-        [Route("[action]")]
-        [AllowAnonymous]
-        public IActionResult GetForClientAutenticated()
-        {
-            try
-            {
-                var usuario = User.Claims.First().Value;
-                var eventos = eventoService.GetForClientAutenticated(usuario);
-                return Ok(eventos);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
+        // GET: api/Clientes
         [HttpGet]
         public IActionResult Get()
         {
             try
-            {
-                var eventos = eventoService.GetAll();
-                return Ok(eventos);
+            {               
+                var solicitudes = solicitudService.GetAll();
+                return Ok(solicitudes);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -77,8 +46,28 @@ namespace Subasta.Controllers
         {
             try
             {
-                var evento = eventoService.Find(id);
-                return Ok(evento);
+                var solicitud = solicitudService.Find(id);
+                return Ok(solicitud);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        // POST: api/Clientes
+        [HttpPost]
+        public IActionResult Post(SolicitudSubastaDto solicitud)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var usuario = User.Claims.First().Value;
+                solicitudService.Add(solicitud, usuario);
+                return Ok(solicitud);
             }
             catch (Exception)
             {
@@ -87,7 +76,8 @@ namespace Subasta.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(EventoDto evento)
+        [Route("[action]")]
+        public IActionResult Aceptar(SolicitudSubastaDto solicitud)
         {
             try
             {
@@ -95,8 +85,8 @@ namespace Subasta.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                evento = eventoService.AddWithReturn(evento);
-                return Ok(evento);
+                solicitudService.Aceptar(solicitud);
+                return Ok(solicitud);
             }
             catch (Exception)
             {
@@ -104,8 +94,10 @@ namespace Subasta.Controllers
             }
         }
 
+
+        // PUT: api/Clientes/5
         [HttpPut]
-        public IActionResult Put(EventoDto evento)
+        public IActionResult Put(SolicitudSubastaDto solicitud)
         {
             try
             {
@@ -113,8 +105,8 @@ namespace Subasta.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                eventoService.Edit(evento);
-                return Ok(evento);
+                solicitudService.Edit(solicitud);
+                return Ok(solicitud);
             }
             catch (Exception)
             {
@@ -122,17 +114,18 @@ namespace Subasta.Controllers
             }
         }
 
+        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
             try
             {
-                var entity = eventoService.Find(id);
+                var entity = solicitudService.Find(id);
                 if (entity == null)
                 {
                     return NotFound();
                 }
-                eventoService.Delete(entity);
+                solicitudService.Delete(entity);
                 return Ok();
             }
             catch (Exception)

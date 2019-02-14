@@ -34,7 +34,6 @@ export class Validation {
     }
 
     static SubastaHoras(AC: AbstractControl) {
-        debugger;
         let fechaInicio = new Date(AC.get('fechaInicio').value);
         let horaInicio = Date.parse('01/01/2011 '+AC.get('horaInicio').value);
         let fechaFin = new Date(AC.get('fechaFin').value);

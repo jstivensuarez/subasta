@@ -90,6 +90,7 @@ export class CrearSubastaNuevaComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger;
     if (this.form.valid) {
       const subasta = new Subasta();
       subasta.horaFin = this.fechaFin.value;
@@ -98,7 +99,9 @@ export class CrearSubastaNuevaComponent implements OnInit {
       subasta.horaFinAux = this.horaFin.value;
       subasta.descripcion = this.descripcion.value;
       subasta.eventoId = this.evento.value;
-      subasta.valorAnticipo = this.valorAnticipo.value;
+      if(this.valorAnticipo.value){
+         subasta.valorAnticipo = this.valorAnticipo.value;
+      }
       if (this.isEditing) {
         subasta.subastaId = this.subasta.subastaId;
         this.editarSubasta(subasta);

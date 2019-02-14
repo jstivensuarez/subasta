@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../services/usuario.service';
+import { SolicitudService } from '../services/solicitud.service';
+import { Solicitud } from '../dtos/solicitud-subasta';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +12,10 @@ export class HeaderComponent implements OnInit {
 
   claims: any;
   usuario: string;
-  constructor(private usuarioService: UsuarioService) { 
+  cantidadSolicitudes: number;
+  constructor(private usuarioService: UsuarioService,
+    private solicitudService: SolicitudService) {
+    this.cantidadSolicitudes = 0;
     this.usuario = '';
     this.getClaims();
   }

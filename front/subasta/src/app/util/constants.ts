@@ -5,6 +5,7 @@ export const constants = {
     confirm: 4,
     errorTitle: 'Error!',
     deleteTitle: 'Eliminar registro',
+    solicitudTitle: 'Enviar solicitud',
     successTitle: 'Confirmación',
     successCreate: "Se creó exitosamente!",
     successLogin: "Ingreso exitoso, bienvenido!",
@@ -19,6 +20,7 @@ export const constants = {
     errorAlreadyExists: "Este registro ya existe",
     userAlreadyExists: "Este usuario ya se encuentra registrado en el sistema, por favor verifique su correo y su número de documento...",
     confirmDelete: "¿Está seguro que desea eliminar este registro?",
+    confirmSolicitud: "¿Enviar solicitud para pujar en esta subasta?",
     confirmDeleteEvento: "¿Está seguro que desea eliminar este evento, también se eliminarán los elementos asociados como subastas, lotes y animales...?",
     confirmDeleteSubasta: "¿Está seguro que desea eliminar esta subasta, también se eliminarán los elementos asociados como lotes y animales...?"
 }

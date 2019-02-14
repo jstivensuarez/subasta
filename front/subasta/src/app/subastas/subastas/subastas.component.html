@@ -40,8 +40,14 @@
                     <span class="bold">Hora de finalización</span> {{subasta.horaFin | date:"dd/MM/yyyy hh:mm a"}}
                   </p>
                 </mat-card-content>
-                <mat-card-actions *ngIf="subasta.puedePujar">
+                <mat-card-actions *ngIf="subasta.estadoSolicitud === 'AUTORIZADO'">
                   <button class="btn green">Realizar puja</button>
+                </mat-card-actions>
+                <mat-card-actions *ngIf="subasta.estadoSolicitud === 'PENDIENTE_POR_APROBAR'">
+                  <button class="btn green" disabled>Solicitud pendiente por aprobar</button>
+                </mat-card-actions>
+                <mat-card-actions *ngIf="subasta.estadoSolicitud === 'NO_AUTORIZADO' && estaAutenticado">
+                  <button class="btn green" (click)="enviarSolicitud(subasta.subastaId)">Solicitar Ingreso</button>
                 </mat-card-actions>
               </mat-card>
             </div>

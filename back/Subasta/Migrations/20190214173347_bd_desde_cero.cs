@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Subasta.Migrations
 {
-    public partial class SubastarepositorySubastaContext : Migration
+    public partial class bd_desde_cero : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,6 +45,20 @@ namespace Subasta.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TBL_RAZAS", x => x.CODIGO_RAZA);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TBL_ROLES",
+                columns: table => new
+                {
+                    CODIGO_ROL = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    NOMBRE_ROL = table.Column<string>(nullable: true),
+                    DESCRIPCION_ROL = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TBL_ROLES", x => x.CODIGO_ROL);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,6 +108,28 @@ namespace Subasta.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TBL_USUARIOS",
+                columns: table => new
+                {
+                    CODIGO_USU = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    NOMBRE_USUARIO = table.Column<string>(nullable: true),
+                    CORREO_USUARIO = table.Column<string>(nullable: true),
+                    PASS_USUARIO = table.Column<string>(nullable: true),
+                    ROL_USUARIO = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TBL_USUARIOS", x => x.CODIGO_USU);
+                    table.ForeignKey(
+                        name: "FK_TBL_USUARIOS_TBL_ROLES_ROL_USUARIO",
+                        column: x => x.ROL_USUARIO,
+                        principalTable: "TBL_ROLES",
+                        principalColumn: "CODIGO_ROL",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TBL_CLIENTES",
                 columns: table => new
                 {
@@ -104,7 +140,8 @@ namespace Subasta.Migrations
                     DIRECCION_CLI = table.Column<string>(nullable: true),
                     REPRESENTANTE_LEGAL_CLI = table.Column<string>(nullable: true),
                     USUARIO_CLI = table.Column<string>(nullable: true),
-                    ESTADO_CLI = table.Column<string>(nullable: true),
+                    TIPO_CLI = table.Column<string>(nullable: true),
+                    ACTIVO_CLI = table.Column<bool>(nullable: false),
                     CODIGO_TD_CLI = table.Column<int>(nullable: false),
                     CODIGO_MUN_CLI = table.Column<int>(nullable: false)
                 },
@@ -134,6 +171,7 @@ namespace Subasta.Migrations
                     NOMBRE_EVEN = table.Column<string>(nullable: true),
                     FECHA_INI_EVEN = table.Column<DateTime>(nullable: false),
                     FECHA_FIN_EVEN = table.Column<DateTime>(nullable: false),
+                    ACTIVO_EVEN = table.Column<bool>(nullable: false),
                     UBICACION_EVEN = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -153,11 +191,11 @@ namespace Subasta.Migrations
                 {
                     CODIGO_SUB = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    FECHA_HORA_INS_SUB = table.Column<DateTime>(nullable: false),
+                    DESCRIPCION_SUB = table.Column<string>(nullable: true),
+                    VALOR_ANTICIPO_SUB = table.Column<decimal>(nullable: false),
                     FECHA_HORA_INI_SUB = table.Column<DateTime>(nullable: false),
                     FECHA_LIMITE_FIN_SUB = table.Column<DateTime>(nullable: false),
-                    VALOR_ANTICIPO_SUB = table.Column<decimal>(nullable: false),
-                    PRECIO_INICIAL_SUB = table.Column<decimal>(nullable: false),
+                    ACTIVO_SUB = table.Column<bool>(nullable: false),
                     CODIGO_EVENTO_SUB = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -183,12 +221,12 @@ namespace Subasta.Migrations
                     PESO_PROMEDIO_LOTE = table.Column<decimal>(nullable: false),
                     PESO_TOTAL_LOTE = table.Column<decimal>(nullable: false),
                     PRECIO_BASE_LOTE = table.Column<decimal>(nullable: false),
-                    FOTO_LOTE = table.Column<decimal>(nullable: false),
+                    FOTO_LOTE = table.Column<string>(nullable: true),
+                    ACTIVO_LOTE = table.Column<bool>(nullable: false),
                     ID_CLIENTE_LOTE = table.Column<string>(nullable: true),
-                    COD_MUN_UBI_LOTE = table.Column<string>(nullable: true),
-                    MunicipioId1 = table.Column<int>(nullable: true),
-                    COD_SUBASTA_LOTE = table.Column<string>(nullable: true),
-                    SubastaId1 = table.Column<int>(nullable: true)
+                    COD_MUN_UBI_LOTE = table.Column<int>(nullable: false),
+                    COD_SUBASTA_LOTE = table.Column<int>(nullable: false),
+                    PRECIO_INICIAL_LOTE = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -200,43 +238,41 @@ namespace Subasta.Migrations
                         principalColumn: "ID_CLI",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TBL_LOTES_TBL_MUNICIPIOS_MunicipioId1",
-                        column: x => x.MunicipioId1,
+                        name: "FK_TBL_LOTES_TBL_MUNICIPIOS_COD_MUN_UBI_LOTE",
+                        column: x => x.COD_MUN_UBI_LOTE,
                         principalTable: "TBL_MUNICIPIOS",
                         principalColumn: "CODIGO_MUN",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TBL_LOTES_TBL_SUBASTAS_SubastaId1",
-                        column: x => x.SubastaId1,
+                        name: "FK_TBL_LOTES_TBL_SUBASTAS_COD_SUBASTA_LOTE",
+                        column: x => x.COD_SUBASTA_LOTE,
                         principalTable: "TBL_SUBASTAS",
                         principalColumn: "CODIGO_SUB",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TBL_PUJADORES",
+                name: "TBL_SOLICITUDES",
                 columns: table => new
                 {
-                    CODIGO_SUBASTA_PUJADOR = table.Column<int>(nullable: false)
+                    CODIGO_SOLI = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    ID_CLI_PUJADOR = table.Column<string>(nullable: false),
-                    NRO_CONSIGNACION_PUJADOR = table.Column<string>(nullable: true),
-                    BANCO_CONSIGNACION_PUJADOR = table.Column<string>(nullable: true),
-                    VALOR_CONSIGNACION_PUJADOR = table.Column<decimal>(nullable: false),
-                    ESTADO_PUJADOR = table.Column<string>(nullable: true)
+                    ESTADO_SOLI = table.Column<string>(nullable: true),
+                    SUBASTA_SOLI = table.Column<int>(nullable: false),
+                    CLIENTE_SOLI = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TBL_PUJADORES", x => new { x.ID_CLI_PUJADOR, x.CODIGO_SUBASTA_PUJADOR });
+                    table.PrimaryKey("PK_TBL_SOLICITUDES", x => x.CODIGO_SOLI);
                     table.ForeignKey(
-                        name: "FK_TBL_PUJADORES_TBL_CLIENTES_ID_CLI_PUJADOR",
-                        column: x => x.ID_CLI_PUJADOR,
+                        name: "FK_TBL_SOLICITUDES_TBL_CLIENTES_CLIENTE_SOLI",
+                        column: x => x.CLIENTE_SOLI,
                         principalTable: "TBL_CLIENTES",
                         principalColumn: "ID_CLI",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TBL_PUJADORES_TBL_SUBASTAS_CODIGO_SUBASTA_PUJADOR",
-                        column: x => x.CODIGO_SUBASTA_PUJADOR,
+                        name: "FK_TBL_SOLICITUDES_TBL_SUBASTAS_SUBASTA_SOLI",
+                        column: x => x.SUBASTA_SOLI,
                         principalTable: "TBL_SUBASTAS",
                         principalColumn: "CODIGO_SUB",
                         onDelete: ReferentialAction.Cascade);
@@ -251,6 +287,7 @@ namespace Subasta.Migrations
                     FOTO_ANI = table.Column<string>(nullable: true),
                     PESO_ANI = table.Column<decimal>(nullable: false),
                     DESCRIPCION_ANI = table.Column<string>(nullable: true),
+                    ACTIVO_ANI = table.Column<bool>(nullable: false),
                     COD_CATEGORIA_ANI = table.Column<int>(nullable: false),
                     COD_RAZA_ANI = table.Column<int>(nullable: false),
                     COD_SEXO_ANI = table.Column<int>(nullable: false),
@@ -293,6 +330,36 @@ namespace Subasta.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TBL_PUJADORES",
+                columns: table => new
+                {
+                    ID_PUJADOR = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CODIGO_LOTE_PUJADOR = table.Column<int>(nullable: false),
+                    ID_CLI_PUJADOR = table.Column<string>(nullable: true),
+                    NRO_CONSIGNACION_PUJADOR = table.Column<string>(nullable: true),
+                    BANCO_CONSIGNACION_PUJADOR = table.Column<string>(nullable: true),
+                    VALOR_CONSIGNACION_PUJADOR = table.Column<decimal>(nullable: false),
+                    ESTADO_PUJADOR = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TBL_PUJADORES", x => x.ID_PUJADOR);
+                    table.ForeignKey(
+                        name: "FK_TBL_PUJADORES_TBL_CLIENTES_ID_CLI_PUJADOR",
+                        column: x => x.ID_CLI_PUJADOR,
+                        principalTable: "TBL_CLIENTES",
+                        principalColumn: "ID_CLI",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TBL_PUJADORES_TBL_LOTES_CODIGO_LOTE_PUJADOR",
+                        column: x => x.CODIGO_LOTE_PUJADOR,
+                        principalTable: "TBL_LOTES",
+                        principalColumn: "CODIGO_LOTE",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TBL_PUJAS",
                 columns: table => new
                 {
@@ -300,19 +367,17 @@ namespace Subasta.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     HORA_PUJA = table.Column<DateTime>(nullable: false),
                     VALOR_PUJA = table.Column<decimal>(nullable: false),
-                    COD_SUBASTA_PUJADOR = table.Column<int>(nullable: false),
-                    PujadorClienteId = table.Column<string>(nullable: true),
-                    PujadorSubastaId = table.Column<int>(nullable: true)
+                    COD_SUBASTA_PUJADOR = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TBL_PUJAS", x => x.CODIGO_PUJA);
                     table.ForeignKey(
-                        name: "FK_TBL_PUJAS_TBL_PUJADORES_PujadorClienteId_PujadorSubastaId",
-                        columns: x => new { x.PujadorClienteId, x.PujadorSubastaId },
+                        name: "FK_TBL_PUJAS_TBL_PUJADORES_COD_SUBASTA_PUJADOR",
+                        column: x => x.COD_SUBASTA_PUJADOR,
                         principalTable: "TBL_PUJADORES",
-                        principalColumns: new[] { "ID_CLI_PUJADOR", "CODIGO_SUBASTA_PUJADOR" },
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "ID_PUJADOR",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -361,14 +426,14 @@ namespace Subasta.Migrations
                 column: "ID_CLIENTE_LOTE");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TBL_LOTES_MunicipioId1",
+                name: "IX_TBL_LOTES_COD_MUN_UBI_LOTE",
                 table: "TBL_LOTES",
-                column: "MunicipioId1");
+                column: "COD_MUN_UBI_LOTE");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TBL_LOTES_SubastaId1",
+                name: "IX_TBL_LOTES_COD_SUBASTA_LOTE",
                 table: "TBL_LOTES",
-                column: "SubastaId1");
+                column: "COD_SUBASTA_LOTE");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TBL_MUNICIPIOS_COD_DPTO_MUN",
@@ -376,19 +441,39 @@ namespace Subasta.Migrations
                 column: "COD_DPTO_MUN");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TBL_PUJADORES_CODIGO_SUBASTA_PUJADOR",
+                name: "IX_TBL_PUJADORES_ID_CLI_PUJADOR",
                 table: "TBL_PUJADORES",
-                column: "CODIGO_SUBASTA_PUJADOR");
+                column: "ID_CLI_PUJADOR");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TBL_PUJAS_PujadorClienteId_PujadorSubastaId",
+                name: "IX_TBL_PUJADORES_CODIGO_LOTE_PUJADOR",
+                table: "TBL_PUJADORES",
+                column: "CODIGO_LOTE_PUJADOR");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TBL_PUJAS_COD_SUBASTA_PUJADOR",
                 table: "TBL_PUJAS",
-                columns: new[] { "PujadorClienteId", "PujadorSubastaId" });
+                column: "COD_SUBASTA_PUJADOR");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TBL_SOLICITUDES_CLIENTE_SOLI",
+                table: "TBL_SOLICITUDES",
+                column: "CLIENTE_SOLI");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TBL_SOLICITUDES_SUBASTA_SOLI",
+                table: "TBL_SOLICITUDES",
+                column: "SUBASTA_SOLI");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TBL_SUBASTAS_CODIGO_EVENTO_SUB",
                 table: "TBL_SUBASTAS",
                 column: "CODIGO_EVENTO_SUB");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TBL_USUARIOS_ROL_USUARIO",
+                table: "TBL_USUARIOS",
+                column: "ROL_USUARIO");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -400,10 +485,13 @@ namespace Subasta.Migrations
                 name: "TBL_PUJAS");
 
             migrationBuilder.DropTable(
-                name: "TBL_CATEGORIAS");
+                name: "TBL_SOLICITUDES");
 
             migrationBuilder.DropTable(
-                name: "TBL_LOTES");
+                name: "TBL_USUARIOS");
+
+            migrationBuilder.DropTable(
+                name: "TBL_CATEGORIAS");
 
             migrationBuilder.DropTable(
                 name: "TBL_RAZAS");
@@ -413,6 +501,12 @@ namespace Subasta.Migrations
 
             migrationBuilder.DropTable(
                 name: "TBL_PUJADORES");
+
+            migrationBuilder.DropTable(
+                name: "TBL_ROLES");
+
+            migrationBuilder.DropTable(
+                name: "TBL_LOTES");
 
             migrationBuilder.DropTable(
                 name: "TBL_CLIENTES");

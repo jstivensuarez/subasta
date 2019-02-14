@@ -18,6 +18,7 @@ import { CrearSubastaComponent } from './subastas/crear-subasta/crear-subasta.co
 import { ListarSubastaComponent } from './subastas/listar-subasta/listar-subasta.component';
 import { CrearSubastaNuevaComponent } from './subastas/crear-subasta-nueva/crear-subasta-nueva.component';
 import { Subasta } from './dtos/subasta';
+import { ListarSolicitudesComponent } from './solicitudes/listar-solicitudes/listar-solicitudes.component';
 
 const routes: Routes = [
   {
@@ -118,6 +119,12 @@ const routes: Routes = [
   },
   {
     path: 'crear-subasta/:id', component: CrearSubastaNuevaComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'listar-solicitud', component: ListarSolicitudesComponent, canActivate: [AutenticacionService, RoleguardService],
     data: {
       expectedRole: 'Administrador'
     }

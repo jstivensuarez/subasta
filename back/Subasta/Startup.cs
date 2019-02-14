@@ -83,6 +83,9 @@ namespace Subasta
             services.AddScoped<IPujadorRepository, PujadorRepository>();
             services.AddScoped<IPujadorService, PujadorService>();
 
+            services.AddScoped<ISolicitudRepository, SolicitudRepository>();
+            services.AddScoped<ISolicitudService, SolicitudService>();
+
             services.AddScoped<IFileHelper, FileHelper>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

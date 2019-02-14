@@ -14,6 +14,8 @@ export const environment = {
   endpointSexo: 'http://localhost:3001/api/sexos',
   endpointAnimal: 'http://localhost:3001/api/animales',
   endpointPujador: 'http://localhost:3001/api/pujadores',
+  endpointSolicitud: 'http://localhost:3001/api/solicitudes',
+
   imageLotesUrl: 'http://localhost:3001/images/LOTES/',
   imageAnimalesUrl: 'http://localhost:3001/images/ANIMALES/',
   imageUrl: 'http://localhost:3001/images/',

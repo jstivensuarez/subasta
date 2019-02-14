@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h4>Solicitud</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="cancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<mat-card>
+  <div class="col-md-12 vertical-modal">
+    <p>Cliente: {{solicitud.cliente.nombre}}</p>
+    <p>Correo: {{solicitud.cliente.correo}}</p>
+    <p>Teléfono: {{solicitud.cliente.telefono}}</p>
+    <p>Subasta: {{solicitud.subasta.descripcion}}</p>
+    <p>Valor de anticipo: {{solicitud.subasta.valorAnticipo | number}}</p>
+  </div>
+</mat-card>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-cr-other yellow" data-dismiss="modal" (click)="aceptar()">Aceptar solicitud</button>
+</div>

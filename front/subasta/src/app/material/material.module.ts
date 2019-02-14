@@ -24,7 +24,8 @@ import {
   MatSidenavModule, 
   MatStepperModule, 
   MatTabsModule,
-  MatPaginatorModule 
+  MatPaginatorModule, 
+  MatBadgeModule
 } from '@angular/material'; 
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 @NgModule({
@@ -51,10 +52,12 @@ import { ScrollDispatchModule } from '@angular/cdk/scrolling';
     ScrollDispatchModule,
     MatAutocompleteModule,
     BrowserAnimationsModule,
-    MatProgressSpinnerModule, MatSidenavModule,
+    MatProgressSpinnerModule, 
+    MatSidenavModule,
     MatStepperModule,
     MatTabsModule,
-    MatPaginatorModule 
+    MatPaginatorModule,
+    MatBadgeModule
   ], 
   exports: [
     CommonModule, 
@@ -82,7 +85,8 @@ import { ScrollDispatchModule } from '@angular/cdk/scrolling';
     MatSidenavModule,
     MatStepperModule, 
     MatTabsModule,
-    MatPaginatorModule 
+    MatPaginatorModule,
+    MatBadgeModule
   ]
 })
 export class MaterialModule { }

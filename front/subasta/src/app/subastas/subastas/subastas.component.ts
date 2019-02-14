@@ -4,6 +4,10 @@ import { EventoService } from 'src/app/services/evento.service';
 import { Evento } from 'src/app/dtos/evento';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { environment } from 'src/environments/environment';
+import { constants } from 'src/app/util/constants';
+import { MesaggesManagerService } from 'src/app/services/mesagges-manager.service';
+import { SolicitudService } from 'src/app/services/solicitud.service';
+import { Solicitud } from 'src/app/dtos/solicitud-subasta';
 
 @Component({
   selector: 'app-subastas',
@@ -17,7 +21,9 @@ export class SubastasComponent implements OnInit {
   title: string;
   constructor(private eventoService: EventoService,
     private _sanitizer: DomSanitizer,
-    private usuarioService: UsuarioService) {
+    private usuarioService: UsuarioService,
+    private alertService: MesaggesManagerService,
+    private solicitudService: SolicitudService) {
     this.title = "Subastas";
     this.eventos = [];
     this.obtenerEventos();
@@ -28,17 +34,16 @@ export class SubastasComponent implements OnInit {
   }
 
   obtenerEventos() {
-    debugger;
     this.estaAutenticado = this.usuarioService.isAuthenticated();
     if (this.estaAutenticado) {
-      this.obtenerParaClientes();
+      this.obtenerParaClienteAutenticado();
     } else {
       this.obtenerParaClientes();
     }
   }
 
   obtenerParaClienteAutenticado() {
-    this.eventoService.getForClients().subscribe(resp => {
+    this.eventoService.getForClientAutenticated().subscribe(resp => {
       this.eventos = resp;
     }, err => {
       console.error(err);
@@ -77,5 +82,31 @@ export class SubastasComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  enviarSolicitud(subastaId) {
+    this.alertService.showConfirmMessage(constants.solicitudTitle, constants.confirmSolicitud).subscribe(
+      resp => {
+        if (resp) {
+          const solicitud = new Solicitud();
+          solicitud.subastaId = subastaId;
+          this.solicitudService.post(solicitud).subscribe(
+            resp => {
+              console.log(resp)
+            }, err => {
+              console.error(err);
+            }
+          );
+        }
+      }
+    );
+  }
+
+  obtenerUsurio() {
+    if (this.usuarioService.isAuthenticated()) {
+      const claims = this.usuarioService.getClaims();
+      return claims.sub;
+    }
+    return null;
   }
 }
