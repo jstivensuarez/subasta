@@ -35,5 +35,7 @@ namespace Subasta.repository.models
         public Evento Evento { get; set; }
 
         public List<Lote> Lotes { get; set; } = new List<Lote>();
+
+        public List<SolicitudSubasta> SolicitudSubastas { get; set; } = new List<SolicitudSubasta>();
     }
 }

@@ -24,7 +24,9 @@ namespace Subasta.core.dtos
         public EventoDto Evento { get; set; }
 
         public bool Activo { get; set; }
-        public bool PuedePujar { get; set; }
+
+        public string EstadoSolicitud { get; set; }
+
         public List<LoteDto> LotesDto { get; set; }
 
         public double TotalSegundos

@@ -12,6 +12,6 @@ namespace Subasta.core.interfaces
 
         List<EventoDto> GetForClients();
 
-        List<EventoDto> GetForClientAutenticated(string clienteId);
+        List<EventoDto> GetForClientAutenticated(string usuario);
     }
 }

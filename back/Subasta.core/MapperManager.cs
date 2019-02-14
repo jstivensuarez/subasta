@@ -53,6 +53,9 @@ namespace Subasta.core
 
             CreateMap<Rol, RolDto>();
             CreateMap<RolDto, Rol>();
+
+            CreateMap<SolicitudSubasta, SolicitudSubastaDto>();
+            CreateMap<SolicitudSubastaDto, SolicitudSubasta>();
         }
     }
 }

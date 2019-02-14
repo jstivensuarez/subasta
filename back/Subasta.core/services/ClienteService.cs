@@ -62,6 +62,7 @@ namespace Subasta.core.services
                     RolId = 2
                 };
                 usuarioService.Add(usuario);
+                dto.Activo = true;
                 uowService.ClienteRepository.Add(mapper.Map<Cliente>(dto));
                 uowService.Save();
             }

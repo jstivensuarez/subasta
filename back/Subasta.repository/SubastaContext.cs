@@ -37,6 +37,7 @@ namespace Subasta.repository
 
         public DbSet<Subasta.repository.models.Subasta> Subastas { get; set; }
 
+        public DbSet<SolicitudSubasta> SolicitudSubastas { get; set; }
 
         public SubastaContext(DbContextOptions<SubastaContext> options) : base(options) { }
 

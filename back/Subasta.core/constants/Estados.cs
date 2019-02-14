@@ -9,5 +9,11 @@ namespace Subasta.core.states
         public const string CREADO = "CREADO";
 
         public const string BORRADO = "BORRADO";
+
+        public const string PENDIENTE_APROBAR = "PENDIENTE_POR_APROBAR";
+
+        public const string NO_AUTORIZADO = "NO_AUTORIZADO";
+
+        public const string AUTORIZADO = "AUTORIZADO";
     }
 }

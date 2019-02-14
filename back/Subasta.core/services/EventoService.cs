@@ -2,6 +2,7 @@
 using Subasta.core.dtos;
 using Subasta.core.exceptions;
 using Subasta.core.interfaces;
+using Subasta.core.states;
 using Subasta.repository.exceptions;
 using Subasta.repository.interfaces;
 using Subasta.repository.models;
@@ -20,16 +21,22 @@ namespace Subasta.core.services
         readonly ISubastaService subastaService;
         readonly ILoteService loteService;
         readonly IAnimalService animalService;
+        readonly IClienteService clienteService;
+        readonly ISolicitudService solicitudService;
         public EventoService(IMapper mapper, IUnitOfWork uowService,
              ISubastaService subastaService,
              ILoteService loteService,
-             IAnimalService animalService)
+             IAnimalService animalService,
+             IClienteService clienteService,
+              ISolicitudService solicitudService)
         {
             this.mapper = mapper;
             this.uowService = uowService;
             this.subastaService = subastaService;
             this.loteService = loteService;
             this.animalService = animalService;
+            this.clienteService = clienteService;
+            this.solicitudService = solicitudService;
         }
 
         public void Add(EventoDto dto)
@@ -161,20 +168,37 @@ namespace Subasta.core.services
             }
         }
 
-        public List<EventoDto> GetForClientAutenticated(string clienteId)
+        public List<EventoDto> GetForClientAutenticated(string usuario)
         {
+            var cliente = clienteService.GetAll().SingleOrDefault(c => c.Usuario == usuario);
             var eventos = GetForClients();
-
+            SolicitudSubastaDto solicitud = null;
+            foreach (var evento in eventos)
+            {
+                foreach (var subasta in evento.SubastasDto)
+                {
+                    if (subasta.ValorAnticipo == 0)
+                    {
+                        subasta.EstadoSolicitud = Estados.AUTORIZADO;
+                    }
+                    else
+                    {
+                        solicitud = solicitudService.GetAll().SingleOrDefault(s => s.ClienteId == cliente.ClienteId
+                            && s.SubastaId == subasta.SubastaId);
+                        subasta.EstadoSolicitud = solicitud == null ? Estados.NO_AUTORIZADO: solicitud.Estado;
+                    }
+                }
+            }
             return eventos;
         }
 
-            public List<EventoDto> GetForClients()
+        public List<EventoDto> GetForClients()
         {
             try
             {
                 var hoy = DateTime.Today;
                 var eventos = (from evento in uowService.EventoRepository.GetAllWithInclude()
-                               where evento.FechaInicio >= hoy
+                               where evento.Activo
                                select new EventoDto
                                {
                                    EventoId = evento.EventoId,
@@ -193,7 +217,7 @@ namespace Subasta.core.services
                                                       HoraFin = subasta.HoraFin,
                                                       HoraInicio = subasta.HoraInicio,
                                                       SubastaId = subasta.SubastaId,
-                                                      PuedePujar = false,
+                                                      EstadoSolicitud = Estados.NO_AUTORIZADO,
                                                       ValorAnticipo = subasta.ValorAnticipo,
                                                       LotesDto = (from lote in uowService.LoteRepository.GetAllWithInclude()
                                                                   where lote.SubastaId == subasta.SubastaId
@@ -203,7 +227,7 @@ namespace Subasta.core.services
                                                                       Descripcion = lote.Descripcion,
                                                                       FotoLote = lote.FotoLote,
                                                                       LoteId = lote.LoteId,
-                                                                      Nombre = lote.Nombre,                                                                    
+                                                                      Nombre = lote.Nombre,
                                                                       SubastaId = lote.SubastaId,
                                                                       Subasta = mapper.Map<SubastaDto>(subasta),
                                                                       PrecioInicial = lote.PrecioInicial,

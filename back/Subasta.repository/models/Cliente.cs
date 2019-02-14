@@ -50,5 +50,7 @@ namespace Subasta.repository.models
         public List<Pujador> Pujadores { get; set; } = new List<Pujador>();
 
         public List<Lote> Lotes { get; set; } = new List<Lote>();
+
+        public List<SolicitudSubasta> SolicitudSubastas { get; set; } = new List<SolicitudSubasta>();
     }
 }

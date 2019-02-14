@@ -22,7 +22,7 @@ namespace Subasta.repository
         private RazaRepository razaRepository;
         private SexoRepository sexoRepository;
         private PujadorRepository pujadorRepository;
-
+        private SolicitudRepository solicitudRepository;
         public UnitOfWork(SubastaContext context)
         {
             this.context = context;
@@ -181,6 +181,18 @@ namespace Subasta.repository
                     this.pujadorRepository = new PujadorRepository(context);
                 }
                 return pujadorRepository;
+            }
+        }
+
+        public ISolicitudRepository SolicitudRepository
+        {
+            get
+            {
+                if (this.solicitudRepository == null)
+                {
+                    this.solicitudRepository = new SolicitudRepository(context);
+                }
+                return solicitudRepository;
             }
         }
 
