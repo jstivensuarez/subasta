@@ -86,6 +86,9 @@ namespace Subasta
             services.AddScoped<ISolicitudRepository, SolicitudRepository>();
             services.AddScoped<ISolicitudService, SolicitudService>();
 
+            services.AddScoped<IRolRepository, RolRepository>();
+            services.AddScoped<IRolService, RolService>();
+
             services.AddScoped<IFileHelper, FileHelper>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
