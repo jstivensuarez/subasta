@@ -36,7 +36,7 @@
     "moment": "^2.24.0",
     "msal": "^0.2.3",
     "ng2-currency-mask": "^5.3.1",
-    "ngx-countdown": "^3.2.0",
+    "ng6-date-countdown": "^1.0.3",
     "ngx-material-timepicker": "^2.12.0",
     "rxjs": "~6.2.0",
     "sweetalert2": "^7.29.1",

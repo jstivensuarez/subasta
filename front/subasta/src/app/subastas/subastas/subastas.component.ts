@@ -8,6 +8,7 @@ import { constants } from 'src/app/util/constants';
 import { MesaggesManagerService } from 'src/app/services/mesagges-manager.service';
 import { SolicitudService } from 'src/app/services/solicitud.service';
 import { Solicitud } from 'src/app/dtos/solicitud-subasta';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-subastas',
@@ -19,11 +20,18 @@ export class SubastasComponent implements OnInit {
   estaAutenticado: boolean;
   eventos: Evento[];
   title: string;
+  formatoFecha: any = {
+    Days: "Días ",
+    Hours: "Horas",
+    Minutes: "Min",
+    Seconds: "Seg",
+  };
   constructor(private eventoService: EventoService,
     private _sanitizer: DomSanitizer,
     private usuarioService: UsuarioService,
     private alertService: MesaggesManagerService,
-    private solicitudService: SolicitudService) {
+    private solicitudService: SolicitudService,
+    private modalService: NgbModal) {
     this.title = "Subastas";
     this.eventos = [];
     this.obtenerEventos();
@@ -109,4 +117,31 @@ export class SubastasComponent implements OnInit {
     }
     return null;
   }
+
+  verLote(lote) {
+    setTimeout(function () {
+      let video = null;
+      let imagen = null;
+      if (/^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/.test(lote.fotoLote)) {
+        video = lote.fotoLote;
+      } else {
+        imagen = 'LOTES/' + lote.fotoLote;
+      }
+      this.alertService.showDetails('Detalles del lote', {
+        Nombre: lote.nombre,
+        Descripción: lote.descripcion,
+        "Cantidad de animales": lote.cantidadElementos,
+        "Peso Total": lote.pesoTotal,
+        "Promedio": lote.pesoPromedio,
+        "Precio base": lote.precioBase,
+        "Valor de anticipo": lote.valorAnticipo,
+        imagen: imagen,
+        video: video,
+        Ciudad: lote.municipio.descripcion,
+        Subasta: lote.subasta.descripcion
+      });
+
+    }.bind(this), 1000);
+  }
+
 }

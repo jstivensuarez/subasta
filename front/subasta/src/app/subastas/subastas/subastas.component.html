@@ -8,30 +8,20 @@
           <mat-divider></mat-divider>
           <br>
           <div *ngFor="let subasta of evento.subastasDto">
-            <div>
+            <div  class="text-align-center">
               <mat-card class="example-card" *ngFor="let lote of subasta.lotesDto">
                 <mat-card-header>
-                  <mat-card-title><span class="bold">Nombre del lote:</span> {{lote.nombre}}</mat-card-title>
+                  <mat-card-title><span class="bold">Lote:</span> {{lote.nombre}} 
+                    
+                  </mat-card-title>
                   <mat-card-subtitle>subasta: ({{subasta.descripcion}})</mat-card-subtitle>
                 </mat-card-header>
-                <div *ngIf="!esVideo(lote.fotoLote)">
-                  <img mat-card-image src="{{getImage(lote.fotoLote)}}">
-                </div>
-                <div *ngIf="esVideo(lote.fotoLote)">
-                  <iframe width="100%" height="300" [src]="getVideo(lote.fotoLote)" allowfullscreen></iframe>
-                </div>
                 <mat-card-content>
-                  <p>
-                    {{lote.descripcion}}
-                  </p>
                   <p>
                     <span class="bold">Precio inicial: </span> {{lote.precioInicial | currency:"USD":true}}
                   </p>
                   <p>
                     <span class="bold">Puja Actual: </span> 0
-                  </p>
-                  <p *ngIf="validarInicio(subasta.horaInicio)">
-                    <span class="bold">La puja se cierra en: </span>
                   </p>
                   <p *ngIf="!validarInicio(subasta.horaInicio)">
                     <span class="bold">Hora de inicio</span> {{subasta.horaInicio | date:"dd/MM/yyyy hh:mm a"}}
@@ -39,6 +29,15 @@
                   <p *ngIf="!validarInicio(subasta.horaInicio)">
                     <span class="bold">Hora de finalización</span> {{subasta.horaFin | date:"dd/MM/yyyy hh:mm a"}}
                   </p>
+                  <div *ngIf="validarInicio(subasta.horaInicio)" class="bold">
+                     <p>
+                        Tiempo restante
+                     </p>
+                    <countdown (reached)="callback($event)" [text]="formatoFecha" units="Days | Hours | Minutes | Seconds"  end="{{subasta.horaFin}}"></countdown>
+                  </div>
+                  Ver detalles del lote
+                  <mat-icon class="icon-medium" (click)="verLote(lote)">visibility</mat-icon> 
+                 
                 </mat-card-content>
                 <mat-card-actions *ngIf="subasta.estadoSolicitud === 'AUTORIZADO'">
                   <button class="btn green">Realizar puja</button>
@@ -56,7 +55,7 @@
       </div>
     </div>
   </mat-tab>
-  
+
   <mat-tab label="Próximos eventos">
     <br>
     <div class="container">
