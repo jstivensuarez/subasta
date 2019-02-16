@@ -8,5 +8,8 @@ namespace Subasta.core.interfaces
 {
     public interface IRazaService : IGenericCrudService<RazaDto, Raza>
     {
+        int AddWithReturn(RazaDto dto);
+
+        List<RazaDto> GetByCategoria(int id);
     }
 }

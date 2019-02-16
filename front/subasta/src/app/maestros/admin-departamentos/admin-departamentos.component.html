@@ -1,0 +1,19 @@
+<div class="great">
+    <h1 class="title margin-top-cero contet-great">{{title}}</h1>
+  </div>
+  <br>
+<div class="container">
+  <mat-card>
+    <mat-form-field class="example-chip-list">
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let depar of departamentos" [selectable]="selectable" [removable]="removable" 
+        (click)="editar(depar)">
+          {{depar.descripcion}}
+          <mat-icon matChipRemove *ngIf="removable" (click)="elminar(depar)">cancel</mat-icon>
+        </mat-chip>
+        <input placeholder="Agregar departamento" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="agregar($event)">
+      </mat-chip-list>
+    </mat-form-field>
+  </mat-card>
+</div>

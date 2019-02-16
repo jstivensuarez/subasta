@@ -92,12 +92,12 @@ export class ListarComponent implements OnInit {
         option.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
         option.peso.toString().toLowerCase().lastIndexOf(filtro.toLowerCase()) === 0 ||
         option.peso.toString().toLowerCase().lastIndexOf(filtro.toLowerCase()) > 0 ||
-        option.categoria.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
-        option.categoria.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
+        //option.categoria.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
+        //option.categoria.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
         option.raza.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
         option.raza.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
-        option.sexo.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
-        option.sexo.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
+        option.sexo.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
+        option.sexo.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
         option.lote.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
         option.lote.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) > 0);
     this.dataSource.data = animalesFiltrados;

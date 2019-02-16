@@ -16,11 +16,13 @@ namespace Subasta.core.services
     {
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
-
-        public TipoDocumentoService(IMapper mapper, IUnitOfWork uowService)
+        readonly IClienteRepository clienteRepository;
+        public TipoDocumentoService(IMapper mapper, IUnitOfWork uowService,
+             IClienteRepository clienteRepository)
         {
             this.mapper = mapper;
             this.uowService = uowService;
+            this.clienteRepository = clienteRepository;
         }
 
         public void Add(TipoDocumentoDto dto)
@@ -41,12 +43,37 @@ namespace Subasta.core.services
             }
         }
 
+        public int AddWithReturn(TipoDocumentoDto dto)
+        {
+            try
+            {
+                return uowService.TipoDocumentoRepository.Add(mapper.Map<TipoDocumento>(dto));
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+
+                throw new ExceptionCore("error al intentar agregar el TD", ex);
+            }
+        }
+
         public void Delete(TipoDocumentoDto entity)
         {
             try
             {
-                uowService.TipoDocumentoRepository.Delete(mapper.Map<TipoDocumento>(entity));
-                uowService.Save();
+                var clientes = clienteRepository.GetAll().Where(c => c.TipoDocumentoId == entity.TipoDocumentoId);
+                if (clientes.Count() == 0)
+                {
+                    uowService.TipoDocumentoRepository.Delete(mapper.Map<TipoDocumento>(entity));
+                    uowService.Save();
+                }
+                else {
+                    throw new ExceptionCore("Entidad en uso");
+                }
+
             }
             catch (ExceptionData)
             {

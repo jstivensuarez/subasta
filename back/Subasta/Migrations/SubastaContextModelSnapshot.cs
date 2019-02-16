@@ -26,9 +26,6 @@ namespace Subasta.Migrations
                     b.Property<bool>("Activo")
                         .HasColumnName("ACTIVO_ANI");
 
-                    b.Property<int>("CategoriaId")
-                        .HasColumnName("COD_CATEGORIA_ANI");
-
                     b.Property<string>("Descripcion")
                         .HasColumnName("DESCRIPCION_ANI");
 
@@ -44,23 +41,14 @@ namespace Subasta.Migrations
                     b.Property<decimal>("Peso")
                         .HasColumnName("PESO_ANI");
 
-                    b.Property<int>("RazaId")
-                        .HasColumnName("COD_RAZA_ANI");
-
-                    b.Property<int>("SexoId")
-                        .HasColumnName("COD_SEXO_ANI");
+                    b.Property<string>("Sexo")
+                        .HasColumnName("SEXO_ANI");
 
                     b.HasKey("AnimalId");
-
-                    b.HasIndex("CategoriaId");
 
                     b.HasIndex("LoteId");
 
                     b.HasIndex("MunicipioId");
-
-                    b.HasIndex("RazaId");
-
-                    b.HasIndex("SexoId");
 
                     b.ToTable("TBL_ANIMALES");
                 });
@@ -77,6 +65,24 @@ namespace Subasta.Migrations
                     b.HasKey("CategoriaId");
 
                     b.ToTable("TBL_CATEGORIAS");
+                });
+
+            modelBuilder.Entity("Subasta.repository.models.Clasificacion", b =>
+                {
+                    b.Property<int>("ClasificacionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("CODIGO_CLAS");
+
+                    b.Property<int>("CategoriaId");
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnName("NOMBRE_CLAS");
+
+                    b.HasKey("ClasificacionId");
+
+                    b.HasIndex("CategoriaId");
+
+                    b.ToTable("TBL_CLASIFICACIONES");
                 });
 
             modelBuilder.Entity("Subasta.repository.models.Cliente", b =>
@@ -178,6 +184,12 @@ namespace Subasta.Migrations
                     b.Property<int>("CantidadElementos")
                         .HasColumnName("CANTIDAD_ELEMENTOS_LOTE");
 
+                    b.Property<int>("CategoriaId")
+                        .HasColumnName("COD_CATEGORIA_LOTE");
+
+                    b.Property<int>("ClasificacionId")
+                        .HasColumnName("COD_RAZA_LOTE");
+
                     b.Property<string>("ClienteId")
                         .HasColumnName("ID_CLIENTE_LOTE");
 
@@ -205,14 +217,23 @@ namespace Subasta.Migrations
                     b.Property<decimal>("PrecioInicial")
                         .HasColumnName("PRECIO_INICIAL_LOTE");
 
+                    b.Property<int>("RazaId")
+                        .HasColumnName("COD_RAZA_LOTE");
+
                     b.Property<int>("SubastaId")
                         .HasColumnName("COD_SUBASTA_LOTE");
 
                     b.HasKey("LoteId");
 
+                    b.HasIndex("CategoriaId");
+
+                    b.HasIndex("ClasificacionId");
+
                     b.HasIndex("ClienteId");
 
                     b.HasIndex("MunicipioId");
+
+                    b.HasIndex("RazaId");
 
                     b.HasIndex("SubastaId");
 
@@ -299,10 +320,14 @@ namespace Subasta.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("CODIGO_RAZA");
 
+                    b.Property<int>("CategoriaId");
+
                     b.Property<string>("Descripcion")
                         .HasColumnName("NOMBRE_RAZA");
 
                     b.HasKey("RazaId");
+
+                    b.HasIndex("CategoriaId");
 
                     b.ToTable("TBL_RAZAS");
                 });
@@ -322,20 +347,6 @@ namespace Subasta.Migrations
                     b.HasKey("RolId");
 
                     b.ToTable("TBL_ROLES");
-                });
-
-            modelBuilder.Entity("Subasta.repository.models.Sexo", b =>
-                {
-                    b.Property<int>("SexoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("CODIGO_SEXO");
-
-                    b.Property<string>("Descripcion")
-                        .HasColumnName("NOMBRE_SEXO");
-
-                    b.HasKey("SexoId");
-
-                    b.ToTable("TBL_SEXOS");
                 });
 
             modelBuilder.Entity("Subasta.repository.models.SolicitudSubasta", b =>
@@ -434,11 +445,6 @@ namespace Subasta.Migrations
 
             modelBuilder.Entity("Subasta.repository.models.Animal", b =>
                 {
-                    b.HasOne("Subasta.repository.models.Categoria", "Categoria")
-                        .WithMany("Animales")
-                        .HasForeignKey("CategoriaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("Subasta.repository.models.Lote", "Lote")
                         .WithMany("Animales")
                         .HasForeignKey("LoteId")
@@ -448,15 +454,13 @@ namespace Subasta.Migrations
                         .WithMany("Animales")
                         .HasForeignKey("MunicipioId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
 
-                    b.HasOne("Subasta.repository.models.Raza", "Raza")
-                        .WithMany("Animales")
-                        .HasForeignKey("RazaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Subasta.repository.models.Sexo", "Sexo")
-                        .WithMany("Animales")
-                        .HasForeignKey("SexoId")
+            modelBuilder.Entity("Subasta.repository.models.Clasificacion", b =>
+                {
+                    b.HasOne("Subasta.repository.models.Categoria", "Categoria")
+                        .WithMany("Clasificaciones")
+                        .HasForeignKey("CategoriaId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -483,6 +487,16 @@ namespace Subasta.Migrations
 
             modelBuilder.Entity("Subasta.repository.models.Lote", b =>
                 {
+                    b.HasOne("Subasta.repository.models.Categoria", "Categoria")
+                        .WithMany("Lotes")
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Subasta.repository.models.Clasificacion", "Clasificacion")
+                        .WithMany("Lotes")
+                        .HasForeignKey("ClasificacionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Subasta.repository.models.Cliente", "Cliente")
                         .WithMany("Lotes")
                         .HasForeignKey("ClienteId");
@@ -490,6 +504,11 @@ namespace Subasta.Migrations
                     b.HasOne("Subasta.repository.models.Municipio", "Municipio")
                         .WithMany("Lotes")
                         .HasForeignKey("MunicipioId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Subasta.repository.models.Raza", "Raza")
+                        .WithMany("Lotes")
+                        .HasForeignKey("RazaId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Subasta.repository.models.Subasta", "Subasta")
@@ -523,6 +542,14 @@ namespace Subasta.Migrations
                     b.HasOne("Subasta.repository.models.Lote", "Lote")
                         .WithMany("Pujadores")
                         .HasForeignKey("LoteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Subasta.repository.models.Raza", b =>
+                {
+                    b.HasOne("Subasta.repository.models.Categoria", "Categoria")
+                        .WithMany("Razas")
+                        .HasForeignKey("CategoriaId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

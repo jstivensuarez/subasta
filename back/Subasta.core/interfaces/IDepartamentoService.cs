@@ -8,5 +8,6 @@ namespace Subasta.core.interfaces
 {
     public interface IDepartamentoService: IGenericCrudService<DepartamentoDto, Departamento>
     {
+        int AddWithReturn(DepartamentoDto dto);
     }
 }

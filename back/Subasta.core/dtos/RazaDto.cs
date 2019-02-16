@@ -8,5 +8,9 @@ namespace Subasta.core.dtos
 
         public string Descripcion { get; set; }
 
+        public int CategoriaId { get; set; }
+
+        public CategoriaDto Categoria { get; set; }
+
     }
 }

@@ -66,8 +66,8 @@ namespace Subasta.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                municipioService.Add(municipio);
-                return Ok(municipio);
+                
+                return Ok(municipioService.AddWithReturn(municipio));
             }
             catch (Exception)
             {
@@ -75,19 +75,14 @@ namespace Subasta.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, MunicipioDto municipio)
+        [HttpPut]
+        public IActionResult Put(MunicipioDto municipio)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
-                }
-                var entity = municipioService.Find(id);
-                if (entity == null)
-                {
-                    return NotFound();
                 }
                 municipioService.Edit(municipio);
                 return Ok(municipio);
@@ -111,9 +106,9 @@ namespace Subasta.Controllers
                 municipioService.Delete(entity);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                return StatusCode(500, ex);
             }
         }
     }

@@ -32,7 +32,7 @@ export class CategoriaService {
     return this.http.put<any>(environment.endpointCategoria, dto, { headers: this.httpHeaders });
   }
 
-  delete(id: string): Observable<any> {
+  delete(id: number): Observable<any> {
     return this.http.delete<any>(environment.endpointCategoria + '/' + id, { headers: this.httpHeaders });
   }
 }

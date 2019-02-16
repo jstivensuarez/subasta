@@ -13,15 +13,22 @@ using System.Text;
 
 namespace Subasta.core.services
 {
-    public class CategoriaService: ICategoriaService
+    public class CategoriaService : ICategoriaService
     {
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
-
-        public CategoriaService(IMapper mapper, IUnitOfWork uowService)
+        readonly IClasificacionRepository clasificacionRepository;
+        readonly IRazaRepository razaRepository;
+        readonly ILoteRepository loteRepository;
+        public CategoriaService(IMapper mapper, IUnitOfWork uowService,
+            IClasificacionRepository clasificacionRepository, IRazaRepository razaRepository,
+            ILoteRepository loteRepository)
         {
             this.mapper = mapper;
             this.uowService = uowService;
+            this.clasificacionRepository = clasificacionRepository;
+            this.razaRepository = razaRepository;
+            this.loteRepository = loteRepository;
         }
 
         public void Add(CategoriaDto dto)
@@ -42,12 +49,41 @@ namespace Subasta.core.services
             }
         }
 
+        public int AddWithReturn(CategoriaDto dto)
+        {
+            try
+            {
+                return uowService.CategoriaRepository.Add(mapper.Map<Categoria>(dto));
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+
+                throw new ExceptionCore("error al intentar agregar la categoria", ex);
+            }
+        }
+
         public void Delete(CategoriaDto entity)
         {
             try
             {
-                uowService.CategoriaRepository.Delete(mapper.Map<Categoria>(entity));
-                uowService.Save();
+                var lotes = loteRepository.GetAll().Where(r => r.CategoriaId == entity.CategoriaId);
+                var razas = razaRepository.GetAll().Where(r => r.CategoriaId == entity.CategoriaId);
+                var clasificaciones = clasificacionRepository.GetAll().Where(r => r.CategoriaId == entity.CategoriaId);
+
+                if (lotes.Count() == 0 && razas.Count() == 0 && clasificaciones.Count() == 0)
+                {
+                    uowService.CategoriaRepository.Delete(mapper.Map<Categoria>(entity));
+                    uowService.Save();
+                }
+                else
+                {
+                    throw new ExceptionCore("Entidad en uso");
+                }
+
             }
             catch (ExceptionData)
             {

@@ -7,5 +7,6 @@ namespace Subasta.repository.interfaces
 {
     public interface ITipoDocumentoRepository: IGenericRepository<TipoDocumento>
     {
+        int Add(TipoDocumento entity);
     }
 }

@@ -15,13 +15,28 @@ namespace Subasta.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class SexosController : ControllerBase
+    public class ClasificacionesController : ControllerBase
     {
-        readonly ISexoService sexoService;
+        readonly IClasificacionService clasificacionService;
 
-        public SexosController(ISexoService sexoService)
+        public ClasificacionesController(IClasificacionService clasificacionService)
         {
-            this.sexoService = sexoService;
+            this.clasificacionService = clasificacionService;
+        }
+
+        [HttpGet]
+        [Route("[action]/{id}")]
+        public IActionResult GetPorCategoria(int id)
+        {
+            try
+            {
+                var clasificaciones = clasificacionService.GetByCategoria(id);
+                return Ok(clasificaciones);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpGet]
@@ -29,8 +44,8 @@ namespace Subasta.Controllers
         {
             try
             {
-                var sexos = sexoService.GetAll();
-                return Ok(sexos);
+                var clasificaciones = clasificacionService.GetAll();
+                return Ok(clasificaciones);
             }
             catch (Exception ex)
             {
@@ -45,8 +60,8 @@ namespace Subasta.Controllers
         {
             try
             {
-                var sexo = sexoService.Find(id);
-                return Ok(sexo);
+                var clasificacion = clasificacionService.Find(id);
+                return Ok(clasificacion);
             }
             catch (Exception)
             {
@@ -55,16 +70,15 @@ namespace Subasta.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(SexoDto sexo)
+        public IActionResult Post(ClasificacionDto clasificacion)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
-                }
-                sexoService.Add(sexo);
-                return Ok(sexo);
+                }              
+                return Ok(clasificacionService.AddWithReturn(clasificacion));
             }
             catch (Exception)
             {
@@ -73,7 +87,7 @@ namespace Subasta.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(SexoDto sexo)
+        public IActionResult Put(ClasificacionDto clasificacion)
         {
             try
             {
@@ -81,8 +95,8 @@ namespace Subasta.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                sexoService.Edit(sexo);
-                return Ok(sexo);
+                clasificacionService.Edit(clasificacion);
+                return Ok(clasificacion);
             }
             catch (Exception)
             {
@@ -95,17 +109,17 @@ namespace Subasta.Controllers
         {
             try
             {
-                var entity = sexoService.Find(id);
+                var entity = clasificacionService.Find(id);
                 if (entity == null)
                 {
                     return NotFound();
                 }
-                sexoService.Delete(entity);
+                clasificacionService.Delete(entity);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                return StatusCode(500, ex);
             }
         }
     }

@@ -24,7 +24,7 @@ table {
 }
 
 .text-align-center{
-    text-align: center;
+    text-align: center !important;
 }
 
 .margin-right15{
@@ -160,5 +160,9 @@ table {
 .contet-great{
   margin-left: 120px;
   vertical-align: middle;
+}
+
+.example-chip-list {
+  width: 100%;
 }
 

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Subasta.repository.repositorys
 {
-    public class LoteRepository: GenericRepository<Lote>, ILoteRepository
+    public class LoteRepository : GenericRepository<Lote>, ILoteRepository
     {
         readonly SubastaContext context;
 
@@ -23,6 +23,7 @@ namespace Subasta.repository.repositorys
             try
             {
                 var entitys = context.Lotes.AsNoTracking()
+                    .Include(c => c.Categoria)
                     .Include(c => c.Municipio)
                     .Include(c => c.Subasta)
                     .Include(c => c.Cliente)
@@ -45,8 +46,8 @@ namespace Subasta.repository.repositorys
                                       where p.LoteId == lotes.LoteId
                                       && p.ClienteId == clienteId
                                       select p).Count() == 0
-                                      
-                        select lotes).ToList();
+
+                               select lotes).ToList();
                 return entitys;
             }
             catch (Exception ex)

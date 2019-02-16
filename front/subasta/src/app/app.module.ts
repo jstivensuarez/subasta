@@ -25,6 +25,7 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { SolicitudesModule } from './solicitudes/solicitudes.module';
+import { MaestrosModule } from './maestros/maestros.module';
 
 export function getToken(){
   return localStorage.getItem('token');
@@ -57,6 +58,7 @@ const JWT_Module_Options: JwtModuleOptions = {
     AnimalesModule,
     PujadoresModule,
     SolicitudesModule,
+    MaestrosModule,
     JwtModule.forRoot(JWT_Module_Options),
     [NgxMaterialTimepickerModule.forRoot()]
   ],

@@ -20,10 +20,10 @@ namespace Subasta.repository
         private UsuarioRepository usuarioRepository;
         private CategoriaRepository categoriaRepository;
         private RazaRepository razaRepository;
-        private SexoRepository sexoRepository;
         private PujadorRepository pujadorRepository;
         private SolicitudRepository solicitudRepository;
         private RolRepository rolRepository;
+        private ClasificacionRepository clasificacionRepository;
         public UnitOfWork(SubastaContext context)
         {
             this.context = context;
@@ -161,18 +161,6 @@ namespace Subasta.repository
             }
         }
 
-        public ISexoRepository SexoRepository
-        {
-            get
-            {
-                if (this.sexoRepository == null)
-                {
-                    this.sexoRepository = new SexoRepository(context);
-                }
-                return sexoRepository;
-            }
-        }
-
         public IPujadorRepository PujadorRepository
         {
             get
@@ -206,6 +194,18 @@ namespace Subasta.repository
                     this.rolRepository = new RolRepository(context);
                 }
                 return rolRepository;
+            }
+        }
+
+        public IClasificacionRepository ClasificacionRepository
+        {
+            get
+            {
+                if (this.clasificacionRepository == null)
+                {
+                    this.clasificacionRepository = new ClasificacionRepository(context);
+                }
+                return clasificacionRepository;
             }
         }
 

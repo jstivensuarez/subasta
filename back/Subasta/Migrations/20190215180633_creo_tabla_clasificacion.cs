@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Subasta.Migrations
 {
-    public partial class bd_desde_cero : Migration
+    public partial class creo_tabla_clasificacion : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,19 +35,6 @@ namespace Subasta.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TBL_RAZAS",
-                columns: table => new
-                {
-                    CODIGO_RAZA = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    NOMBRE_RAZA = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TBL_RAZAS", x => x.CODIGO_RAZA);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TBL_ROLES",
                 columns: table => new
                 {
@@ -62,19 +49,6 @@ namespace Subasta.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TBL_SEXOS",
-                columns: table => new
-                {
-                    CODIGO_SEXO = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    NOMBRE_SEXO = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TBL_SEXOS", x => x.CODIGO_SEXO);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TBL_TIPO_DOCUMENTOS",
                 columns: table => new
                 {
@@ -85,6 +59,46 @@ namespace Subasta.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TBL_TIPO_DOCUMENTOS", x => x.CODIGO_TD);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TBL_CLASIFICACIONES",
+                columns: table => new
+                {
+                    CODIGO_CLAS = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    NOMBRE_CLAS = table.Column<string>(nullable: true),
+                    CategoriaId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TBL_CLASIFICACIONES", x => x.CODIGO_CLAS);
+                    table.ForeignKey(
+                        name: "FK_TBL_CLASIFICACIONES_TBL_CATEGORIAS_CategoriaId",
+                        column: x => x.CategoriaId,
+                        principalTable: "TBL_CATEGORIAS",
+                        principalColumn: "CODIGO_CAT",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TBL_RAZAS",
+                columns: table => new
+                {
+                    CODIGO_RAZA = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    NOMBRE_RAZA = table.Column<string>(nullable: true),
+                    CategoriaId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TBL_RAZAS", x => x.CODIGO_RAZA);
+                    table.ForeignKey(
+                        name: "FK_TBL_RAZAS_TBL_CATEGORIAS_CategoriaId",
+                        column: x => x.CategoriaId,
+                        principalTable: "TBL_CATEGORIAS",
+                        principalColumn: "CODIGO_CAT",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -226,11 +240,25 @@ namespace Subasta.Migrations
                     ID_CLIENTE_LOTE = table.Column<string>(nullable: true),
                     COD_MUN_UBI_LOTE = table.Column<int>(nullable: false),
                     COD_SUBASTA_LOTE = table.Column<int>(nullable: false),
-                    PRECIO_INICIAL_LOTE = table.Column<decimal>(nullable: false)
+                    PRECIO_INICIAL_LOTE = table.Column<decimal>(nullable: false),
+                    COD_CATEGORIA_LOTE = table.Column<int>(nullable: false),
+                    COD_RAZA_LOTE = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TBL_LOTES", x => x.CODIGO_LOTE);
+                    table.ForeignKey(
+                        name: "FK_TBL_LOTES_TBL_CATEGORIAS_COD_CATEGORIA_LOTE",
+                        column: x => x.COD_CATEGORIA_LOTE,
+                        principalTable: "TBL_CATEGORIAS",
+                        principalColumn: "CODIGO_CAT",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TBL_LOTES_TBL_CLASIFICACIONES_COD_RAZA_LOTE",
+                        column: x => x.COD_RAZA_LOTE,
+                        principalTable: "TBL_CLASIFICACIONES",
+                        principalColumn: "CODIGO_CLAS",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TBL_LOTES_TBL_CLIENTES_ID_CLIENTE_LOTE",
                         column: x => x.ID_CLIENTE_LOTE,
@@ -242,6 +270,12 @@ namespace Subasta.Migrations
                         column: x => x.COD_MUN_UBI_LOTE,
                         principalTable: "TBL_MUNICIPIOS",
                         principalColumn: "CODIGO_MUN",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TBL_LOTES_TBL_RAZAS_COD_RAZA_LOTE",
+                        column: x => x.COD_RAZA_LOTE,
+                        principalTable: "TBL_RAZAS",
+                        principalColumn: "CODIGO_RAZA",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TBL_LOTES_TBL_SUBASTAS_COD_SUBASTA_LOTE",
@@ -288,21 +322,13 @@ namespace Subasta.Migrations
                     PESO_ANI = table.Column<decimal>(nullable: false),
                     DESCRIPCION_ANI = table.Column<string>(nullable: true),
                     ACTIVO_ANI = table.Column<bool>(nullable: false),
-                    COD_CATEGORIA_ANI = table.Column<int>(nullable: false),
-                    COD_RAZA_ANI = table.Column<int>(nullable: false),
-                    COD_SEXO_ANI = table.Column<int>(nullable: false),
+                    SEXO_ANI = table.Column<string>(nullable: true),
                     COD_MUN_PROCE_ANI = table.Column<int>(nullable: false),
                     COD_LOTE_ANI = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TBL_ANIMALES", x => x.CODIGO_ANI);
-                    table.ForeignKey(
-                        name: "FK_TBL_ANIMALES_TBL_CATEGORIAS_COD_CATEGORIA_ANI",
-                        column: x => x.COD_CATEGORIA_ANI,
-                        principalTable: "TBL_CATEGORIAS",
-                        principalColumn: "CODIGO_CAT",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TBL_ANIMALES_TBL_LOTES_COD_LOTE_ANI",
                         column: x => x.COD_LOTE_ANI,
@@ -314,18 +340,6 @@ namespace Subasta.Migrations
                         column: x => x.COD_MUN_PROCE_ANI,
                         principalTable: "TBL_MUNICIPIOS",
                         principalColumn: "CODIGO_MUN",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TBL_ANIMALES_TBL_RAZAS_COD_RAZA_ANI",
-                        column: x => x.COD_RAZA_ANI,
-                        principalTable: "TBL_RAZAS",
-                        principalColumn: "CODIGO_RAZA",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TBL_ANIMALES_TBL_SEXOS_COD_SEXO_ANI",
-                        column: x => x.COD_SEXO_ANI,
-                        principalTable: "TBL_SEXOS",
-                        principalColumn: "CODIGO_SEXO",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -381,11 +395,6 @@ namespace Subasta.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TBL_ANIMALES_COD_CATEGORIA_ANI",
-                table: "TBL_ANIMALES",
-                column: "COD_CATEGORIA_ANI");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TBL_ANIMALES_COD_LOTE_ANI",
                 table: "TBL_ANIMALES",
                 column: "COD_LOTE_ANI");
@@ -396,14 +405,9 @@ namespace Subasta.Migrations
                 column: "COD_MUN_PROCE_ANI");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TBL_ANIMALES_COD_RAZA_ANI",
-                table: "TBL_ANIMALES",
-                column: "COD_RAZA_ANI");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TBL_ANIMALES_COD_SEXO_ANI",
-                table: "TBL_ANIMALES",
-                column: "COD_SEXO_ANI");
+                name: "IX_TBL_CLASIFICACIONES_CategoriaId",
+                table: "TBL_CLASIFICACIONES",
+                column: "CategoriaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TBL_CLIENTES_CODIGO_MUN_CLI",
@@ -419,6 +423,16 @@ namespace Subasta.Migrations
                 name: "IX_TBL_EVENTOS_UBICACION_EVEN",
                 table: "TBL_EVENTOS",
                 column: "UBICACION_EVEN");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TBL_LOTES_COD_CATEGORIA_LOTE",
+                table: "TBL_LOTES",
+                column: "COD_CATEGORIA_LOTE");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TBL_LOTES_COD_RAZA_LOTE",
+                table: "TBL_LOTES",
+                column: "COD_RAZA_LOTE");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TBL_LOTES_ID_CLIENTE_LOTE",
@@ -456,6 +470,11 @@ namespace Subasta.Migrations
                 column: "COD_SUBASTA_PUJADOR");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TBL_RAZAS_CategoriaId",
+                table: "TBL_RAZAS",
+                column: "CategoriaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TBL_SOLICITUDES_CLIENTE_SOLI",
                 table: "TBL_SOLICITUDES",
                 column: "CLIENTE_SOLI");
@@ -491,15 +510,6 @@ namespace Subasta.Migrations
                 name: "TBL_USUARIOS");
 
             migrationBuilder.DropTable(
-                name: "TBL_CATEGORIAS");
-
-            migrationBuilder.DropTable(
-                name: "TBL_RAZAS");
-
-            migrationBuilder.DropTable(
-                name: "TBL_SEXOS");
-
-            migrationBuilder.DropTable(
                 name: "TBL_PUJADORES");
 
             migrationBuilder.DropTable(
@@ -509,13 +519,22 @@ namespace Subasta.Migrations
                 name: "TBL_LOTES");
 
             migrationBuilder.DropTable(
+                name: "TBL_CLASIFICACIONES");
+
+            migrationBuilder.DropTable(
                 name: "TBL_CLIENTES");
+
+            migrationBuilder.DropTable(
+                name: "TBL_RAZAS");
 
             migrationBuilder.DropTable(
                 name: "TBL_SUBASTAS");
 
             migrationBuilder.DropTable(
                 name: "TBL_TIPO_DOCUMENTOS");
+
+            migrationBuilder.DropTable(
+                name: "TBL_CATEGORIAS");
 
             migrationBuilder.DropTable(
                 name: "TBL_EVENTOS");

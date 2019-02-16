@@ -6,17 +6,21 @@ using System.Text;
 
 namespace Subasta.repository.models
 {
-    [Table("TBL_SEXOS")]
-    public class Sexo
+    [Table("TBL_CLASIFICACIONES")]
+    public class Clasificacion
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("CODIGO_SEXO")]
-        public int SexoId { get; set; }
+        [Column("CODIGO_CLAS")]
+        public int ClasificacionId { get; set; }
 
-        [Column("NOMBRE_SEXO")]
+        [Column("NOMBRE_CLAS")]
         public string Descripcion { get; set; }
 
-        public List<Animal> Animales { get; set; } = new List<Animal>();
+        public int CategoriaId { get; set; }
+
+        public Categoria Categoria { get; set; }
+
+        public List<Lote> Lotes { get; set; } = new List<Lote>();
     }
 }

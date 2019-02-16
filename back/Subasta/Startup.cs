@@ -77,9 +77,6 @@ namespace Subasta
             services.AddScoped<IRazaRepository, RazaRepository>();
             services.AddScoped<IRazaService, RazaService>();
 
-            services.AddScoped<ISexoRepository, SexoRepository>();
-            services.AddScoped<ISexoService, SexoService>();
-
             services.AddScoped<IPujadorRepository, PujadorRepository>();
             services.AddScoped<IPujadorService, PujadorService>();
 
@@ -88,6 +85,9 @@ namespace Subasta
 
             services.AddScoped<IRolRepository, RolRepository>();
             services.AddScoped<IRolService, RolService>();
+
+            services.AddScoped<IClasificacionRepository, ClasificacionRepository>();
+            services.AddScoped<IClasificacionService, ClasificacionService>();
 
             services.AddScoped<IFileHelper, FileHelper>();
 

@@ -7,5 +7,6 @@ namespace Subasta.repository.interfaces
 {
     public interface ICategoriaRepository: IGenericRepository<Categoria>
     {
+        int Add(Categoria entity);
     }
 }

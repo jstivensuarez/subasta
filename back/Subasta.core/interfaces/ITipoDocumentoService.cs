@@ -8,5 +8,6 @@ namespace Subasta.core.interfaces
 {
     public interface ITipoDocumentoService : IGenericCrudService<TipoDocumentoDto, TipoDocumento>
     {
+        int AddWithReturn(TipoDocumentoDto dto);
     }
 }

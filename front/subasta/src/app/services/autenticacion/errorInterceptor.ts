@@ -16,6 +16,7 @@ import { constants } from 'src/app/util/constants';
         .pipe(
           retry(0),
           catchError((error: HttpErrorResponse) => {
+            debugger;
             let errorMessage = '';
             if (error.error instanceof ErrorEvent) {
               // client-side error
@@ -26,6 +27,9 @@ import { constants } from 'src/app/util/constants';
             }
             if(error.error === constants.alreadyExist){
               errorMessage = constants.alreadyExist;
+            }
+            if(error.error && error.error.innerException && error.error.innerException.message.includes(constants.enUso)){
+              errorMessage = constants.enUso;
             }
             return throwError(errorMessage);
           })

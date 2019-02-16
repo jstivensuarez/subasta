@@ -7,5 +7,7 @@ namespace Subasta.repository.interfaces
 {
     public interface IRazaRepository: IGenericRepository<Raza>
     {
+        int Add(Raza entity);
+        List<Raza> GetllWithInclude();
     }
 }

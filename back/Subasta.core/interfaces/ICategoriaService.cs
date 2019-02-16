@@ -8,5 +8,8 @@ namespace Subasta.core.interfaces
 {
     public interface ICategoriaService: IGenericCrudService<CategoriaDto, Categoria>
     {
+        void Add(CategoriaDto dto);
+
+        int AddWithReturn(CategoriaDto dto);
     }
 }

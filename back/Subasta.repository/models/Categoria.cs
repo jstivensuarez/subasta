@@ -17,6 +17,10 @@ namespace Subasta.repository.models
         [Column("NOMBRE_CAT")]
         public string Descripcion { get; set; }
 
-        public List<Animal> Animales { get; set; } = new List<Animal>();
+        public List<Raza> Razas { get; set; } = new List<Raza>();
+
+        public List<Lote> Lotes { get; set; } = new List<Lote>();
+
+        public List<Clasificacion> Clasificaciones { get; set; } = new List<Clasificacion>();
     }
 }

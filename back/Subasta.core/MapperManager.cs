@@ -39,9 +39,6 @@ namespace Subasta.core
             CreateMap<Raza, RazaDto>();
             CreateMap<RazaDto, Raza>();
 
-            CreateMap<Sexo, SexoDto>();
-            CreateMap<SexoDto, Sexo>();
-
             CreateMap<repository.models.Subasta, SubastaDto>();
             CreateMap<SubastaDto, repository.models.Subasta>();
 
@@ -56,6 +53,9 @@ namespace Subasta.core
 
             CreateMap<SolicitudSubasta, SolicitudSubastaDto>();
             CreateMap<SolicitudSubastaDto, SolicitudSubasta>();
+
+            CreateMap<Clasificacion, ClasificacionDto>();
+            CreateMap<ClasificacionDto, Clasificacion>();
         }
     }
 }

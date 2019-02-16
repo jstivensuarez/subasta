@@ -8,6 +8,7 @@ namespace Subasta.core.interfaces
 {
     public interface IMunicipioService : IGenericCrudService<MunicipioDto, Municipio>
     {
+        int AddWithReturn(MunicipioDto dto);
         List<MunicipioDto> GetByDepartamentoId(int id);
     }
 }

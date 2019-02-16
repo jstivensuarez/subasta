@@ -1,0 +1,30 @@
+<div class="great">
+  <h1 class="title margin-top-cero contet-great">{{title}}</h1>
+</div>
+<br>
+<div class="container">
+  <button mat-fab color="primary" class="text-align-left yellow" (click)="agregar()">
+    <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+  </button>
+  <br>
+  <br>
+  <mat-card>
+    <mat-form-field class="example-50-width">
+      <mat-select placeholder="Seleccione el departamento" [formControl]="controlDepartamentos"
+        (selectionChange)="obtenerMunicipios($event.value)" [value]="selected" required>
+        <mat-option *ngFor="let depar of departamentos" [value]="depar.departamentoId">
+          {{depar.descripcion}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="example-chip-list">
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let mun of municipios" [selectable]="selectable" [removable]="removable" (click)="editar(mun)" >
+          {{mun.descripcion}}
+          <mat-icon matChipRemove *ngIf="removable" (click)="elminar(mun)">cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+    </mat-form-field>
+  </mat-card>
+</div>

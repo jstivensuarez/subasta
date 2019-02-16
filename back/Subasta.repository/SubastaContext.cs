@@ -27,8 +27,6 @@ namespace Subasta.repository
 
         public DbSet<Raza> Razas { get; set; }
 
-        public DbSet<Sexo> Sexos { get; set; }
-
         public DbSet<TipoDocumento> TipoDocumentos { get; set; }
 
         public DbSet<Usuario> Usuarios { get; set; }
@@ -38,6 +36,8 @@ namespace Subasta.repository
         public DbSet<Subasta.repository.models.Subasta> Subastas { get; set; }
 
         public DbSet<SolicitudSubasta> SolicitudSubastas { get; set; }
+
+        public DbSet<Clasificacion> Clasificaciones { get; set; }
 
         public SubastaContext(DbContextOptions<SubastaContext> options) : base(options) { }
 

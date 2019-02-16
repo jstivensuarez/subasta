@@ -63,8 +63,7 @@ namespace Subasta.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                categoriaService.Add(categoria);
-                return Ok(categoria);
+                return Ok(categoriaService.AddWithReturn(categoria));
             }
             catch (Exception)
             {
@@ -103,9 +102,9 @@ namespace Subasta.Controllers
                 categoriaService.Delete(entity);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                return StatusCode(500, ex);
             }
         }
     }

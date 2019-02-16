@@ -16,6 +16,20 @@ namespace Subasta.repository.repositorys
         public MunicipioRepository(SubastaContext context) : base(context)
         {
             this.context = context;
-        }      
+        }
+
+        public int Add(Municipio entity)
+        {
+            try
+            {
+                context.Municipios.Add(entity);
+                context.SaveChanges();
+                return entity.MunicipioId;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionData("error al agregar la entidad", ex);
+            }
+        }
     }
 }

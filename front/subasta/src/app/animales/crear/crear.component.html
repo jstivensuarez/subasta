@@ -1,5 +1,5 @@
-<div class="great">  
-  <h1 class="title margin-top-cero contet-great">{{title}}</h1>  
+<div class="great">
+  <h1 class="title margin-top-cero contet-great">{{title}}</h1>
 </div>
 <br>
 <div class="container">
@@ -8,8 +8,8 @@
       <div class="row">
         <div class="col-md-12">
           <mat-form-field class="example-full-width">
-            <input matInput [formControl]="descripcion" maxlength="25" 
-            autocomplete="off" placeholder="Descripción" required>
+            <input matInput [formControl]="descripcion" maxlength="25" autocomplete="off" placeholder="Descripción"
+              required>
             <mat-error *ngIf="descripcion.hasError('required')">
               La descripción es <strong>requerida</strong>
             </mat-error>
@@ -20,8 +20,8 @@
       <div class="row">
         <div class="col-md-12">
           <mat-form-field class="example-full-width">
-            <input matInput [formControl]="peso" maxlength="25" placeholder="(Kg) Peso"
-            autocomplete="off" currencyMask required>
+            <input matInput [formControl]="peso" maxlength="25" placeholder="(Kg) Peso" autocomplete="off" currencyMask
+              required>
             <mat-error *ngIf="peso.hasError('required')">
               El peso es <strong>requerido</strong>
             </mat-error>
@@ -46,7 +46,7 @@
         </mat-select>
         <mat-error *ngIf="categoria.hasError('required')">Por favor seleccione una categoria</mat-error>
       </mat-form-field>
-      
+
       <mat-form-field class="example-full-width">
         <mat-select placeholder="Raza" [formControl]="raza" [(value)]="selectedRaza" required>
           <mat-option *ngFor="let raza of razas" [value]="raza.razaId">
@@ -55,11 +55,14 @@
         </mat-select>
         <mat-error *ngIf="raza.hasError('required')">Por favor seleccione una raza</mat-error>
       </mat-form-field>
-    
+
       <mat-form-field class="example-full-width">
         <mat-select placeholder="Sexo" [formControl]="sexo" [(value)]="selectedSexo" required>
-          <mat-option *ngFor="let sexo of sexos" [value]="sexo.sexoId">
-            {{sexo.descripcion}}
+          <mat-option value="Hembra">
+            Hembra
+          </mat-option>
+          <mat-option value="Macho">
+            Macho
           </mat-option>
         </mat-select>
         <mat-error *ngIf="sexo.hasError('required')">Por favor seleccione el sexo del animal</mat-error>
@@ -114,10 +117,10 @@
 
       <br>
       <div *ngIf="foto.value">
-          <strong>Imagen cargada: </strong> {{recursoCargado}}
+        <strong>Imagen cargada: </strong> {{recursoCargado}}
       </div>
       <div *ngIf="video.value && video.valid">
-          <strong>Url enlazada: </strong> <a href="{{recursoCargado}}" target="_blank">Video</a>
+        <strong>Url enlazada: </strong> <a href="{{recursoCargado}}" target="_blank">Video</a>
       </div>
       <br>
       <br>

@@ -79,7 +79,7 @@ namespace Subasta.Controllers
                 animal.CategoriaId = Convert.ToInt32(Request.Form["categoriaId"]);
                 animal.MunicipioId = Convert.ToInt32(Request.Form["municipioId"]);
                 animal.RazaId = Convert.ToInt32(Request.Form["razaId"]);
-                animal.SexoId = Convert.ToInt32(Request.Form["sexoId"]);
+                animal.Sexo = Request.Form["sexo"];
 
                 animalService.Add(animal);
                 return Ok(animal);
@@ -117,7 +117,7 @@ namespace Subasta.Controllers
                 animal.CategoriaId = Convert.ToInt32(Request.Form["categoriaId"]);
                 animal.MunicipioId = Convert.ToInt32(Request.Form["municipioId"]);
                 animal.RazaId = Convert.ToInt32(Request.Form["razaId"]);
-                animal.SexoId = Convert.ToInt32(Request.Form["sexoId"]);
+                animal.Sexo= Request.Form["sexo"];
                 animalService.Edit(animal);
                 return Ok(animal);
             }

@@ -63,9 +63,8 @@ namespace Subasta.Controllers
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
-                }
-                departamentoService.Add(departamento);
-                return Ok(departamento);
+                }             
+                return Ok(departamentoService.AddWithReturn(departamento));
             }
             catch (Exception)
             {
@@ -73,19 +72,14 @@ namespace Subasta.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, DepartamentoDto departamento)
+        [HttpPut]
+        public IActionResult Put(DepartamentoDto departamento)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
-                }
-                var entity = departamentoService.Find(id);
-                if (entity == null)
-                {
-                    return NotFound();
                 }
                 departamentoService.Edit(departamento);
                 return Ok(departamento);
@@ -109,9 +103,9 @@ namespace Subasta.Controllers
                 departamentoService.Delete(entity);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                return StatusCode(500, ex);
             }
         }
     }

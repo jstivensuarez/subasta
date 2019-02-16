@@ -14,6 +14,11 @@ export class RazaService {
 
   constructor(private http: HttpClient) { }
 
+  getRazas(id): Observable<any> {
+    return this.http.get(environment.endpointRaza+'/GetPorCategoria/'+ id).pipe(
+      map((data: Raza[]) => data));
+  }
+
   get(): Observable<any[]> {
     return this.http.get<any[]>(environment.endpointRaza).pipe(
       map((data: Raza[]) => data));
@@ -32,7 +37,7 @@ export class RazaService {
     return this.http.put<any>(environment.endpointRaza, dto, { headers: this.httpHeaders });
   }
 
-  delete(id: string): Observable<any> {
+  delete(id: number): Observable<any> {
     return this.http.delete<any>(environment.endpointRaza + '/' + id, { headers: this.httpHeaders });
   }
 }

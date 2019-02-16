@@ -21,9 +21,7 @@
 
         public RazaDto Raza { get; set; }
 
-        public int SexoId { get; set; }
-
-        public SexoDto Sexo { get; set; }
+        public string Sexo { get; set; }
 
         public int MunicipioId { get; set; }
 

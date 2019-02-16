@@ -17,11 +17,12 @@ namespace Subasta.core.services
     {
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
-
-        public RazaService(IMapper mapper, IUnitOfWork uowService)
+        readonly ILoteRepository loteRepository;
+        public RazaService(IMapper mapper, IUnitOfWork uowService, ILoteRepository loteRepository)
         {
             this.mapper = mapper;
             this.uowService = uowService;
+            this.loteRepository = loteRepository;
         }
 
         public void Add(RazaDto dto)
@@ -42,12 +43,38 @@ namespace Subasta.core.services
             }
         }
 
+        public int AddWithReturn(RazaDto dto)
+        {
+            try
+            {
+                return uowService.RazaRepository.Add(mapper.Map<Raza>(dto));
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+
+                throw new ExceptionCore("error al intentar agregar la raza", ex);
+            }
+        }
+
         public void Delete(RazaDto entity)
         {
             try
             {
-                uowService.RazaRepository.Delete(mapper.Map<Raza>(entity));
-                uowService.Save();
+                var lotes = loteRepository.GetAll().Where(r => r.RazaId == entity.RazaId);
+                if (lotes.Count() == 0)
+                {
+                    uowService.RazaRepository.Delete(mapper.Map<Raza>(entity));
+                    uowService.Save();
+                }
+                else
+                {
+                    throw new ExceptionCore("Entidad en uso");
+                }
+              
             }
             catch (ExceptionData)
             {
@@ -116,7 +143,25 @@ namespace Subasta.core.services
         {
             try
             {
-                var result = uowService.RazaRepository.GetAll();
+                var result = uowService.RazaRepository.GetllWithInclude();
+                return mapper.Map<List<RazaDto>>(result);
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener las razas", ex);
+            }
+        }
+
+        public List<RazaDto> GetByCategoria(int id)
+        {
+            try
+            {
+                var result = uowService.RazaRepository.GetAll()
+                    .Where(m => m.CategoriaId == id);
                 return mapper.Map<List<RazaDto>>(result);
             }
             catch (ExceptionData)

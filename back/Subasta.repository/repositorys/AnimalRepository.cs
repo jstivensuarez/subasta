@@ -25,10 +25,7 @@ namespace Subasta.repository.repositorys
             {
                 var entitys = context.Animales.AsNoTracking()
                     .Include(c => c.Municipio)
-                    .Include(c => c.Categoria)
                     .Include(c => c.Lote)
-                    .Include(c => c.Raza)
-                    .Include(c => c.Sexo)
                     .Where(a => a.Activo)
                     .ToList();
                 return entitys;

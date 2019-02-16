@@ -10,10 +10,29 @@ import { TipoDocumento } from '../dtos/tipo-documento';
 })
 export class TdServiceService {
 
+  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+  
   constructor(private http: HttpClient) { }
 
   getTipoDocumentos(): Observable<any> {
     return this.http.get(environment.endpointTipoDocumentos).pipe(
       map((data: TipoDocumento[]) => data));
+  }
+
+  getDto(id): Observable<any> {
+    return this.http.get<any>(environment.endpointTipoDocumentos + '/Get/' + id).pipe(
+      map((data: any) => data));
+  }
+
+  post(dto: TipoDocumento): Observable<any> {
+    return this.http.post<any>(environment.endpointTipoDocumentos, dto, { headers: this.httpHeaders });
+  }
+
+  put(dto: TipoDocumento): Observable<any> {
+    return this.http.put<any>(environment.endpointTipoDocumentos, dto, { headers: this.httpHeaders });
+  }
+
+  delete(id: number): Observable<any> {
+    return this.http.delete<any>(environment.endpointTipoDocumentos + '/' + id, { headers: this.httpHeaders });
   }
 }

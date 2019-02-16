@@ -25,6 +25,22 @@ namespace Subasta.Controllers
             this.razaService = razaService;
         }
 
+
+        [HttpGet]
+        [Route("[action]/{id}")]
+        public IActionResult GetPorCategoria(int id)
+        {
+            try
+            {
+                var razas = razaService.GetByCategoria(id);
+                return Ok(razas);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         [HttpGet]
         public IActionResult Get()
         {
@@ -64,8 +80,8 @@ namespace Subasta.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                razaService.Add(raza);
-                return Ok(raza);
+               
+                return Ok(razaService.AddWithReturn(raza));
             }
             catch (Exception)
             {
@@ -104,9 +120,9 @@ namespace Subasta.Controllers
                 razaService.Delete(entity);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                return StatusCode(500, ex);
             }
         }
     }

@@ -59,9 +59,8 @@ namespace Subasta.Controllers
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
-                }
-                tdService.Add(td);
-                return Ok(td);
+                }           
+                return Ok(tdService.AddWithReturn(td));
             }
             catch (Exception)
             {
@@ -69,19 +68,14 @@ namespace Subasta.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, TipoDocumentoDto td)
+        [HttpPut]
+        public IActionResult Put(TipoDocumentoDto td)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
-                }
-                var entity = tdService.Find(id);
-                if (entity == null)
-                {
-                    return NotFound();
                 }
                 tdService.Edit(td);
                 return Ok(td);
@@ -105,9 +99,9 @@ namespace Subasta.Controllers
                 tdService.Delete(entity);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                return StatusCode(500, ex);
             }
         }
     }

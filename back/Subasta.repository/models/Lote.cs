@@ -54,6 +54,21 @@ namespace Subasta.repository.models
 
         public Subasta Subasta { get; set; }
 
+        [Column("COD_CATEGORIA_LOTE")]
+        public int CategoriaId { get; set; }
+
+        public Categoria Categoria { get; set; }
+
+        [Column("COD_RAZA_LOTE")]
+        public int RazaId { get; set; }
+
+        public Raza Raza { get; set; }
+        
+        [Column("COD_RAZA_LOTE")]
+        public int ClasificacionId { get; set; }
+
+        public Clasificacion Clasificacion { get; set; }
+
         public List<Animal> Animales { get; set; } = new List<Animal>();
 
         public List<Pujador> Pujadores { get; set; } = new List<Pujador>();

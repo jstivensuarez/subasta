@@ -15,7 +15,6 @@ import { constants } from 'src/app/util/constants';
 import { AnimalService } from 'src/app/services/animal.service';
 import { CategoriaService } from 'src/app/services/categoria.service';
 import { Categoria } from 'src/app/dtos/categoria';
-import { SexoService } from 'src/app/services/sexo.service';
 import { Sexo } from 'src/app/dtos/sexo';
 import { Raza } from 'src/app/dtos/raza';
 import { RazaService } from 'src/app/services/raza.service';
@@ -36,7 +35,7 @@ export class CrearComponent implements OnInit {
   selectedMunicipio: number;
   selectedDepartamento: number;
   selectedCategoria: number;
-  selectedSexo: number;
+  selectedSexo: string;
   selectedRaza: number;
   selectedLote: number;
   isEditing: boolean;
@@ -52,7 +51,6 @@ export class CrearComponent implements OnInit {
     private alertService: MesaggesManagerService,
     private lotesService: LotesService,
     private animalService: AnimalService,
-    private sexoService: SexoService,
     private razaService: RazaService) {
     this.animal = new Animal();
     this.title = 'Crear animal';
@@ -64,7 +62,6 @@ export class CrearComponent implements OnInit {
     this.lotes = [];
     this.obtenerDepartamentos();
     this.obtenerCategorias();
-    this.obtenerSexos();
     this.obtenerRazas();
     this.obtenerLotes();
     this.verificarUrl();
@@ -88,16 +85,6 @@ export class CrearComponent implements OnInit {
     this.categoriaService.get().subscribe(
       resp => {
         this.categorias = resp;
-      }, err => {
-        console.error(err);
-      }
-    );
-  }
-
-  obtenerSexos() {
-    this.sexoService.get().subscribe(
-      resp => {
-        this.sexos = resp;
       }, err => {
         console.error(err);
       }
@@ -139,12 +126,10 @@ export class CrearComponent implements OnInit {
   verificarUrl() {
     this.route.queryParams.subscribe(params => {
       if (params['id']) {
-        debugger;
         this.isEditing = true;
         this.title = 'Editar Animal';
         this.obtenerAnimal(params['id']);
       } else {
-        debugger;
         this.isEditing = false;
         this.animal = new Animal();
         this.form = this.createForm();
@@ -154,7 +139,6 @@ export class CrearComponent implements OnInit {
   }
 
   obtenerAnimal(id: string) {
-    debugger;
     this.animalService.getDto(id).subscribe(res => {
       this.animal = res;
       this.selectedDepartamento = this.animal.municipio.departamentoId;
@@ -178,7 +162,7 @@ export class CrearComponent implements OnInit {
       payload.append('loteId', this.lote.value);
       payload.append('categoriaId', this.categoria.value);
       payload.append('razaId', this.raza.value);
-      payload.append('sexoId', this.sexo.value);
+      payload.append('sexo', this.sexo.value);
       payload.append('municipioId', this.municipio.value);
       if (this.foto.value) {
         payload.append('foto', this.animal.imagen[0]);
@@ -229,8 +213,8 @@ export class CrearComponent implements OnInit {
   createForm() {
     this.obtenerMunicipios(this.selectedDepartamento);
     this.selectedMunicipio = this.animal.municipioId;
-    this.selectedCategoria = this.animal.categoriaId;
-    this.selectedSexo = this.animal.sexoId;
+    //this.selectedCategoria = this.animal.categoriaId;
+    this.selectedSexo = this.animal.sexo;
     this.selectedRaza = this.animal.razaId;
     this.selectedLote = this.animal.loteId;
     return new FormGroup({

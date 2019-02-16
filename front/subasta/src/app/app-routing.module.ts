@@ -19,6 +19,12 @@ import { ListarSubastaComponent } from './subastas/listar-subasta/listar-subasta
 import { CrearSubastaNuevaComponent } from './subastas/crear-subasta-nueva/crear-subasta-nueva.component';
 import { Subasta } from './dtos/subasta';
 import { ListarSolicitudesComponent } from './solicitudes/listar-solicitudes/listar-solicitudes.component';
+import { AdminCategoriasComponent } from './maestros/admin-categorias/admin-categorias.component';
+import { AdminClasificacionesComponent } from './maestros/admin-clasificaciones/admin-clasificaciones.component';
+import { AdminRazasComponent } from './maestros/admin-razas/admin-razas.component';
+import { AdminCiudadesComponent } from './maestros/admin-ciudades/admin-ciudades.component';
+import { AdminDepartamentosComponent } from './maestros/admin-departamentos/admin-departamentos.component';
+import { AdminTdComponent } from './maestros/admin-td/admin-td.component';
 
 const routes: Routes = [
   {
@@ -125,6 +131,42 @@ const routes: Routes = [
   },
   {
     path: 'listar-solicitud', component: ListarSolicitudesComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'admin-categorias', component: AdminCategoriasComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'admin-clasificaciones', component: AdminClasificacionesComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'admin-razas', component: AdminRazasComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'admin-ciudades', component: AdminCiudadesComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'admin-departamentos', component: AdminDepartamentosComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'admin-td', component: AdminTdComponent, canActivate: [AutenticacionService, RoleguardService],
     data: {
       expectedRole: 'Administrador'
     }

@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <h4>{{title}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="cancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<mat-card>
+  <div class="col-md-12 vertical-modal">
+    <mat-form-field class="example-full-width">
+      <mat-select placeholder="Departamento" [formControl]="controlDepartamentos">
+        <mat-option *ngFor="let depar of departamentos" [value]="depar.departamentoId">
+          {{depar.descripcion}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput [formControl]="control" maxlength="25" autocomplete="off" required>
+    </mat-form-field>
+  </div>
+</mat-card>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-cr-other yellow" data-dismiss="modal" (click)="guardar()">Guardar</button>
+</div>
