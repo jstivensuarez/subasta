@@ -53,20 +53,22 @@ export class AdminRazasComponent implements OnInit {
   agregar(): void {
     const component = this.modalService.open(EditarRazaComponent).componentInstance;
     component.completo.subscribe(res => {
-      this.selected = res.selec;
-      this.obtenerRazas(res.selec);
-      const raza = new Raza();
-      raza.descripcion = res.des;
-      raza.categoriaId = res.selec;
-      this.razaService.post(raza).subscribe(res => {
-        this.alertService.
-          showSimpleMessage(constants.successTitle, constants.success, constants.successCreate);
-        raza.razaId = res;
-        this.agregarChip(raza);
-      }, err => {
-        this.alertService.
-          showSimpleMessage(constants.errorTitle, constants.error, constants.errorCreate);
-      });
+      if (res.des) {
+        this.selected = res.selec;
+        this.obtenerRazas(res.selec);
+        const raza = new Raza();
+        raza.descripcion = res.des;
+        raza.categoriaId = res.selec;
+        this.razaService.post(raza).subscribe(res => {
+          this.alertService.
+            showSimpleMessage(constants.successTitle, constants.success, constants.successCreate);
+          raza.razaId = res;
+          this.agregarChip(raza);
+        }, err => {
+          this.alertService.
+            showSimpleMessage(constants.errorTitle, constants.error, constants.errorCreate);
+        });
+      }
     });
   }
 
@@ -99,16 +101,18 @@ export class AdminRazasComponent implements OnInit {
     component.control = new FormControl(raza.descripcion);
     component.controlCategorias = new FormControl(raza.categoriaId)
     component.completo.subscribe(res => {
-      this.selected = res.selec;
-      raza.descripcion = res.des;
-      raza.categoriaId = res.selec;
-      this.razaService.put(raza).subscribe(res => {
-        this.editarChip(raza);
-        this.obtenerRazas(this.selected);
-      }, err => {
-        this.alertService.
-          showSimpleMessage(constants.errorTitle, constants.error, constants.errorUpdate);
-      });
+      if (res.des) {
+        this.selected = res.selec;
+        raza.descripcion = res.des;
+        raza.categoriaId = res.selec;
+        this.razaService.put(raza).subscribe(res => {
+          this.editarChip(raza);
+          this.obtenerRazas(this.selected);
+        }, err => {
+          this.alertService.
+            showSimpleMessage(constants.errorTitle, constants.error, constants.errorUpdate);
+        });
+      }
     });
   }
 

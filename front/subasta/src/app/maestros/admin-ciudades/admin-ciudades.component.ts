@@ -54,20 +54,22 @@ export class AdminCiudadesComponent implements OnInit {
   agregar(): void {
     const component = this.modalService.open(EditarAvanzadoComponent).componentInstance;
     component.completo.subscribe(res => {
-      this.selected = res.selec;
-      this.obtenerMunicipios(res.selec);
-      const municipio = new Municipio();
-      municipio.descripcion = res.des;
-      municipio.departamentoId = res.selec;
-      this.municipioService.post(municipio).subscribe(res => {
-        this.alertService.
-          showSimpleMessage(constants.successTitle, constants.success, constants.successCreate);
-        municipio.municipioId = res;
-        this.agregarChip(municipio);
-      }, err => {
-        this.alertService.
-          showSimpleMessage(constants.errorTitle, constants.error, constants.errorCreate);
-      });
+      if (res.des) {
+        this.selected = res.selec;
+        this.obtenerMunicipios(res.selec);
+        const municipio = new Municipio();
+        municipio.descripcion = res.des;
+        municipio.departamentoId = res.selec;
+        this.municipioService.post(municipio).subscribe(res => {
+          this.alertService.
+            showSimpleMessage(constants.successTitle, constants.success, constants.successCreate);
+          municipio.municipioId = res;
+          this.agregarChip(municipio);
+        }, err => {
+          this.alertService.
+            showSimpleMessage(constants.errorTitle, constants.error, constants.errorCreate);
+        });
+      }
     });
   }
 
@@ -101,16 +103,18 @@ export class AdminCiudadesComponent implements OnInit {
     component.control = new FormControl(municipio.descripcion);
     component.controlDepartamentos = new FormControl(municipio.departamentoId)
     component.completo.subscribe(res => {
-      this.selected = res.selec;
-      municipio.descripcion = res.des;
-      municipio.departamentoId = res.selec;
-      this.municipioService.put(municipio).subscribe(res => {
-        this.editarChip(municipio);
-        this.obtenerMunicipios(this.selected);
-      }, err => {
-        this.alertService.
-          showSimpleMessage(constants.errorTitle, constants.error, constants.errorUpdate);
-      });
+      if (res.des) {
+        this.selected = res.selec;
+        municipio.descripcion = res.des;
+        municipio.departamentoId = res.selec;
+        this.municipioService.put(municipio).subscribe(res => {
+          this.editarChip(municipio);
+          this.obtenerMunicipios(this.selected);
+        }, err => {
+          this.alertService.
+            showSimpleMessage(constants.errorTitle, constants.error, constants.errorUpdate);
+        });
+      }
     });
   }
 

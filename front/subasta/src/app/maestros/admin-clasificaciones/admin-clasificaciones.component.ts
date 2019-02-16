@@ -54,20 +54,22 @@ export class AdminClasificacionesComponent implements OnInit {
   agregar(): void {
     const component = this.modalService.open(EditarClasificacionComponent).componentInstance;
     component.completo.subscribe(res => {
-      this.selected = res.selec;
-      this.obtenerClasificaciones(res.selec);
-      const clasificacion = new Clasificacion();
-      clasificacion.descripcion = res.des;
-      clasificacion.categoriaId = res.selec;
-      this.clasificacionService.post(clasificacion).subscribe(res => {
-        this.alertService.
-          showSimpleMessage(constants.successTitle, constants.success, constants.successCreate);
-        clasificacion.clasificacionId = res;
-        this.agregarChip(clasificacion);
-      }, err => {
-        this.alertService.
-          showSimpleMessage(constants.errorTitle, constants.error, constants.errorCreate);
-      });
+      if (res.des) {
+        this.selected = res.selec;
+        this.obtenerClasificaciones(res.selec);
+        const clasificacion = new Clasificacion();
+        clasificacion.descripcion = res.des;
+        clasificacion.categoriaId = res.selec;
+        this.clasificacionService.post(clasificacion).subscribe(res => {
+          this.alertService.
+            showSimpleMessage(constants.successTitle, constants.success, constants.successCreate);
+          clasificacion.clasificacionId = res;
+          this.agregarChip(clasificacion);
+        }, err => {
+          this.alertService.
+            showSimpleMessage(constants.errorTitle, constants.error, constants.errorCreate);
+        });
+      }
     });
   }
 
@@ -101,16 +103,18 @@ export class AdminClasificacionesComponent implements OnInit {
     component.control = new FormControl(clasificacion.descripcion);
     component.controlCategorias = new FormControl(clasificacion.categoriaId)
     component.completo.subscribe(res => {
-      this.selected = res.selec;
-      clasificacion.descripcion = res.des;
-      clasificacion.categoriaId = res.selec;
-      this.clasificacionService.put(clasificacion).subscribe(res => {
-        this.editarChip(clasificacion);
-        this.obtenerClasificaciones(this.selected);
-      }, err => {
-        this.alertService.
-          showSimpleMessage(constants.errorTitle, constants.error, constants.errorUpdate);
-      });
+      if (res.des) {
+        this.selected = res.selec;
+        clasificacion.descripcion = res.des;
+        clasificacion.categoriaId = res.selec;
+        this.clasificacionService.put(clasificacion).subscribe(res => {
+          this.editarChip(clasificacion);
+          this.obtenerClasificaciones(this.selected);
+        }, err => {
+          this.alertService.
+            showSimpleMessage(constants.errorTitle, constants.error, constants.errorUpdate);
+        });
+      }
     });
   }
 
