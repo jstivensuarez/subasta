@@ -17,7 +17,7 @@ export class ListarComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   dataSource: MatTableDataSource<Animal>;
   animales: Animal[];
-  displayedColumns: string[] = ['descripcion', 'peso', 'categoria', 'raza', 'sexo', 'lote', 'acciones'];
+  displayedColumns: string[] = ['descripcion', 'peso', 'sexo', 'lote', 'acciones'];
   title: string;
   constructor(private animalService: AnimalService,
     private alertService: MesaggesManagerService,
@@ -92,10 +92,6 @@ export class ListarComponent implements OnInit {
         option.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
         option.peso.toString().toLowerCase().lastIndexOf(filtro.toLowerCase()) === 0 ||
         option.peso.toString().toLowerCase().lastIndexOf(filtro.toLowerCase()) > 0 ||
-        //option.categoria.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
-        //option.categoria.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
-        option.raza.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
-        option.raza.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
         option.sexo.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||
         option.sexo.toLowerCase().indexOf(filtro.toLowerCase()) > 0 ||
         option.lote.descripcion.toLowerCase().indexOf(filtro.toLowerCase()) === 0 ||

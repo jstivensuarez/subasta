@@ -13,6 +13,12 @@ import { Cliente } from 'src/app/dtos/cliente';
 import { constants } from 'src/app/util/constants';
 import { SubastaService } from 'src/app/services/subasta.service';
 import { Subasta } from 'src/app/dtos/subasta';
+import { CategoriaService } from 'src/app/services/categoria.service';
+import { Categoria } from 'src/app/dtos/categoria';
+import { RazaService } from 'src/app/services/raza.service';
+import { ClasificacionService } from 'src/app/services/clasificacion.service';
+import { Raza } from 'src/app/dtos/raza';
+import { Clasificacion } from 'src/app/dtos/clasificacion';
 
 @Component({
   selector: 'app-crear-lotes',
@@ -21,6 +27,9 @@ import { Subasta } from 'src/app/dtos/subasta';
 })
 export class CrearLotesComponent implements OnInit {
 
+  categorias: Categoria[];
+  razas: Raza[];
+  clasificaciones: Clasificacion[];
   departamentos: Departamento[];
   municipios: Municipio[];
   propietarios: Cliente[];
@@ -32,10 +41,14 @@ export class CrearLotesComponent implements OnInit {
   selectedPropietario: string;
   selectedSubasta: number;
   selectedDepartamento: number;
+  selectedCategoria: number;
+  selectedClasificacion: number;
+  selectedRaza: number;
   selectedAnticipo: boolean;
   isEditing: boolean;
   fotoControl: any;
   recursoCargado: string;
+
   constructor(
     private departamentoService: DepartamentoService,
     private municipioService: MunicipioService,
@@ -44,13 +57,20 @@ export class CrearLotesComponent implements OnInit {
     private router: Router,
     private alertService: MesaggesManagerService,
     private lotesService: LotesService,
-    private subastaService: SubastaService) {
+    private subastaService: SubastaService,
+    private categoriaService: CategoriaService,
+    private razaService: RazaService,
+    private clasificacionService: ClasificacionService) {
     this.title = 'Crear lote';
     this.lote = new Lote();
+    this.categorias = [];
+    this.razas = [];
+    this.clasificaciones = [];
     this.departamentos = [];
     this.municipios = [];
     this.propietarios = [];
     this.obtenerDepartamentos();
+    this.obtenerCategorias();
     this.obtenerPropietarios();
     this.obtenerSubastas();
     this.verificarUrl();
@@ -107,12 +127,56 @@ export class CrearLotesComponent implements OnInit {
     }
   }
 
+  obtenerDatosCategoria(categoriaId) {
+    this.raza.setValue(null);
+    this.clasificacion.setValue(null);
+    this.obtenerRazas(categoriaId);
+    this.obtenerClasificaciones(categoriaId);
+  }
+
+  obtenerRazas(categoriaId) {
+    if (categoriaId) {
+      this.razaService.getRazas(categoriaId).subscribe(
+        resp => {
+          this.razas = resp;
+        }, err => {
+          console.error(err);
+        }
+      );
+    }
+  }
+
+  obtenerClasificaciones(categoriaId) {
+    if (categoriaId) {
+      this.clasificacionService.getClasificaciones(categoriaId).subscribe(
+        resp => {
+          this.clasificaciones = resp;
+        }, err => {
+          console.error(err);
+        }
+      );
+    }
+  }
+
+  obtenerCategorias() {
+    this.categoriaService.get().subscribe(
+      resp => {
+        this.categorias = resp;
+      }, err => {
+        console.error(err);
+      }
+    );
+  }
+
   obtenerLote(id: string) {
     this.lotesService.getDto(id).subscribe(res => {
       debugger;
       this.lote = res;
       this.selectedDepartamento = this.lote.municipio.departamentoId;
       this.selectedSubasta = this.lote.subastaId;
+      this.selectedCategoria = this.lote.categoriaId;
+      this.selectedRaza = this.lote.razaId;
+      this.selectedClasificacion = this.lote.clasificacionId;
       this.form = this.createForm();
     }, err => {
       console.error(err);
@@ -145,6 +209,9 @@ export class CrearLotesComponent implements OnInit {
       payload.append('municipioId', this.municipio.value);
       payload.append('precioBase', this.precioBase.value);
       payload.append('subastaId', this.subasta.value);
+      payload.append('categoriaId', this.categoria.value);
+      payload.append('razaId', this.raza.value);
+      payload.append('clasificacionId', this.clasificacion.value);
 
       if (this.foto.value) {
         payload.append('foto', this.lote.imagen[0]);
@@ -177,13 +244,13 @@ export class CrearLotesComponent implements OnInit {
         this.video.setValidators([Validators.pattern('^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$')]);
         this.video.updateValueAndValidity();
       }
-    }else{
+    } else {
       this.foto.setErrors({});
-        this.foto.updateValueAndValidity({
-          onlySelf: true
-        });
-        this.video.setValidators([Validators.pattern('^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$')]);
-        this.video.updateValueAndValidity();
+      this.foto.updateValueAndValidity({
+        onlySelf: true
+      });
+      this.video.setValidators([Validators.pattern('^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$')]);
+      this.video.updateValueAndValidity();
     }
   }
 
@@ -218,16 +285,23 @@ export class CrearLotesComponent implements OnInit {
 
   createForm() {
     this.obtenerMunicipios(this.selectedDepartamento);
+    this.obtenerRazas(this.selectedCategoria);
+    this.obtenerClasificaciones(this.selectedCategoria);
     this.selectedMunicipio = this.lote.municipioId;
     this.selectedPropietario = this.lote.clienteId;
     this.selectedSubasta = this.lote.subastaId;
+    this.selectedClasificacion = this.lote.clasificacionId;
+    this.selectedRaza = this.lote.razaId;
     return new FormGroup({
       nombre: new FormControl(this.lote.nombre, [Validators.required]),
-      descripcion: new FormControl(this.lote.descripcion, [Validators.required]),
+      descripcion: new FormControl(this.lote.descripcion),
       precioBase: new FormControl(this.lote.precioBase, [Validators.required]),
       propietario: new FormControl(this.selectedPropietario),
       municipio: new FormControl(this.selectedMunicipio),
       departamento: new FormControl(this.selectedDepartamento),
+      categoria: new FormControl(this.selectedCategoria),
+      raza: new FormControl(this.selectedRaza),
+      clasificacion: new FormControl(this.selectedClasificacion),
       subasta: new FormControl(this.selectedSubasta),
       foto: new FormControl(this.lote.imagen),
       video: new FormControl(this.lote.video, [Validators.pattern('^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$')])
@@ -251,6 +325,18 @@ export class CrearLotesComponent implements OnInit {
     this.video.setValue(null);
     this.lote.imagen = files;
     this.validateFile();
+  }
+
+  get categoria() {
+    return this.form.get('categoria');
+  }
+
+  get raza() {
+    return this.form.get('raza');
+  }
+
+  get clasificacion() {
+    return this.form.get('clasificacion');
   }
 
   get video() {

@@ -5,12 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20190128065758_agrego_subastas.cs" />
-    <Compile Remove="Migrations\20190128065758_agrego_subastas.Designer.cs" />
-    <Compile Remove="Migrations\20190214172025_cambio_tipo_clienteid_solicitud.cs" />
-    <Compile Remove="Migrations\20190214172427_cambio_tipo_clienteid_solicitud.cs" />
-    <Compile Remove="Migrations\20190214172625_cambio_tipo_clienteid_solici.cs" />
-    <Compile Remove="Migrations\20190214172913_cambio_tipo_clienteid_solici.cs" />
+    <Compile Remove="Migrations\20190216155102_actualizo_tamaño_decimales.cs" />
   </ItemGroup>
 
   <ItemGroup>

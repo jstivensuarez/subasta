@@ -54,6 +54,29 @@ namespace Subasta.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("[action]")]
+        public IActionResult ChangePass(UsuarioDto usuario)
+        {
+            try
+            {
+                IActionResult response = Unauthorized();
+                var user = AuthenticateUser(usuario);
+                if (user != null)
+                {
+                    usuarioService.CambiarClave(usuario);
+                    return Ok();
+                }
+                return response;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("[action]")]
         public IActionResult Register(ClienteDto cliente)
         {
             try
@@ -100,6 +123,22 @@ namespace Subasta.Controllers
             return BadRequest();
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("[action]/{nombreUsuario}")]
+        public IActionResult RecoverePass(string nombreUsuario)
+        {
+            try
+            {
+                usuarioService.RecuperarClave(nombreUsuario);
+                return Ok();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
         private string GenerateJSONWebToken(UsuarioDto userInfo)
         {

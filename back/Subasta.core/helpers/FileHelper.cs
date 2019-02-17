@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Subasta.core.interfaces;
 using Subasta.core.services;
 using System;
 using System.Collections.Generic;

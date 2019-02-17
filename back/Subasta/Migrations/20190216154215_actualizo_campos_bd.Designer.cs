@@ -9,8 +9,8 @@ using Subasta.repository;
 namespace Subasta.Migrations
 {
     [DbContext(typeof(SubastaContext))]
-    [Migration("20190215180633_creo_tabla_clasificacion")]
-    partial class creo_tabla_clasificacion
+    [Migration("20190216154215_actualizo_campos_bd")]
+    partial class actualizo_campos_bd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,10 +29,14 @@ namespace Subasta.Migrations
                         .HasColumnName("ACTIVO_ANI");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnName("DESCRIPCION_ANI");
+                        .IsRequired()
+                        .HasColumnName("DESCRIPCION_ANI")
+                        .HasMaxLength(2000);
 
                     b.Property<string>("Foto")
-                        .HasColumnName("FOTO_ANI");
+                        .IsRequired()
+                        .HasColumnName("FOTO_ANI")
+                        .HasMaxLength(200);
 
                     b.Property<int>("LoteId")
                         .HasColumnName("COD_LOTE_ANI");
@@ -41,9 +45,12 @@ namespace Subasta.Migrations
                         .HasColumnName("COD_MUN_PROCE_ANI");
 
                     b.Property<decimal>("Peso")
-                        .HasColumnName("PESO_ANI");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("PESO_ANI")
+                        .HasDefaultValue(0m);
 
                     b.Property<string>("Sexo")
+                        .IsRequired()
                         .HasColumnName("SEXO_ANI");
 
                     b.HasKey("AnimalId");
@@ -62,7 +69,9 @@ namespace Subasta.Migrations
                         .HasColumnName("CODIGO_CAT");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnName("NOMBRE_CAT");
+                        .IsRequired()
+                        .HasColumnName("NOMBRE_CAT")
+                        .HasMaxLength(50);
 
                     b.HasKey("CategoriaId");
 
@@ -78,7 +87,9 @@ namespace Subasta.Migrations
                     b.Property<int>("CategoriaId");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnName("NOMBRE_CLAS");
+                        .IsRequired()
+                        .HasColumnName("NOMBRE_CLAS")
+                        .HasMaxLength(50);
 
                     b.HasKey("ClasificacionId");
 
@@ -91,37 +102,51 @@ namespace Subasta.Migrations
                 {
                     b.Property<string>("ClienteId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("ID_CLI");
+                        .HasColumnName("ID_CLI")
+                        .HasMaxLength(15);
 
                     b.Property<bool>("Activo")
                         .HasColumnName("ACTIVO_CLI");
 
                     b.Property<string>("Correo")
-                        .HasColumnName("CORREO_CLI");
+                        .IsRequired()
+                        .HasColumnName("CORREO_CLI")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Direccion")
-                        .HasColumnName("DIRECCION_CLI");
+                        .IsRequired()
+                        .HasColumnName("DIRECCION_CLI")
+                        .HasMaxLength(50);
 
                     b.Property<int>("MunicipioId")
                         .HasColumnName("CODIGO_MUN_CLI");
 
                     b.Property<string>("Nombre")
-                        .HasColumnName("NOMBRE_CLI");
+                        .IsRequired()
+                        .HasColumnName("NOMBRE_CLI")
+                        .HasMaxLength(70);
 
                     b.Property<string>("Representante")
-                        .HasColumnName("REPRESENTANTE_LEGAL_CLI");
+                        .HasColumnName("REPRESENTANTE_LEGAL_CLI")
+                        .HasMaxLength(70);
 
                     b.Property<string>("Telefono")
-                        .HasColumnName("TELEFONO_CLI");
+                        .IsRequired()
+                        .HasColumnName("TELEFONO_CLI")
+                        .HasMaxLength(20);
 
                     b.Property<string>("Tipo")
-                        .HasColumnName("TIPO_CLI");
+                        .IsRequired()
+                        .HasColumnName("TIPO_CLI")
+                        .HasMaxLength(20);
 
                     b.Property<int>("TipoDocumentoId")
                         .HasColumnName("CODIGO_TD_CLI");
 
                     b.Property<string>("Usuario")
-                        .HasColumnName("USUARIO_CLI");
+                        .IsRequired()
+                        .HasColumnName("USUARIO_CLI")
+                        .HasMaxLength(50);
 
                     b.HasKey("ClienteId");
 
@@ -139,7 +164,9 @@ namespace Subasta.Migrations
                         .HasColumnName("CODIGO_DPTO");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnName("NOMBRE_DPTO");
+                        .IsRequired()
+                        .HasColumnName("NOMBRE_DPTO")
+                        .HasMaxLength(50);
 
                     b.HasKey("DepartamentoId");
 
@@ -156,7 +183,9 @@ namespace Subasta.Migrations
                         .HasColumnName("ACTIVO_EVEN");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnName("NOMBRE_EVEN");
+                        .IsRequired()
+                        .HasColumnName("NOMBRE_EVEN")
+                        .HasMaxLength(50);
 
                     b.Property<DateTime>("FechaFin")
                         .HasColumnName("FECHA_FIN_EVEN");
@@ -190,34 +219,48 @@ namespace Subasta.Migrations
                         .HasColumnName("COD_CATEGORIA_LOTE");
 
                     b.Property<int>("ClasificacionId")
-                        .HasColumnName("COD_RAZA_LOTE");
+                        .HasColumnName("COD_CLASIFICACION_LOTE");
 
                     b.Property<string>("ClienteId")
+                        .IsRequired()
                         .HasColumnName("ID_CLIENTE_LOTE");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnName("DESCRIPCION_LOTE");
+                        .HasColumnName("DESCRIPCION_LOTE")
+                        .HasMaxLength(2000);
 
                     b.Property<string>("FotoLote")
-                        .HasColumnName("FOTO_LOTE");
+                        .IsRequired()
+                        .HasColumnName("FOTO_LOTE")
+                        .HasMaxLength(200);
 
                     b.Property<int>("MunicipioId")
                         .HasColumnName("COD_MUN_UBI_LOTE");
 
                     b.Property<string>("Nombre")
-                        .HasColumnName("NOMBRE_LOTE");
+                        .IsRequired()
+                        .HasColumnName("NOMBRE_LOTE")
+                        .HasMaxLength(50);
 
                     b.Property<decimal>("PesoPromedio")
-                        .HasColumnName("PESO_PROMEDIO_LOTE");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("PESO_PROMEDIO_LOTE")
+                        .HasDefaultValue(0m);
 
                     b.Property<decimal>("PesoTotal")
-                        .HasColumnName("PESO_TOTAL_LOTE");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("PESO_TOTAL_LOTE")
+                        .HasDefaultValue(0m);
 
                     b.Property<decimal>("PrecioBase")
-                        .HasColumnName("PRECIO_BASE_LOTE");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("PRECIO_BASE_LOTE")
+                        .HasDefaultValue(0m);
 
                     b.Property<decimal>("PrecioInicial")
-                        .HasColumnName("PRECIO_INICIAL_LOTE");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("PRECIO_INICIAL_LOTE")
+                        .HasDefaultValue(0m);
 
                     b.Property<int>("RazaId")
                         .HasColumnName("COD_RAZA_LOTE");
@@ -252,7 +295,9 @@ namespace Subasta.Migrations
                         .HasColumnName("COD_DPTO_MUN");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnName("NOMBRE_MUN");
+                        .IsRequired()
+                        .HasColumnName("NOMBRE_MUN")
+                        .HasMaxLength(50);
 
                     b.HasKey("MunicipioId");
 
@@ -274,7 +319,9 @@ namespace Subasta.Migrations
                         .HasColumnName("COD_SUBASTA_PUJADOR");
 
                     b.Property<decimal>("Valor")
-                        .HasColumnName("VALOR_PUJA");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("VALOR_PUJA")
+                        .HasDefaultValue(0m);
 
                     b.HasKey("PujaId");
 
@@ -293,6 +340,7 @@ namespace Subasta.Migrations
                         .HasColumnName("BANCO_CONSIGNACION_PUJADOR");
 
                     b.Property<string>("ClienteId")
+                        .IsRequired()
                         .HasColumnName("ID_CLI_PUJADOR");
 
                     b.Property<string>("Estado")
@@ -305,7 +353,9 @@ namespace Subasta.Migrations
                         .HasColumnName("NRO_CONSIGNACION_PUJADOR");
 
                     b.Property<decimal>("ValorConsignacion")
-                        .HasColumnName("VALOR_CONSIGNACION_PUJADOR");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("VALOR_CONSIGNACION_PUJADOR")
+                        .HasDefaultValue(0m);
 
                     b.HasKey("PujadorId");
 
@@ -325,7 +375,9 @@ namespace Subasta.Migrations
                     b.Property<int>("CategoriaId");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnName("NOMBRE_RAZA");
+                        .IsRequired()
+                        .HasColumnName("NOMBRE_RAZA")
+                        .HasMaxLength(50);
 
                     b.HasKey("RazaId");
 
@@ -341,10 +393,13 @@ namespace Subasta.Migrations
                         .HasColumnName("CODIGO_ROL");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnName("DESCRIPCION_ROL");
+                        .HasColumnName("DESCRIPCION_ROL")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Nombre")
-                        .HasColumnName("NOMBRE_ROL");
+                        .IsRequired()
+                        .HasColumnName("NOMBRE_ROL")
+                        .HasMaxLength(50);
 
                     b.HasKey("RolId");
 
@@ -358,10 +413,13 @@ namespace Subasta.Migrations
                         .HasColumnName("CODIGO_SOLI");
 
                     b.Property<string>("ClienteId")
+                        .IsRequired()
                         .HasColumnName("CLIENTE_SOLI");
 
                     b.Property<string>("Estado")
-                        .HasColumnName("ESTADO_SOLI");
+                        .IsRequired()
+                        .HasColumnName("ESTADO_SOLI")
+                        .HasMaxLength(30);
 
                     b.Property<int>("SubastaId")
                         .HasColumnName("SUBASTA_SOLI");
@@ -385,7 +443,9 @@ namespace Subasta.Migrations
                         .HasColumnName("ACTIVO_SUB");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnName("DESCRIPCION_SUB");
+                        .IsRequired()
+                        .HasColumnName("DESCRIPCION_SUB")
+                        .HasMaxLength(50);
 
                     b.Property<int>("EventoId")
                         .HasColumnName("CODIGO_EVENTO_SUB");
@@ -397,7 +457,9 @@ namespace Subasta.Migrations
                         .HasColumnName("FECHA_HORA_INI_SUB");
 
                     b.Property<decimal>("ValorAnticipo")
-                        .HasColumnName("VALOR_ANTICIPO_SUB");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("VALOR_ANTICIPO_SUB")
+                        .HasDefaultValue(0m);
 
                     b.HasKey("SubastaId");
 
@@ -413,7 +475,9 @@ namespace Subasta.Migrations
                         .HasColumnName("CODIGO_TD");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnName("NOMBRE_TD");
+                        .IsRequired()
+                        .HasColumnName("NOMBRE_TD")
+                        .HasMaxLength(50);
 
                     b.HasKey("TipoDocumentoId");
 
@@ -427,13 +491,19 @@ namespace Subasta.Migrations
                         .HasColumnName("CODIGO_USU");
 
                     b.Property<string>("Clave")
-                        .HasColumnName("PASS_USUARIO");
+                        .IsRequired()
+                        .HasColumnName("PASS_USUARIO")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Correo")
-                        .HasColumnName("CORREO_USUARIO");
+                        .IsRequired()
+                        .HasColumnName("CORREO_USUARIO")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Nombre")
-                        .HasColumnName("NOMBRE_USUARIO");
+                        .IsRequired()
+                        .HasColumnName("NOMBRE_USUARIO")
+                        .HasMaxLength(50);
 
                     b.Property<int>("RolId")
                         .HasColumnName("ROL_USUARIO");
@@ -501,7 +571,8 @@ namespace Subasta.Migrations
 
                     b.HasOne("Subasta.repository.models.Cliente", "Cliente")
                         .WithMany("Lotes")
-                        .HasForeignKey("ClienteId");
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Subasta.repository.models.Municipio", "Municipio")
                         .WithMany("Lotes")
@@ -539,7 +610,8 @@ namespace Subasta.Migrations
                 {
                     b.HasOne("Subasta.repository.models.Cliente", "Cliente")
                         .WithMany("Pujadores")
-                        .HasForeignKey("ClienteId");
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Subasta.repository.models.Lote", "Lote")
                         .WithMany("Pujadores")
@@ -559,7 +631,8 @@ namespace Subasta.Migrations
                 {
                     b.HasOne("Subasta.repository.models.Cliente", "Cliente")
                         .WithMany("SolicitudSubastas")
-                        .HasForeignKey("ClienteId");
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Subasta.repository.models.Subasta", "Subasta")
                         .WithMany("SolicitudSubastas")

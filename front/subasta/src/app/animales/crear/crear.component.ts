@@ -28,15 +28,12 @@ export class CrearComponent implements OnInit {
 
   departamentos: Departamento[];
   municipios: Municipio[];
-  categorias: Categoria[];
   sexos: Sexo[];
   razas: Raza[];
   lotes: Lote[];
   selectedMunicipio: number;
   selectedDepartamento: number;
-  selectedCategoria: number;
   selectedSexo: string;
-  selectedRaza: number;
   selectedLote: number;
   isEditing: boolean;
   recursoCargado: string;
@@ -56,13 +53,10 @@ export class CrearComponent implements OnInit {
     this.title = 'Crear animal';
     this.departamentos = [];
     this.municipios = [];
-    this.categorias = [];
     this.sexos = [];
     this.razas = [];
     this.lotes = [];
     this.obtenerDepartamentos();
-    this.obtenerCategorias();
-    this.obtenerRazas();
     this.obtenerLotes();
     this.verificarUrl();
     this.form = this.createForm();
@@ -81,26 +75,7 @@ export class CrearComponent implements OnInit {
     );
   }
 
-  obtenerCategorias() {
-    this.categoriaService.get().subscribe(
-      resp => {
-        this.categorias = resp;
-      }, err => {
-        console.error(err);
-      }
-    );
-  }
-
-  obtenerRazas() {
-    this.razaService.get().subscribe(
-      resp => {
-        this.razas = resp;
-      }, err => {
-        console.error(err);
-      }
-    );
-  }
-
+  
   obtenerLotes() {
     this.lotesService.get().subscribe(
       resp => {
@@ -160,8 +135,6 @@ export class CrearComponent implements OnInit {
       payload.append('descripcion', this.descripcion.value);
       payload.append('peso', this.peso.value);
       payload.append('loteId', this.lote.value);
-      payload.append('categoriaId', this.categoria.value);
-      payload.append('razaId', this.raza.value);
       payload.append('sexo', this.sexo.value);
       payload.append('municipioId', this.municipio.value);
       if (this.foto.value) {
@@ -213,17 +186,13 @@ export class CrearComponent implements OnInit {
   createForm() {
     this.obtenerMunicipios(this.selectedDepartamento);
     this.selectedMunicipio = this.animal.municipioId;
-    //this.selectedCategoria = this.animal.categoriaId;
     this.selectedSexo = this.animal.sexo;
-    this.selectedRaza = this.animal.razaId;
     this.selectedLote = this.animal.loteId;
     return new FormGroup({
       descripcion: new FormControl(this.animal.descripcion, [Validators.required]),
       municipio: new FormControl(this.selectedMunicipio),
       departamento: new FormControl(this.selectedDepartamento),
-      categoria: new FormControl(this.selectedCategoria),
       sexo: new FormControl(this.selectedSexo),
-      raza: new FormControl(this.selectedRaza),
       lote: new FormControl(this.selectedLote),
       foto: new FormControl(this.animal.imagen),
       peso: new FormControl(this.animal.peso),
@@ -278,10 +247,6 @@ export class CrearComponent implements OnInit {
     this.router.navigate(['/listar-animal']);
   }
 
-  get raza() {
-    return this.form.get('raza');
-  }
-
   get lote() {
     return this.form.get('lote');
   }
@@ -292,10 +257,6 @@ export class CrearComponent implements OnInit {
 
   get sexo() {
     return this.form.get('sexo');
-  }
-
-  get categoria() {
-    return this.form.get('categoria');
   }
 
   get descripcion() {

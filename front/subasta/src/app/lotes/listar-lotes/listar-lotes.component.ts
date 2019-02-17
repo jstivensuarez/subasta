@@ -70,7 +70,10 @@ export class ListarLotesComponent implements OnInit {
       video: video,
       Propietario: lote.cliente.nombre,
       Ciudad: lote.municipio.descripcion,
-      Subasta: lote.subasta.descripcion
+      Subasta: lote.subasta.descripcion,
+      Categoría: lote.categoria.descripcion,
+      Raza: lote.raza.descripcion,
+      Clasificación: lote.clasificacion.descripcion
     });
   }
 

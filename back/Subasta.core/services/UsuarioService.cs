@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Subasta.core.constants;
 using Subasta.core.dtos;
 using Subasta.core.exceptions;
 using Subasta.core.helpers;
@@ -14,15 +15,18 @@ using System.Text;
 
 namespace Subasta.core.services
 {
-    public class UsuarioService: IUsuarioService
+    public class UsuarioService : IUsuarioService
     {
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
+        readonly ICorreoHelper correoHelper;
 
-        public UsuarioService(IMapper mapper, IUnitOfWork uowService)
+        public UsuarioService(IMapper mapper, IUnitOfWork uowService,
+             ICorreoHelper correoHelper)
         {
             this.mapper = mapper;
             this.uowService = uowService;
+            this.correoHelper = correoHelper;
         }
 
         public void Add(UsuarioDto dto)
@@ -49,7 +53,7 @@ namespace Subasta.core.services
             try
             {
                 usuario.Clave = Hash.GetHash(usuario.Clave);
-                var entity = uowService.UsuarioRepository.AutenticarUsuario(usuario.Nombre,usuario.Correo, usuario.Clave);
+                var entity = uowService.UsuarioRepository.AutenticarUsuario(usuario.Nombre, usuario.Correo, usuario.Clave);
                 return mapper.Map<UsuarioDto>(entity);
             }
             catch (ExceptionData)
@@ -60,6 +64,27 @@ namespace Subasta.core.services
             {
 
                 throw new ExceptionCore("error al intentar agregar el usuario", ex);
+            }
+        }
+
+        public void CambiarClave(UsuarioDto usuario)
+        {
+            try
+            {
+                var entity = uowService.UsuarioRepository.GetAll()
+                    .SingleOrDefault(u => u.Correo == usuario.Correo || u.Nombre == usuario.Nombre);
+                entity.Clave = Hash.GetHash(usuario.ClaveChange);
+                uowService.UsuarioRepository.Edit(mapper.Map<Usuario>(entity));
+                uowService.Save();
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+
+                throw new ExceptionCore("error al intentar editar el usuario", ex);
             }
         }
 
@@ -148,6 +173,43 @@ namespace Subasta.core.services
             {
                 throw new ExceptionCore("error al intentar obtener los usuarios", ex);
             }
+        }
+
+        public void RecuperarClave(string usuario)
+        {
+            try
+            {
+                string clave = string.Empty;
+                var entity = uowService.UsuarioRepository.GetAll()
+                    .SingleOrDefault(u => u.Correo == usuario || u.Nombre == usuario);
+                clave = getClave();
+                entity.Clave = Hash.GetHash(clave);
+                uowService.UsuarioRepository.Edit(entity);
+                correoHelper.enviarDesdeSubasta(string.Concat(Correos.RECUPERARCLAVE, clave),
+                    Correos.ASUNTORECUPERAR, entity.Correo);
+                uowService.Save();
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar cambiar la contraseña", ex);
+            }
+        }
+
+        private string getClave()
+        {
+            string clave = Guid.NewGuid().ToString().Substring(0, 7);
+            return GetLetter() + clave;
+        }
+        private string GetLetter()
+        {
+            Random _random = new Random();
+            int num = _random.Next(0, 26);
+            char let = (char)('a' + num);
+            return let.ToString();
         }
     }
 }

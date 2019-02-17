@@ -32,8 +32,13 @@ export class LoginComponent implements OnInit {
   selectedMunicipio: number;
   form: FormGroup;
   formRegister: FormGroup;
+  formPass: FormGroup;
+  formChange: FormGroup;
   usuario: Usuario;
+  usuarioPass: Usuario;
   claveRepeat: string;
+  claveChange: string;
+  selected: number;
   constructor(
     private usuarioService: UsuarioService,
     private tdService: TdServiceService,
@@ -44,6 +49,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private alertService: MesaggesManagerService
   ) {
+    this.selected = 0;
     this.usuario = new Usuario();
     this.cliente = new Cliente();
     this.tipoDocumentos = [];
@@ -53,6 +59,12 @@ export class LoginComponent implements OnInit {
     this.obtenerDepartamentos();
     this.form = this.createForm();
     this.formRegister = this.createFormRegister();
+    this.formPass = this.createFormPass();
+    this.formChange = this.createFormChange();
+  }
+
+  cambiarTab(numero) {
+    this.selected = numero;
   }
 
   ngOnInit() {
@@ -65,6 +77,46 @@ export class LoginComponent implements OnInit {
       usuario.correo = this.ingreso.value;
       usuario.nombre = this.ingreso.value;
       this.login(usuario);
+    }
+  }
+
+  onSubmitChange() {
+    if (this.formChange.valid) {
+      const usuario = new Usuario();
+      usuario.clave = this.claveOld.value;
+      usuario.claveChange = this.claveNew.value;
+      usuario.correo = this.ingresoChange.value;
+      usuario.nombre = this.ingresoChange.value;
+      this.usuarioService.change(usuario).subscribe(res => {
+        this.alertService.
+          showSimpleMessage(constants.successTitle, constants.success, constants.successCambio);
+        this.ingresoChange.setValue(null);
+        this.claveOld.setValue(null);
+        this.claveNew.setValue(null);
+        this.selected = 0;
+      }, err => {
+        if (err.includes(401)) {
+          this.alertService.
+            showSimpleMessage(constants.errorTitle, constants.alert, constants.errorUnautorized);
+        } else{
+          this.alertService.
+            showSimpleMessage(constants.errorTitle, constants.error, constants.errorCambio);
+        }
+      });
+    }
+  }
+
+  onSubmitPass() {
+    if (this.ingresoPass.value) {
+      this.usuarioService.recover(this.ingresoPass.value).subscribe(res => {
+        this.alertService.
+          showSimpleMessage(constants.successTitle, constants.success, constants.successRecuperar);
+        this.ingresoPass.setValue(null);
+        this.selected = 0;
+      }, err => {
+        this.alertService.
+          showSimpleMessage(constants.errorTitle, constants.error, constants.errorRecuperar);
+      });
     }
   }
 
@@ -132,7 +184,6 @@ export class LoginComponent implements OnInit {
         this.usuarioRegister.setErrors({ 'invalid': true });
       });
     } else {
-      debugger;
       this.usuarioRegister.setErrors({});
       this.usuarioRegister.updateValueAndValidity({
         onlySelf: true
@@ -144,6 +195,12 @@ export class LoginComponent implements OnInit {
     return new FormGroup({
       ingreso: new FormControl(this.usuario.correo, [Validators.required]),
       clave: new FormControl(this.usuario.clave, [Validators.required, Validators.min(8)]),
+    });
+  }
+
+  createFormPass() {
+    return new FormGroup({
+      ingreso: new FormControl('', [Validators.required]),
     });
   }
 
@@ -165,6 +222,14 @@ export class LoginComponent implements OnInit {
       clave: new FormControl(this.cliente.clave, [Validators.required, Validators.minLength(8)]),
       claveRepeat: new FormControl(this.claveRepeat, [Validators.required])
     }, [Validation.MatchValidator]);
+  }
+
+  createFormChange() {
+    return new FormGroup({
+      ingreso: new FormControl(this.cliente.usuario, [Validators.required, Validators.minLength(8)]),
+      clave: new FormControl(this.cliente.clave, [Validators.required, Validators.minLength(8)]),
+      claveChange: new FormControl(this.claveChange, [Validators.required, Validators.minLength(8)])
+    });
   }
 
   obtenerMunicipios(departamentoId) {
@@ -210,6 +275,18 @@ export class LoginComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  get ingresoChange() {
+    return this.formChange.get('ingreso');
+  }
+
+  get claveOld() {
+    return this.formChange.get('clave');
+  }
+
+  get claveNew() {
+    return this.formChange.get('claveChange');
   }
 
   get ingreso() {
@@ -262,5 +339,9 @@ export class LoginComponent implements OnInit {
 
   get municipio() {
     return this.formRegister.get('municipio');
+  }
+
+  get ingresoPass() {
+    return this.formPass.get('ingreso');
   }
 }

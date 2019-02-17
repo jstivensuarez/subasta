@@ -3,7 +3,7 @@
 
 <div class="container login">
   <mat-card>
-    <mat-tab-group>
+    <mat-tab-group [selectedIndex]="selected">
       <mat-tab label="Ingresar">
         <br>
         <img src="assets/images/user.png" class="center" alt="login">
@@ -14,7 +14,9 @@
             <div class="row">
               <div class="col-md-12">
                 <mat-form-field class="example-full-width">
-                  <input matInput [formControl]="ingreso" maxlength="50" placeholder="Usuario / Correo" required>
+                  <input matInput [formControl]="ingreso" autocomplete="off" maxlength="50"
+                   placeholder="Usuario / Correo"
+                    required>
                   <mat-error *ngIf="ingreso.hasError('required')">
                     El usuario es <strong>requerido</strong>
                   </mat-error>
@@ -22,20 +24,24 @@
               </div>
             </div>
 
-
             <div class="row">
               <div class="col-md-12">
                 <mat-form-field class="example-full-width">
-                  <input matInput [formControl]="clave" maxlength="25" placeholder="contraseña" type="password"
+                  <input matInput [formControl]="clave" autocomplete="off" maxlength="50" placeholder="contraseña" type="password"
                     required>
                   <mat-error *ngIf="clave.hasError('required')">
                     La contraseña es <strong>requerida</strong>
                   </mat-error>
                 </mat-form-field>
               </div>
+
             </div>
 
-            <br>
+            <div class="text-align-center">
+              <span (click)="cambiarTab(2)" class="simulalink">¿olvidó su contraseña?</span>
+              <br>
+              <span (click)="cambiarTab(3)" class="simulalink">cambiar contraseña</span>
+            </div>
             <br>
 
             <div class="row">
@@ -60,30 +66,30 @@
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input matInput [formControl]="documento" maxlength="25" placeholder="Número de documento" (keypress)="isNumberKey($event)"
-                required>
+              <input matInput [formControl]="documento" autocomplete="off" maxlength="15" placeholder="Número de documento"
+                (keypress)="isNumberKey($event)" required>
               <mat-error *ngIf="documento.hasError('required')">
                 El documento es <strong>requerido</strong>
               </mat-error>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input matInput [formControl]="nombre" maxlength="25" placeholder="Nombre" required>
+              <input matInput [formControl]="nombre" autocomplete="off" maxlength="70" placeholder="Nombre" required>
               <mat-error *ngIf="nombre.hasError('required')">
                 El nombre es <strong>requerido</strong>
               </mat-error>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input matInput [formControl]="telefono" maxlength="25" placeholder="Teléfono" (keypress)="isNumberKey($event)"
-                required>
+              <input matInput [formControl]="telefono" autocomplete="off" maxlength="15" placeholder="Teléfono"
+                (keypress)="isNumberKey($event)" required>
               <mat-error *ngIf="telefono.hasError('required')">
                 El teléfono es <strong>requerido</strong>
               </mat-error>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input matInput [formControl]="correo" maxlength="25" placeholder="Correo" required>
+              <input matInput [formControl]="correo" autocomplete="off" maxlength="50" placeholder="Correo" required>
               <mat-error *ngIf="correo.hasError('required')">
                 El correo es <strong>requerido</strong>
               </mat-error>
@@ -93,7 +99,8 @@
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input matInput [formControl]="direccion" maxlength="25" placeholder="Dirección" required>
+              <input matInput [formControl]="direccion" autocomplete="off" maxlength="50" placeholder="Dirección"
+                required>
               <mat-error *ngIf="direccion.hasError('required')">
                 La dirección es <strong>requerido</strong>
               </mat-error>
@@ -123,7 +130,7 @@
             <mat-divider></mat-divider>
 
             <mat-form-field class="example-full-width">
-              <input matInput [formControl]="usuarioRegister" maxlength="25" (keyup)="validarCliente($event.target.value)"
+              <input matInput [formControl]="usuarioRegister" autocomplete="off" maxlength="50" (keyup)="validarCliente($event.target.value)"
                 placeholder="Usuario" required>
               <mat-error *ngIf="usuarioRegister.hasError('required')">
                 El usuario es <strong>requerido</strong>
@@ -138,8 +145,8 @@
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input type="password" matInput [formControl]="claveRegister" maxlength="25" placeholder="Contraseña"
-                required>
+              <input type="password" matInput autocomplete="off" [formControl]="claveRegister" maxlength="50"
+                placeholder="Contraseña" required>
               <mat-error *ngIf="claveRegister.hasError('required')">
                 La contraseña es <strong>requerida</strong>
               </mat-error>
@@ -149,8 +156,8 @@
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input type="password" matInput [formControl]="claveRegisterRepeat" maxlength="25" placeholder="Validar contraseña"
-                required>
+              <input type="password" matInput [formControl]="claveRegisterRepeat" maxlength="50" placeholder="Validar contraseña"
+                autocomplete="off" required>
               <mat-error *ngIf="claveRegisterRepeat.hasError('required')">
                 Es <strong>requerido</strong> validar la contraseña
               </mat-error>
@@ -167,6 +174,76 @@
               </div>
             </div>
 
+          </form>
+        </mat-card>
+      </mat-tab>
+
+      <mat-tab label="¿olvidó su contraseña?">
+        <mat-card class="center-card">
+          <form class="example-form" [formGroup]="formPass" (submit)="onSubmitPass()">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field class="example-full-width">
+                  <input matInput [formControl]="ingresoPass" autocomplete="off" maxlength="50" placeholder="Usuario / Correo"
+                    required>
+                  <mat-error *ngIf="ingresoPass.hasError('required')">
+                    El usuario es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 text-align-center">
+                <button type="submit" class="btn btn-primary yellow">Recuperar</button>
+              </div>
+            </div>
+          </form>
+        </mat-card>
+      </mat-tab>
+
+      <mat-tab label="cambiar contraseña">
+        <mat-card class="center-card">
+          <form class="example-form" [formGroup]="formChange" (submit)="onSubmitChange()">
+
+            <mat-form-field class="example-full-width">
+              <input matInput [formControl]="ingresoChange" autocomplete="off" maxlength="50" (keyup)="validarCliente($event.target.value)"
+                placeholder="Usuario / Correo" required>
+              <mat-error *ngIf="ingresoChange.hasError('required')">
+                El usuario es <strong>requerido</strong>
+              </mat-error>
+              <mat-error *ngIf="ingresoChange.hasError('minlength') && !usuarioRegister.hasError('required')">
+                Mínimo <strong>8 caracteres</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <input type="password" matInput autocomplete="off" [formControl]="claveOld" maxlength="50"
+                placeholder="Contraseña actual" required>
+              <mat-error *ngIf="claveOld.hasError('required')">
+                La contraseña actual es <strong>requerida</strong>
+              </mat-error>
+              <mat-error *ngIf="claveOld.hasError('minlength')">
+                Mínimo <strong>8 caracteres</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <input type="password" matInput [formControl]="claveNew" maxlength="50" 
+              placeholder="Contraseña nueva"  autocomplete="off" required>
+              <mat-error *ngIf="claveNew.hasError('required')">
+                La contraseña nueva es <strong>requerida</strong>
+              </mat-error>
+              <mat-error *ngIf="claveNew.hasError('minlength')">
+                Mínimo <strong>8 caracteres</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <div class="row">
+              <div class="col-12 text-align-center">
+                <button type="submit" class="btn btn-primary yellow">Cambiar</button>
+              </div>
+            </div>
           </form>
         </mat-card>
       </mat-tab>

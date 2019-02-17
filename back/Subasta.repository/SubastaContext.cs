@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Subasta.repository
 {
-    public class SubastaContext: DbContext
+    public class SubastaContext : DbContext
     {
 
         public DbSet<Animal> Animales { get; set; }
@@ -43,6 +43,47 @@ namespace Subasta.repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Animal>()
+                .Property(b => b.Peso)
+                .HasColumnType("decimal(15, 4)")
+                .HasDefaultValue(0);
+          
+
+            modelBuilder.Entity<Lote>()
+                .Property(b => b.PesoPromedio)
+                .HasColumnType("decimal(10, 4)")
+                .HasDefaultValue(0);
+
+            modelBuilder.Entity<Lote>()
+               .Property(b => b.PesoTotal)
+               .HasColumnType("decimal(15, 4)")
+               .HasDefaultValue(0);
+
+            modelBuilder.Entity<Lote>()
+             .Property(b => b.PrecioBase)
+             .HasColumnType("decimal(15, 4)")
+             .HasDefaultValue(0);
+
+            modelBuilder.Entity<Lote>()
+             .Property(b => b.PrecioInicial)
+             .HasColumnType("decimal(15, 4)")
+             .HasDefaultValue(0);
+
+            modelBuilder.Entity<Puja>()
+             .Property(b => b.Valor)
+             .HasColumnType("decimal(15, 4)")
+             .HasDefaultValue(0);
+
+            modelBuilder.Entity<Pujador>()
+            .Property(b => b.ValorConsignacion)
+            .HasColumnType("decimal(15, 4)")
+            .HasDefaultValue(0);
+
+            modelBuilder.Entity<models.Subasta>()
+            .Property(b => b.ValorAnticipo)
+            .HasColumnType("decimal(15, 4)")
+            .HasDefaultValue(0);
+
             modelBuilder.Entity<Cliente>().ToTable("TBL_CLIENTES");
         }
 

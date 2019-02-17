@@ -16,12 +16,18 @@ namespace Subasta.repository.models
         public int UsuarioId { get; set; }
 
         [Column("NOMBRE_USUARIO")]
+        [MaxLength(50)]
+        [Required]
         public string Nombre { get; set; }
 
         [Column("CORREO_USUARIO")]
+        [MaxLength(50)]
+        [Required]
         public string Correo { get; set; }
 
         [Column("PASS_USUARIO")]
+        [MaxLength(50)]
+        [Required]
         public string Clave { get; set; }
 
         [Column("ROL_USUARIO")]

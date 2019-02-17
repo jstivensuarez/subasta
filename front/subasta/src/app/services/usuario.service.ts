@@ -30,6 +30,14 @@ export class UsuarioService {
     return this.http.post<any>(environment.endpointLogin+'/validateUser/'+nombreUsuario, { headers: this.httpHeaders });
   }
 
+  recover(nombreUsuario: string): Observable<any> {
+    return this.http.post<any>(environment.endpointLogin+'/RecoverePass/'+nombreUsuario, { headers: this.httpHeaders });
+  }
+
+  change(usuario: Usuario): Observable<any> {
+    return this.http.post<any>(environment.endpointLogin+'/ChangePass',usuario, { headers: this.httpHeaders });
+  }
+
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
     return !this.jwtHelper.isTokenExpired(token);

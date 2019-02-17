@@ -35,4 +35,13 @@ export class VerSolicitudComponent implements OnInit {
       console.error(err);
     });
   }
+
+  rechazar() {
+    this.solicitudService.rechazar(this.solicitud).subscribe(res => {
+      this.completo.emit();
+      this.cancel();
+    }, err => {
+      console.error(err);
+    });
+  }
 }

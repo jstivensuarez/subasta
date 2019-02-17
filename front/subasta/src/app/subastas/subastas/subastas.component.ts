@@ -138,10 +138,11 @@ export class SubastasComponent implements OnInit {
         imagen: imagen,
         video: video,
         Ciudad: lote.municipio.descripcion,
-        Subasta: lote.subasta.descripcion
+        Subasta: lote.subasta.descripcion,
+        Categoría: lote.categoria.descripcion,
+        Raza: lote.raza.descripcion,
+        Clasificación: lote.clasificacion.descripcion
       });
-
-    }.bind(this), 1000);
+    }.bind(this), 1500);
   }
-
 }

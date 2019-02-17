@@ -11,8 +11,6 @@ export class Animal {
     descripcion: string;
     foto: string;
     peso: number;
-    razaId: number;
-    raza: Raza;
     sexo: string;
     municipioId: number;
     municipio: Municipio;

@@ -15,5 +15,7 @@ namespace Subasta.core.states
         public const string NO_AUTORIZADO = "NO_AUTORIZADO";
 
         public const string AUTORIZADO = "AUTORIZADO";
+
+        public const string RECHAZADO = "RECHAZADO";
     }
 }

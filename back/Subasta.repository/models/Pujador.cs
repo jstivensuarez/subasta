@@ -12,11 +12,13 @@ namespace Subasta.repository.models
         public int PujadorId { get; set; }
 
         [Column("CODIGO_LOTE_PUJADOR")]
+        [Required]
         public int LoteId { get; set; }
 
         public Lote Lote { get; set; }
 
         [Column("ID_CLI_PUJADOR")]
+        [Required]
         public string ClienteId { get; set; }
 
         public Cliente Cliente { get; set; }

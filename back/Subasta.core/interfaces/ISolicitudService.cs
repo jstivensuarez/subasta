@@ -12,6 +12,8 @@ namespace Subasta.core.interfaces
 
         void Aceptar(SolicitudSubastaDto entity);
 
+        void Rechazar(SolicitudSubastaDto entity);
+
         List<SolicitudSubastaDto> GetAll(string estado);
     }
 }

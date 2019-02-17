@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Subasta.core.services
+namespace Subasta.core.interfaces
 {
     public interface IFileHelper
     {

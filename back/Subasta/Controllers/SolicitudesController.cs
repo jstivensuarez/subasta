@@ -95,7 +95,25 @@ namespace Subasta.Controllers
             }
         }
 
-
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult Rechazar(SolicitudSubastaDto solicitud)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                solicitudService.Rechazar(solicitud);
+                return Ok(solicitud);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        
         // PUT: api/Clientes/5
         [HttpPut]
         public IActionResult Put(SolicitudSubastaDto solicitud)

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Subasta.repository;
 
 namespace Subasta.Migrations
 {
     [DbContext(typeof(SubastaContext))]
-    partial class SubastaContextModelSnapshot : ModelSnapshot
+    [Migration("20190216155217_actualizo_tamaño_decimales")]
+    partial class actualizo_tamaño_decimales
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,6 +145,7 @@ namespace Subasta.Migrations
                         .HasColumnName("CODIGO_TD_CLI");
 
                     b.Property<string>("Usuario")
+                        .IsRequired()
                         .HasColumnName("USUARIO_CLI")
                         .HasMaxLength(50);
 

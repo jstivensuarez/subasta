@@ -55,7 +55,6 @@ namespace Subasta.core.services
             }
             catch (Exception ex)
             {
-
                 throw new ExceptionCore("error al intentar agregar el animal", ex);
             }
         }

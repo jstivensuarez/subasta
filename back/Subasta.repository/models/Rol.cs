@@ -15,9 +15,12 @@ namespace Subasta.repository.models
         public int RolId { get; set; }
 
         [Column("NOMBRE_ROL")]
+        [MaxLength(50)]
+        [Required]
         public string Nombre { get; set; }
 
         [Column("DESCRIPCION_ROL")]
+        [MaxLength(50)]
         public string Descripcion { get; set; }
 
         public List<Usuario> Usuarios { get; set; } = new List<Usuario>();

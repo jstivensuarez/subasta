@@ -3,7 +3,7 @@
     <form class="example-form" [formGroup]="form">
 
       <mat-form-field class="example-full-width">
-        <input matInput [formControl]="descripcion" maxlength="25" placeholder="Descripción" autocomplete="off"
+        <input matInput [formControl]="descripcion" maxlength="50" placeholder="Descripción" autocomplete="off"
           required>
         <mat-error *ngIf="descripcion.hasError('required')">
           La descripción es <strong>requerida</strong>

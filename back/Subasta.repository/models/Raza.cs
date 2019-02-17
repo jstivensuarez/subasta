@@ -15,6 +15,8 @@ namespace Subasta.repository.models
         public int RazaId { get; set; }
 
         [Column("NOMBRE_RAZA")]
+        [MaxLength(50)]
+        [Required]
         public string Descripcion { get; set; }
 
         public int CategoriaId { get; set; }

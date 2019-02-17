@@ -15,6 +15,8 @@ namespace Subasta.repository.models
         public int TipoDocumentoId { get; set; }
 
         [Column("NOMBRE_TD")]
+        [MaxLength(50)]
+        [Required]
         public string Descripcion { get; set; }
 
         public List<Cliente> Clientes { get; set; } = new List<Cliente>();

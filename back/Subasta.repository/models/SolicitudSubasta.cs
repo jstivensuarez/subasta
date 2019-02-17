@@ -15,14 +15,18 @@ namespace Subasta.repository.models
         public int SolicitudId { get; set; }
 
         [Column("ESTADO_SOLI")]
+        [MaxLength(30)]
+        [Required]
         public string Estado { get; set; }
 
         [Column("SUBASTA_SOLI")]
+        [Required]
         public int SubastaId { get; set; }
 
         public Subasta Subasta { get; set; }
 
         [Column("CLIENTE_SOLI")]
+        [Required]
         public string ClienteId { get; set; }
 
         public Cliente Cliente { get; set; }

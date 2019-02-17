@@ -90,6 +90,10 @@ namespace Subasta.Controllers
                 lote.MunicipioId = Convert.ToInt32(Request.Form["municipioId"]);
                 lote.PrecioBase = Convert.ToDecimal(Request.Form["precioBase"]);
                 lote.SubastaId = Convert.ToInt32(Request.Form["subastaId"]);
+                lote.CategoriaId = Convert.ToInt32(Request.Form["categoriaId"]);
+                lote.ClasificacionId = Convert.ToInt32(Request.Form["clasificacionId"]);
+                lote.RazaId = Convert.ToInt32(Request.Form["razaId"]);
+                lote.SubastaId = Convert.ToInt32(Request.Form["subastaId"]);
                 lote.ValorAnticipo = Convert.ToDecimal(Request.Form["valorAnticipo"]);
                 loteService.Add(lote);
                 return Ok(lote);
@@ -122,6 +126,9 @@ namespace Subasta.Controllers
                 lote.MunicipioId = Convert.ToInt32(Request.Form["municipioId"]);
                 lote.PrecioBase = Convert.ToDecimal(Request.Form["precioBase"]);
                 lote.SubastaId = Convert.ToInt32(Request.Form["subastaId"]);
+                lote.CategoriaId = Convert.ToInt32(Request.Form["categoriaId"]);
+                lote.ClasificacionId = Convert.ToInt32(Request.Form["clasificacionId"]);
+                lote.RazaId = Convert.ToInt32(Request.Form["razaId"]);
                 lote.ValorAnticipo = Convert.ToDecimal(Request.Form["valorAnticipo"]);
                 loteService.Edit(lote);
                 return Ok(lote);

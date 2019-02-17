@@ -24,6 +24,8 @@ namespace Subasta.repository.repositorys
             {
                 var entitys = context.Lotes.AsNoTracking()
                     .Include(c => c.Categoria)
+                    .Include(c => c.Clasificacion)
+                    .Include(c => c.Raza)
                     .Include(c => c.Municipio)
                     .Include(c => c.Subasta)
                     .Include(c => c.Cliente)

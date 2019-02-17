@@ -15,9 +15,12 @@ namespace Subasta.repository.models
         public int MunicipioId { get; set; }
 
         [Column("NOMBRE_MUN")]
+        [MaxLength(50)]
+        [Required]
         public string Descripcion { get; set; }
 
         [Column("COD_DPTO_MUN")]
+        [Required]
         public int DepartamentoId { get; set; }
 
         public Departamento Departamento { get; set; }

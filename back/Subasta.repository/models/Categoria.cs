@@ -15,6 +15,8 @@ namespace Subasta.repository.models
         public int CategoriaId { get; set; }
 
         [Column("NOMBRE_CAT")]
+        [MaxLength(50)]
+        [Required]
         public string Descripcion { get; set; }
 
         public List<Raza> Razas { get; set; } = new List<Raza>();

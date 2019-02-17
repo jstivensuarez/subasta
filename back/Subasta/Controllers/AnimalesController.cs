@@ -76,9 +76,7 @@ namespace Subasta.Controllers
                 animal.Descripcion = Request.Form["descripcion"];
                 animal.Peso = Convert.ToDecimal(Request.Form["peso"]);
                 animal.LoteId = Convert.ToInt32(Request.Form["loteId"]);
-                animal.CategoriaId = Convert.ToInt32(Request.Form["categoriaId"]);
                 animal.MunicipioId = Convert.ToInt32(Request.Form["municipioId"]);
-                animal.RazaId = Convert.ToInt32(Request.Form["razaId"]);
                 animal.Sexo = Request.Form["sexo"];
 
                 animalService.Add(animal);
@@ -114,9 +112,7 @@ namespace Subasta.Controllers
                 animal.Foto = Request.Form["foto"];
                 animal.Peso = Convert.ToDecimal(Request.Form["peso"]);
                 animal.LoteId = Convert.ToInt32(Request.Form["loteId"]);
-                animal.CategoriaId = Convert.ToInt32(Request.Form["categoriaId"]);
                 animal.MunicipioId = Convert.ToInt32(Request.Form["municipioId"]);
-                animal.RazaId = Convert.ToInt32(Request.Form["razaId"]);
                 animal.Sexo= Request.Form["sexo"];
                 animalService.Edit(animal);
                 return Ok(animal);

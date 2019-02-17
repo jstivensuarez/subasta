@@ -28,6 +28,10 @@ export class SolicitudService {
     return this.http.post<any>(environment.endpointSolicitud + '/Aceptar/', dto, { headers: this.httpHeaders });
   }
 
+  rechazar(dto: Solicitud): Observable<any> {
+    return this.http.post<any>(environment.endpointSolicitud + '/Rechazar/', dto, { headers: this.httpHeaders });
+  }
+
   post(dto: Solicitud): Observable<any> {
     return this.http.post<any>(environment.endpointSolicitud, dto, { headers: this.httpHeaders });
   }

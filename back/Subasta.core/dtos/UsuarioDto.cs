@@ -14,6 +14,8 @@ namespace Subasta.core.dtos
 
         public string Clave { get; set; }
 
+        public string ClaveChange { get; set; }
+
         public int RolId { get; set; }
 
         public RolDto Rol { get; set; }

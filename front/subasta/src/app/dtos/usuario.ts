@@ -5,6 +5,7 @@ export class Usuario {
     nombre: string;
     correo: string;
     clave: string;
+    claveChange: string;
     rolId: number;
     rol: Rol;
     ingreso: string;

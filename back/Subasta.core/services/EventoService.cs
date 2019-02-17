@@ -236,7 +236,10 @@ namespace Subasta.core.services
                                                                       Municipio = mapper.Map<MunicipioDto>(lote.Municipio),
                                                                       MunicipioId = lote.MunicipioId,
                                                                       PesoTotal = lote.PesoTotal,
-                                                                      Cliente = mapper.Map<ClienteDto>(lote.Cliente)
+                                                                      Cliente = mapper.Map<ClienteDto>(lote.Cliente),
+                                                                      Categoria = mapper.Map<CategoriaDto>(lote.Categoria),
+                                                                      Raza =  mapper.Map<RazaDto>(lote.Raza),
+                                                                      Clasificacion = mapper.Map<ClasificacionDto>(lote.Clasificacion)
                                                                   }).ToList()
                                                   }).OrderBy(s => s.HoraInicio).ToList()
                                });

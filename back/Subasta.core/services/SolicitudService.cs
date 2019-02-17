@@ -119,6 +119,25 @@ namespace Subasta.core.services
             }
         }
 
+        public void Rechazar(SolicitudSubastaDto entity)
+        {
+            try
+            {
+                entity.Estado = Estados.RECHAZADO;
+                uowService.SolicitudRepository.Edit(mapper.Map<SolicitudSubasta>(entity));
+                uowService.Save();
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+
+                throw new ExceptionCore("error al intentar editarla la solicitud", ex);
+            }
+        }
+        
         public IQueryable<SolicitudSubastaDto> Find(Expression<Func<SolicitudSubasta, bool>> predicate)
         {
             try
@@ -158,7 +177,9 @@ namespace Subasta.core.services
             try
             {
                 var result = uowService.SolicitudRepository.GetllWithInclude()
-                    .Where(s => s.Estado == Estados.PENDIENTE_APROBAR || s.Estado == Estados.AUTORIZADO);
+                    .Where(s => s.Estado == Estados.PENDIENTE_APROBAR 
+                    || s.Estado == Estados.AUTORIZADO 
+                    || s.Estado == Estados.RECHAZADO);
                 return mapper.Map<List<SolicitudSubastaDto>>(result);
             }
             catch (ExceptionData)

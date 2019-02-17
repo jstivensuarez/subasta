@@ -15,6 +15,8 @@ namespace Subasta.repository.models
         public int ClasificacionId { get; set; }
 
         [Column("NOMBRE_CLAS")]
+        [MaxLength(50)]
+        [Required]
         public string Descripcion { get; set; }
 
         public int CategoriaId { get; set; }
