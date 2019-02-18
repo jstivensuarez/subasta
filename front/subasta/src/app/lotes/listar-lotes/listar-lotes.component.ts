@@ -5,6 +5,7 @@ import { MesaggesManagerService } from 'src/app/services/mesagges-manager.servic
 import { constants } from 'src/app/util/constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-listar-lotes',
@@ -98,7 +99,7 @@ export class ListarLotesComponent implements OnInit {
   }
 
   getImage(nombre) {
-    const urlImages = 'http://localhost:50553/images/LOTES/';
+    const urlImages = environment.imageLotesUrl;
     return urlImages + nombre;
   }
 

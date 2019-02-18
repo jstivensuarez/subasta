@@ -9,8 +9,8 @@ using Subasta.repository;
 namespace Subasta.Migrations
 {
     [DbContext(typeof(SubastaContext))]
-    [Migration("20190216154215_actualizo_campos_bd")]
-    partial class actualizo_campos_bd
+    [Migration("20190218010344_nueva_bd_azure")]
+    partial class nueva_bd_azure
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,6 +47,7 @@ namespace Subasta.Migrations
                     b.Property<decimal>("Peso")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("PESO_ANI")
+                        .HasColumnType("decimal(15, 4)")
                         .HasDefaultValue(0m);
 
                     b.Property<string>("Sexo")
@@ -144,7 +145,6 @@ namespace Subasta.Migrations
                         .HasColumnName("CODIGO_TD_CLI");
 
                     b.Property<string>("Usuario")
-                        .IsRequired()
                         .HasColumnName("USUARIO_CLI")
                         .HasMaxLength(50);
 
@@ -245,21 +245,25 @@ namespace Subasta.Migrations
                     b.Property<decimal>("PesoPromedio")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("PESO_PROMEDIO_LOTE")
+                        .HasColumnType("decimal(10, 4)")
                         .HasDefaultValue(0m);
 
                     b.Property<decimal>("PesoTotal")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("PESO_TOTAL_LOTE")
+                        .HasColumnType("decimal(15, 4)")
                         .HasDefaultValue(0m);
 
                     b.Property<decimal>("PrecioBase")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("PRECIO_BASE_LOTE")
+                        .HasColumnType("decimal(15, 4)")
                         .HasDefaultValue(0m);
 
                     b.Property<decimal>("PrecioInicial")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("PRECIO_INICIAL_LOTE")
+                        .HasColumnType("decimal(15, 4)")
                         .HasDefaultValue(0m);
 
                     b.Property<int>("RazaId")
@@ -321,6 +325,7 @@ namespace Subasta.Migrations
                     b.Property<decimal>("Valor")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("VALOR_PUJA")
+                        .HasColumnType("decimal(15, 4)")
                         .HasDefaultValue(0m);
 
                     b.HasKey("PujaId");
@@ -355,6 +360,7 @@ namespace Subasta.Migrations
                     b.Property<decimal>("ValorConsignacion")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("VALOR_CONSIGNACION_PUJADOR")
+                        .HasColumnType("decimal(15, 4)")
                         .HasDefaultValue(0m);
 
                     b.HasKey("PujadorId");
@@ -459,6 +465,7 @@ namespace Subasta.Migrations
                     b.Property<decimal>("ValorAnticipo")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("VALOR_ANTICIPO_SUB")
+                        .HasColumnType("decimal(15, 4)")
                         .HasDefaultValue(0m);
 
                     b.HasKey("SubastaId");

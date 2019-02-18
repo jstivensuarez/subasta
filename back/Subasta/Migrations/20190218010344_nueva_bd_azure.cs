@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Subasta.Migrations
 {
-    public partial class actualizo_campos_bd : Migration
+    public partial class nueva_bd_azure : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -153,7 +153,7 @@ namespace Subasta.Migrations
                     TELEFONO_CLI = table.Column<string>(maxLength: 20, nullable: false),
                     DIRECCION_CLI = table.Column<string>(maxLength: 50, nullable: false),
                     REPRESENTANTE_LEGAL_CLI = table.Column<string>(maxLength: 70, nullable: true),
-                    USUARIO_CLI = table.Column<string>(maxLength: 50, nullable: false),
+                    USUARIO_CLI = table.Column<string>(maxLength: 50, nullable: true),
                     TIPO_CLI = table.Column<string>(maxLength: 20, nullable: false),
                     ACTIVO_CLI = table.Column<bool>(nullable: false),
                     CODIGO_TD_CLI = table.Column<int>(nullable: false),
@@ -206,7 +206,7 @@ namespace Subasta.Migrations
                     CODIGO_SUB = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DESCRIPCION_SUB = table.Column<string>(maxLength: 50, nullable: false),
-                    VALOR_ANTICIPO_SUB = table.Column<decimal>(nullable: false, defaultValue: 0m),
+                    VALOR_ANTICIPO_SUB = table.Column<decimal>(type: "decimal(15, 4)", nullable: false, defaultValue: 0m),
                     FECHA_HORA_INI_SUB = table.Column<DateTime>(nullable: false),
                     FECHA_LIMITE_FIN_SUB = table.Column<DateTime>(nullable: false),
                     ACTIVO_SUB = table.Column<bool>(nullable: false),
@@ -232,15 +232,15 @@ namespace Subasta.Migrations
                     NOMBRE_LOTE = table.Column<string>(maxLength: 50, nullable: false),
                     DESCRIPCION_LOTE = table.Column<string>(maxLength: 2000, nullable: true),
                     CANTIDAD_ELEMENTOS_LOTE = table.Column<int>(nullable: false),
-                    PESO_PROMEDIO_LOTE = table.Column<decimal>(nullable: false, defaultValue: 0m),
-                    PESO_TOTAL_LOTE = table.Column<decimal>(nullable: false, defaultValue: 0m),
-                    PRECIO_BASE_LOTE = table.Column<decimal>(nullable: false, defaultValue: 0m),
+                    PESO_PROMEDIO_LOTE = table.Column<decimal>(type: "decimal(10, 4)", nullable: false, defaultValue: 0m),
+                    PESO_TOTAL_LOTE = table.Column<decimal>(type: "decimal(15, 4)", nullable: false, defaultValue: 0m),
+                    PRECIO_BASE_LOTE = table.Column<decimal>(type: "decimal(15, 4)", nullable: false, defaultValue: 0m),
                     FOTO_LOTE = table.Column<string>(maxLength: 200, nullable: false),
                     ACTIVO_LOTE = table.Column<bool>(nullable: false),
                     ID_CLIENTE_LOTE = table.Column<string>(nullable: false),
                     COD_MUN_UBI_LOTE = table.Column<int>(nullable: false),
                     COD_SUBASTA_LOTE = table.Column<int>(nullable: false),
-                    PRECIO_INICIAL_LOTE = table.Column<decimal>(nullable: false, defaultValue: 0m),
+                    PRECIO_INICIAL_LOTE = table.Column<decimal>(type: "decimal(15, 4)", nullable: false, defaultValue: 0m),
                     COD_CATEGORIA_LOTE = table.Column<int>(nullable: false),
                     COD_RAZA_LOTE = table.Column<int>(nullable: false),
                     COD_CLASIFICACION_LOTE = table.Column<int>(nullable: false)
@@ -320,7 +320,7 @@ namespace Subasta.Migrations
                     CODIGO_ANI = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     FOTO_ANI = table.Column<string>(maxLength: 200, nullable: false),
-                    PESO_ANI = table.Column<decimal>(nullable: false, defaultValue: 0m),
+                    PESO_ANI = table.Column<decimal>(type: "decimal(15, 4)", nullable: false, defaultValue: 0m),
                     DESCRIPCION_ANI = table.Column<string>(maxLength: 2000, nullable: false),
                     ACTIVO_ANI = table.Column<bool>(nullable: false),
                     SEXO_ANI = table.Column<string>(nullable: false),
@@ -354,7 +354,7 @@ namespace Subasta.Migrations
                     ID_CLI_PUJADOR = table.Column<string>(nullable: false),
                     NRO_CONSIGNACION_PUJADOR = table.Column<string>(nullable: true),
                     BANCO_CONSIGNACION_PUJADOR = table.Column<string>(nullable: true),
-                    VALOR_CONSIGNACION_PUJADOR = table.Column<decimal>(nullable: false, defaultValue: 0m),
+                    VALOR_CONSIGNACION_PUJADOR = table.Column<decimal>(type: "decimal(15, 4)", nullable: false, defaultValue: 0m),
                     ESTADO_PUJADOR = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -381,7 +381,7 @@ namespace Subasta.Migrations
                     CODIGO_PUJA = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     HORA_PUJA = table.Column<DateTime>(nullable: false),
-                    VALOR_PUJA = table.Column<decimal>(nullable: false, defaultValue: 0m),
+                    VALOR_PUJA = table.Column<decimal>(type: "decimal(15, 4)", nullable: false, defaultValue: 0m),
                     COD_SUBASTA_PUJADOR = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

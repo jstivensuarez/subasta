@@ -61,10 +61,8 @@ export class ListarComponent implements OnInit {
     this.alertService.showDetails('Detalles del animal', {
       Descripción: animal.descripcion,
       Peso: animal.peso + '(Kg)',
-      Categoría: animal.categoria.descripcion,
-      Raza: animal.raza.descripcion,
       Sexo: animal.sexo.descripcion,
-      Lote: animal.lote.descripcion,
+      Lote: animal.lote.nombre,
       imagen: imagen,
       video: video,
     });

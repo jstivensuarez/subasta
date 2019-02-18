@@ -33,7 +33,7 @@
       <mat-form-field class="example-full-width">
         <mat-select placeholder="Lote" [formControl]="lote" [(value)]="selectedLote" required>
           <mat-option *ngFor="let lote of lotes" [value]="lote.loteId">
-            {{lote.descripcion}}
+            {{lote.nombre}}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="lote.hasError('required')">Por favor seleccione un lote</mat-error>
