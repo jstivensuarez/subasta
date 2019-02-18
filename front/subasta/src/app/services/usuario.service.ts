@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import decode from 'jwt-decode';
 import { Cliente } from '../dtos/cliente';
+import { map } from 'rxjs/internal/operators/map';
 @Injectable({
   providedIn: 'root'
 })
@@ -38,6 +39,28 @@ export class UsuarioService {
     return this.http.post<any>(environment.endpointLogin+'/ChangePass',usuario, { headers: this.httpHeaders });
   }
 
+  get(): Observable<any[]> {
+    return this.http.get<any[]>(environment.endpointUsuario).pipe(
+      map((data: Usuario[]) => data));
+  }
+
+  getDto(id): Observable<any> {
+    return this.http.get<any>(environment.endpointUsuario + '/Get/' + id).pipe(
+      map((data: any) => data));
+  }
+
+  post(dto: Usuario): Observable<any> {
+    return this.http.post<any>(environment.endpointUsuario, dto, { headers: this.httpHeaders });
+  }
+
+  put(dto: Usuario): Observable<any> {
+    return this.http.put<any>(environment.endpointUsuario, dto, { headers: this.httpHeaders });
+  }
+
+  delete(id: string): Observable<any> {
+    return this.http.delete<any>(environment.endpointUsuario + '/' + id, { headers: this.httpHeaders });
+  }
+
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
     return !this.jwtHelper.isTokenExpired(token);
@@ -61,7 +84,7 @@ export class UsuarioService {
   redirectToMenu() {
     const claims = this.getClaims();
     window.location.reload();
-    if(claims.Role == 'Administrador'){
+    if(claims.Role.toLowerCase() == 'administrador'){
       this.router.navigate(['listar-evento']);
     }
     if(claims.Role == 'Pujador'){

@@ -15,7 +15,7 @@ export class RoleguardService implements CanActivate {
     const tokenPayload = decode(token);
     if (
       !this.usuarioService.isAuthenticated() ||
-      tokenPayload.Role !== expectedRole
+      tokenPayload.Role.toLowerCase() !== expectedRole.toLowerCase()
     ) {
       this.usuarioService.logout();
       return false;

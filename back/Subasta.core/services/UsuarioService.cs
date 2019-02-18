@@ -33,8 +33,18 @@ namespace Subasta.core.services
         {
             try
             {
+                string mensajeCorreo = Correos.MENSAJEBIENVENIDA;
+                if (dto.Clave == null)
+                {
+                    string clave = getClave();
+                    dto.Clave = clave;
+                    mensajeCorreo = string.Concat(mensajeCorreo, $" su contraseña es: {clave}");
+                }
+
                 dto.Clave = Hash.GetHash(dto.Clave);
                 uowService.UsuarioRepository.Add(mapper.Map<Usuario>(dto));
+                correoHelper.enviarDesdeSubasta(mensajeCorreo,
+                   Correos.ASUNTOBIENVENIDO, dto.Correo);
                 uowService.Save();
             }
             catch (ExceptionData)
@@ -175,6 +185,24 @@ namespace Subasta.core.services
             }
         }
 
+        public List<UsuarioDto> GetAllAdministradores()
+        {
+            try
+            {
+                var result = uowService.UsuarioRepository.GetllWithInclude()
+                    .Where(u => u.Rol.Nombre.ToLower() == Roles.ADMINISTRAODR);
+                return mapper.Map<List<UsuarioDto>>(result);
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener los usuarios", ex);
+            }
+        }
+
         public void RecuperarClave(string usuario)
         {
             try
@@ -185,7 +213,7 @@ namespace Subasta.core.services
                 clave = getClave();
                 entity.Clave = Hash.GetHash(clave);
                 uowService.UsuarioRepository.Edit(entity);
-                correoHelper.enviarDesdeSubasta(string.Concat(Correos.RECUPERARCLAVE, clave),
+                correoHelper.enviarDesdeSubasta(string.Concat(Correos.MENSAJERECUPERARCLAVE, clave),
                     Correos.ASUNTORECUPERAR, entity.Correo);
                 uowService.Save();
             }

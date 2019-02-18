@@ -1,6 +1,7 @@
 <div>
-  <mat-toolbar color="primary" *ngIf="claims && claims.Role == 'Administrador'">
+  <mat-toolbar color="primary" *ngIf="claims && claims.Role.toLowerCase() == 'administrador'">
     <button mat-button [matMenuTriggerFor]="maestros">Maestros</button>
+    <button mat-button [matMenuTriggerFor]="usuarios">Usuarios</button>
     <button mat-button [matMenuTriggerFor]="clientes">Propietarios</button>
     <button mat-button [matMenuTriggerFor]="eventos">Eventos</button>
     <button mat-button [matMenuTriggerFor]="subastas">Subastas</button>
@@ -8,6 +9,11 @@
     <button mat-button [matMenuTriggerFor]="animales">Animales</button>
     <button mat-button [matMenuTriggerFor]="pujadores">Pujadores</button>
     <button mat-button routerLink="/listar-solicitud">Solicitudes</button>
+
+    <mat-menu #usuarios="matMenu">
+      <button mat-menu-item routerLink="/listar-usuario">Listar</button>
+      <button mat-menu-item routerLink="/crear-usuario">Crear</button>
+    </mat-menu>
 
     <mat-menu #clientes="matMenu">
       <button mat-menu-item routerLink="/listar-propietario">Listar</button>
@@ -55,7 +61,7 @@
       <mat-icon (click)="logout()">exit_to_app</mat-icon>
     </span>
   </mat-toolbar>
-  <mat-toolbar color="primary" *ngIf="claims && claims.Role == 'Pujador'">
+  <mat-toolbar color="primary" *ngIf="claims && claims.Role.toLowerCase() == 'pujador'">
     <span class="example-fill-remaining-space"></span>
     <span>
       Bienvenido, {{usuario}}

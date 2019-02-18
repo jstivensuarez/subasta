@@ -198,7 +198,8 @@ namespace Subasta.core.services
             {
                 var hoy = DateTime.Today;
                 var eventos = (from evento in uowService.EventoRepository.GetAllWithInclude()
-                               where evento.Activo
+                               where evento.Activo && evento.FechaFin.Year >= hoy.Year &&
+                               evento.FechaFin.Month >= hoy.Month && evento.FechaFin.Day >= hoy.Day
                                select new EventoDto
                                {
                                    EventoId = evento.EventoId,

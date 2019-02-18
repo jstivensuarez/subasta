@@ -1,0 +1,44 @@
+<div class="great">
+  <h1 class="title margin-top-cero contet-great">{{title}}</h1>
+</div>
+<br>
+<div class="container">
+  <mat-card class="center-card">
+    <form class="example-form" [formGroup]="form" (submit)="onSubmit()">
+
+      <mat-form-field class="example-full-width">
+        <input matInput [formControl]="correo" autocomplete="off" maxlength="50" placeholder="Correo" required>
+        <mat-error *ngIf="correo.hasError('required')">
+          El correo es <strong>requerido</strong>
+        </mat-error>
+        <mat-error *ngIf="correo.hasError('email')">
+          El correo no es <strong>válido</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput [formControl]="usuario" autocomplete="off" maxlength="50" (keyup)="validarCliente($event.target.value)"
+          placeholder="Usuario" required>
+        <mat-error *ngIf="usuario.hasError('required')">
+          El usuario es <strong>requerido</strong>
+        </mat-error>
+        <mat-error *ngIf="usuario.hasError('minlength') && !usuario.hasError('required')">
+          Mínimo <strong>8 caracteres</strong>
+        </mat-error>
+        <mat-error *ngIf="!usuario.valid && !usuario.hasError('required')
+            && !usuario.hasError('minlength')">
+          Este nombre de usuario no está <strong>disponible</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <br>
+
+      <div class="row">
+        <div class="col-12 text-align-right">
+          <button class="btn margin-right15 green" (click)="regresar()">Cancelar</button>
+          <button type="submit" class="btn btn-primary yellow">Guardar</button>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>

@@ -25,6 +25,8 @@ import { AdminRazasComponent } from './maestros/admin-razas/admin-razas.componen
 import { AdminCiudadesComponent } from './maestros/admin-ciudades/admin-ciudades.component';
 import { AdminDepartamentosComponent } from './maestros/admin-departamentos/admin-departamentos.component';
 import { AdminTdComponent } from './maestros/admin-td/admin-td.component';
+import { CrearUsuarioComponent } from './usuarios/crear-usuario/crear-usuario.component';
+import { ListarUsuarioComponent } from './usuarios/listar-usuario/listar-usuario.component';
 
 const routes: Routes = [
   {
@@ -135,6 +137,25 @@ const routes: Routes = [
       expectedRole: 'Administrador'
     }
   },
+  {
+    path: 'crear-usuario', component: CrearUsuarioComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'crear-usuario/:id', component: CrearUsuarioComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'listar-usuario', component: ListarUsuarioComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+
   {
     path: 'admin-categorias', component: AdminCategoriasComponent, canActivate: [AutenticacionService, RoleguardService],
     data: {

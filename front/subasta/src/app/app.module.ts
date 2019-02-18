@@ -26,6 +26,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { SolicitudesModule } from './solicitudes/solicitudes.module';
 import { MaestrosModule } from './maestros/maestros.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
 
 export function getToken(){
   return localStorage.getItem('token');
@@ -59,6 +60,7 @@ const JWT_Module_Options: JwtModuleOptions = {
     PujadoresModule,
     SolicitudesModule,
     MaestrosModule,
+    UsuariosModule,
     JwtModule.forRoot(JWT_Module_Options),
     [NgxMaterialTimepickerModule.forRoot()]
   ],

@@ -129,7 +129,6 @@ export class SubastasComponent implements OnInit {
       }
       this.alertService.showDetails('Detalles del lote', {
         Nombre: lote.nombre,
-        Descripción: lote.descripcion,
         "Cantidad de animales": lote.cantidadElementos,
         "Peso Total": lote.pesoTotal,
         "Promedio": lote.pesoPromedio,

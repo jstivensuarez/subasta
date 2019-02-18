@@ -13,5 +13,7 @@ namespace Subasta.core.interfaces
         void RecuperarClave(string usuario);
 
         void CambiarClave(UsuarioDto usuario);
+
+        List<UsuarioDto> GetAllAdministradores();
     }
 }

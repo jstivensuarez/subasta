@@ -8,5 +8,7 @@ namespace Subasta.repository.interfaces
     public interface IUsuarioRepository: IGenericRepository<Usuario>
     {
         Usuario AutenticarUsuario(string usuario, string correo, string pass);
+
+        List<Usuario> GetllWithInclude();
     }
 }

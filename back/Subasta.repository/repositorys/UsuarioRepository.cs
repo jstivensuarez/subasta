@@ -32,5 +32,20 @@ namespace Subasta.repository.repositorys
                 throw new ExceptionData("error al buscar la entidad", ex);
             }
         }
+
+        public List<Usuario> GetllWithInclude()
+        {
+            try
+            {
+                var entitys = context.Usuarios.AsNoTracking()
+                    .Include(c => c.Rol)
+                    .ToList();
+                return entitys;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionData("error al buscar la entidad", ex);
+            }
+        }
     }
 }
