@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/7e99636d-45cc-4341-aad0-4e8e75e2f3bc/resourceGroups/subasta-front/providers/Microsoft.Web/sites/subasta-front",
+    "appService.deploySubpath": "dist\\Renting-AdministradorSeg"
+}

@@ -20,6 +20,7 @@ export class SubastasComponent implements OnInit {
   estaAutenticado: boolean;
   eventos: Evento[];
   title: string;
+  isAdmin: boolean;
   formatoFecha: any = {
     Days: "Días ",
     Hours: "Horas",
@@ -32,6 +33,7 @@ export class SubastasComponent implements OnInit {
     private alertService: MesaggesManagerService,
     private solicitudService: SolicitudService,
     private modalService: NgbModal) {
+    this.isAdmin = false;
     this.title = "Subastas";
     this.eventos = [];
     this.obtenerEventos();
@@ -53,6 +55,7 @@ export class SubastasComponent implements OnInit {
   obtenerParaClienteAutenticado() {
     this.eventoService.getForClientAutenticated().subscribe(resp => {
       this.eventos = resp;
+      this.isAdmin = this.EsAdministrador();
     }, err => {
       console.error(err);
     });
@@ -118,6 +121,16 @@ export class SubastasComponent implements OnInit {
     return null;
   }
 
+  EsAdministrador() {
+    if (this.usuarioService.isAuthenticated()) {
+      const claims = this.usuarioService.getClaims();
+      if(claims && claims.Role.toLowerCase() == 'administrador'){
+        return true;
+      }
+    }
+    return false;
+  }
+
   verLote(lote) {
     setTimeout(function () {
       let video = null;
@@ -133,7 +146,6 @@ export class SubastasComponent implements OnInit {
         "Peso Total": lote.pesoTotal,
         "Promedio": lote.pesoPromedio,
         "Precio base": lote.precioBase,
-        "Valor de anticipo": lote.valorAnticipo,
         imagen: imagen,
         video: video,
         Ciudad: lote.municipio.descripcion,

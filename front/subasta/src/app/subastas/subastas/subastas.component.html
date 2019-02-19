@@ -40,18 +40,20 @@
                   <mat-icon class="icon-medium" (click)="verLote(lote)">visibility</mat-icon>
 
                 </mat-card-content>
-                <mat-card-actions *ngIf="subasta.estadoSolicitud === 'NO_AUTORIZADO' && estaAutenticado">
-                  <button class="btn green" (click)="enviarSolicitud(subasta.subastaId)">Solicitar Ingreso</button>
-                </mat-card-actions>
-                <mat-card-actions *ngIf="subasta.estadoSolicitud === 'PENDIENTE_POR_APROBAR'">
-                  <button class="btn green" disabled>Solicitud pendiente por aprobar</button>
-                </mat-card-actions>
-                <mat-card-actions *ngIf="subasta.estadoSolicitud === 'RECHAZADO'">
+                <div *ngIf="!isAdmin">
+                  <mat-card-actions *ngIf="subasta.estadoSolicitud === 'NO_AUTORIZADO' && estaAutenticado">
+                    <button class="btn green" (click)="enviarSolicitud(subasta.subastaId)">Solicitar Ingreso</button>
+                  </mat-card-actions>
+                  <mat-card-actions *ngIf="subasta.estadoSolicitud === 'PENDIENTE_POR_APROBAR'">
+                    <button class="btn green" disabled>Solicitud pendiente por aprobar</button>
+                  </mat-card-actions>
+                  <mat-card-actions *ngIf="subasta.estadoSolicitud === 'RECHAZADO'">
                     <button class="btn green" disabled>Solicitud rechazada</button>
                   </mat-card-actions>
-                <mat-card-actions *ngIf="subasta.estadoSolicitud === 'AUTORIZADO'">
-                  <button class="btn green">Realizar puja</button>
-                </mat-card-actions>
+                  <mat-card-actions *ngIf="subasta.estadoSolicitud === 'AUTORIZADO'">
+                    <button class="btn green">Realizar puja</button>
+                  </mat-card-actions>
+                </div>
               </mat-card>
             </div>
           </div>

@@ -17,7 +17,7 @@ export class ListarSubastaComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   dataSource: MatTableDataSource<Subasta>;
   subastas: Subasta[];
-  displayedColumns: string[] = ['descripcion', 'horaInicio', 'horaFin','evento','acciones'];
+  displayedColumns: string[] = ['descripcion','anticipo', 'horaInicio', 'horaFin','evento','acciones'];
   titleSubastas: string;
   constructor(
     private subastaService: SubastaService,
