@@ -17,13 +17,10 @@ namespace Subasta.core.services
     {
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
-        readonly ILoteRepository loteRepository;
-        public ClasificacionService(IMapper mapper, IUnitOfWork uowService,
-            ILoteRepository loteRepository)
+        public ClasificacionService(IMapper mapper, IUnitOfWork uowService)
         {
             this.mapper = mapper;
             this.uowService = uowService;
-            this.loteRepository = loteRepository;
         }
 
         public void Add(ClasificacionDto dto)
@@ -66,7 +63,7 @@ namespace Subasta.core.services
         {
             try
             {
-                var lotes = loteRepository.GetAll().Where(r => r.ClasificacionId == entity.ClasificacionId);
+                var lotes = uowService.LoteRepository.GetAll().Where(r => r.ClasificacionId == entity.ClasificacionId);
                 if (lotes.Count() == 0)
                 {
                     uowService.ClasificacionRepository.Delete(mapper.Map<Clasificacion>(entity));

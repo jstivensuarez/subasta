@@ -89,6 +89,9 @@ namespace Subasta
             services.AddScoped<IClasificacionRepository, ClasificacionRepository>();
             services.AddScoped<IClasificacionService, ClasificacionService>();
 
+            services.AddScoped<IPujaRepository, PujaRepository>();
+            services.AddScoped<IPujaService, PujaService>();
+
             services.AddScoped<ICorreoHelper, CorreoHelper>();
 
             services.AddScoped<IFileHelper, FileHelper>();

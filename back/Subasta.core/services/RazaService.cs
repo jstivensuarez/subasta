@@ -17,12 +17,10 @@ namespace Subasta.core.services
     {
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
-        readonly ILoteRepository loteRepository;
-        public RazaService(IMapper mapper, IUnitOfWork uowService, ILoteRepository loteRepository)
+        public RazaService(IMapper mapper, IUnitOfWork uowService)
         {
             this.mapper = mapper;
             this.uowService = uowService;
-            this.loteRepository = loteRepository;
         }
 
         public void Add(RazaDto dto)
@@ -64,7 +62,7 @@ namespace Subasta.core.services
         {
             try
             {
-                var lotes = loteRepository.GetAll().Where(r => r.RazaId == entity.RazaId);
+                var lotes = uowService.LoteRepository.GetAll().Where(r => r.RazaId == entity.RazaId);
                 if (lotes.Count() == 0)
                 {
                     uowService.RazaRepository.Delete(mapper.Map<Raza>(entity));

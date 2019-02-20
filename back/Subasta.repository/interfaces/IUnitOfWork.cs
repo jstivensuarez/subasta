@@ -22,6 +22,8 @@ namespace Subasta.repository.interfaces
         ISolicitudRepository SolicitudRepository { get; }
         IClasificacionRepository ClasificacionRepository { get; }
         IRolRepository RolRepository { get; }
+        IPujaRepository PujaRepository { get; }
+
         void Save();
     }
 }

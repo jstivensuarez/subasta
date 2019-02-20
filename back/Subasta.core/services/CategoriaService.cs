@@ -17,18 +17,10 @@ namespace Subasta.core.services
     {
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
-        readonly IClasificacionRepository clasificacionRepository;
-        readonly IRazaRepository razaRepository;
-        readonly ILoteRepository loteRepository;
-        public CategoriaService(IMapper mapper, IUnitOfWork uowService,
-            IClasificacionRepository clasificacionRepository, IRazaRepository razaRepository,
-            ILoteRepository loteRepository)
+        public CategoriaService(IMapper mapper, IUnitOfWork uowService)
         {
             this.mapper = mapper;
             this.uowService = uowService;
-            this.clasificacionRepository = clasificacionRepository;
-            this.razaRepository = razaRepository;
-            this.loteRepository = loteRepository;
         }
 
         public void Add(CategoriaDto dto)
@@ -70,9 +62,9 @@ namespace Subasta.core.services
         {
             try
             {
-                var lotes = loteRepository.GetAll().Where(r => r.CategoriaId == entity.CategoriaId);
-                var razas = razaRepository.GetAll().Where(r => r.CategoriaId == entity.CategoriaId);
-                var clasificaciones = clasificacionRepository.GetAll().Where(r => r.CategoriaId == entity.CategoriaId);
+                var lotes = uowService.CategoriaRepository.GetAll().Where(r => r.CategoriaId == entity.CategoriaId);
+                var razas = uowService.RazaRepository.GetAll().Where(r => r.CategoriaId == entity.CategoriaId);
+                var clasificaciones = uowService.ClasificacionRepository.GetAll().Where(r => r.CategoriaId == entity.CategoriaId);
 
                 if (lotes.Count() == 0 && razas.Count() == 0 && clasificaciones.Count() == 0)
                 {

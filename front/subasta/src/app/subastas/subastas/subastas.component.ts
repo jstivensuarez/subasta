@@ -9,6 +9,8 @@ import { MesaggesManagerService } from 'src/app/services/mesagges-manager.servic
 import { SolicitudService } from 'src/app/services/solicitud.service';
 import { Solicitud } from 'src/app/dtos/solicitud-subasta';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PujarComponent } from '../pujar/pujar.component';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-subastas',
@@ -21,6 +23,7 @@ export class SubastasComponent implements OnInit {
   eventos: Evento[];
   title: string;
   isAdmin: boolean;
+  usuario: string;
   formatoFecha: any = {
     Days: "Días ",
     Hours: "Horas",
@@ -46,6 +49,7 @@ export class SubastasComponent implements OnInit {
   obtenerEventos() {
     this.estaAutenticado = this.usuarioService.isAuthenticated();
     if (this.estaAutenticado) {
+      this.usuario = this.obtenerUsurio();
       this.obtenerParaClienteAutenticado();
     } else {
       this.obtenerParaClientes();
@@ -95,14 +99,15 @@ export class SubastasComponent implements OnInit {
     return false;
   }
 
-  enviarSolicitud(subastaId) {
+  enviarSolicitud(subasta) {
     this.alertService.showConfirmMessage(constants.solicitudTitle, constants.confirmSolicitud).subscribe(
       resp => {
         if (resp) {
           const solicitud = new Solicitud();
-          solicitud.subastaId = subastaId;
+          solicitud.subastaId = subasta.subastaId;
           this.solicitudService.post(solicitud).subscribe(
             resp => {
+              subasta.estadoSolicitud = 'PENDIENTE_POR_APROBAR';
               console.log(resp)
             }, err => {
               console.error(err);
@@ -129,6 +134,18 @@ export class SubastasComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  Pujar(lote){
+    const component = this.modalService.open(PujarComponent).componentInstance;
+    component.min = lote.pujaMinima.valor+1;
+    component.loteId = lote.loteId;
+    component.usuario = this.usuario;
+    component.control = new FormControl(lote.pujaMinima.valor+1, [Validators.min(lote.pujaMinima.valor+1)]);
+    component.completo.subscribe(resp=>{
+      lote.pujaMinima.valor = resp;
+      this.obtenerEventos();
+    });
   }
 
   verLote(lote) {

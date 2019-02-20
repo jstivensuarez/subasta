@@ -18,6 +18,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from '../app-routing.module';
 import { ClientesModule } from '../clientes/clientes.module';
 import {CountDown} from "ng6-date-countdown";
+import { PujarComponent } from './pujar/pujar.component';
 
 @NgModule({
   imports: [
@@ -35,9 +36,10 @@ import {CountDown} from "ng6-date-countdown";
     AppRoutingModule,
   ],
   declarations: [CrearSubastaComponent, SubastasComponent, CountDown,
-    ListarSubastaComponent, CrearSubastaNuevaComponent],
+    ListarSubastaComponent, CrearSubastaNuevaComponent, PujarComponent],
   exports: [CrearSubastaComponent],
   providers:[DatePipe,  
-    { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }]
+    { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }],
+    entryComponents: [PujarComponent]
 })
 export class SubastasModule { }

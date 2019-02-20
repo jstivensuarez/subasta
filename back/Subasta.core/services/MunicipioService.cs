@@ -17,20 +17,10 @@ namespace Subasta.core.services
     {
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
-        readonly IClienteRepository clienteRepository;
-        readonly IEventoRepository eventoRepository;
-        readonly ILoteRepository loteRepository;
-        readonly IAnimalRepository animalRepository;
-        public MunicipioService(IMapper mapper, IUnitOfWork uowService,
-             IClienteRepository clienteRepository, IEventoRepository eventoRepository,
-            ILoteRepository loteRepository, IAnimalRepository animalRepository)
+        public MunicipioService(IMapper mapper, IUnitOfWork uowService)
         {
             this.mapper = mapper;
             this.uowService = uowService;
-            this.clienteRepository = clienteRepository;
-            this.eventoRepository = eventoRepository;
-            this.loteRepository = loteRepository;
-            this.animalRepository = animalRepository;
         }
 
         public void Add(MunicipioDto dto)
@@ -72,10 +62,10 @@ namespace Subasta.core.services
         {
             try
             {
-                var clientes = clienteRepository.GetAll().Where(c => c.MunicipioId == entity.DepartamentoId);
-                var eventos = eventoRepository.GetAll().Where(d => d.MunicipioId == entity.DepartamentoId);
-                var lotes = loteRepository.GetAll().Where(d => d.MunicipioId == entity.DepartamentoId);
-                var animales = animalRepository.GetAll().Where(d => d.MunicipioId == entity.DepartamentoId);
+                var clientes = uowService.ClienteRepository.GetAll().Where(c => c.MunicipioId == entity.DepartamentoId);
+                var eventos = uowService.EventoRepository.GetAll().Where(d => d.MunicipioId == entity.DepartamentoId);
+                var lotes = uowService.LoteRepository.GetAll().Where(d => d.MunicipioId == entity.DepartamentoId);
+                var animales = uowService.AnimalRepository.GetAll().Where(d => d.MunicipioId == entity.DepartamentoId);
 
                 if (clientes.Count() == 0 && eventos.Count() == 0 && lotes.Count() == 0 && animales.Count() == 0)
                 {

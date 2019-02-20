@@ -185,7 +185,7 @@ namespace Subasta.core.services
                     {
                         solicitud = solicitudService.GetAll().SingleOrDefault(s => s.ClienteId == cliente.ClienteId
                             && s.SubastaId == subasta.SubastaId);
-                        subasta.EstadoSolicitud = solicitud == null ? Estados.NO_AUTORIZADO: solicitud.Estado;
+                        subasta.EstadoSolicitud = solicitud == null ? Estados.NO_AUTORIZADO : solicitud.Estado;
                     }
                 }
             }
@@ -239,8 +239,10 @@ namespace Subasta.core.services
                                                                       PesoTotal = lote.PesoTotal,
                                                                       Cliente = mapper.Map<ClienteDto>(lote.Cliente),
                                                                       Categoria = mapper.Map<CategoriaDto>(lote.Categoria),
-                                                                      Raza =  mapper.Map<RazaDto>(lote.Raza),
-                                                                      Clasificacion = mapper.Map<ClasificacionDto>(lote.Clasificacion)
+                                                                      Raza = mapper.Map<RazaDto>(lote.Raza),
+                                                                      Clasificacion = mapper.Map<ClasificacionDto>(lote.Clasificacion),
+                                                                      PujaMinima = getValorMinimo(lote)
+
                                                                   }).ToList()
                                                   }).OrderBy(s => s.HoraInicio).ToList()
                                });
@@ -265,6 +267,27 @@ namespace Subasta.core.services
             {
                 subastaService.Delete(subasta);
             }
+        }
+
+        private PujaDto getValorMinimo(Lote lote)
+        {
+            var pujadores = (from pujador in uowService.PujadorRepository.GetllWithInclude()
+                             where pujador.LoteId == lote.LoteId
+                             select pujador);
+            if (pujadores.Count() > 0)
+            {
+                var valorMinimo = (from puja in uowService.PujaRepository.GetAll()
+                                   join pujador in pujadores
+                                   on puja.PujadorId equals pujador.PujadorId
+                                   orderby  puja.Valor descending
+                                   select new PujaDto
+                                   {
+                                       Usuario = pujador.Cliente.Usuario,
+                                       Valor = puja.Valor
+                                   }).FirstOrDefault();
+                return valorMinimo;
+            }
+            return new PujaDto { Valor = lote.PrecioInicial};
         }
     }
 }

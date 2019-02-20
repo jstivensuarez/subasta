@@ -13,5 +13,9 @@ namespace Subasta.core.dtos
         public int PujadorId { get; set; }
 
         public PujadorDto Pujador { get; set; }
+
+        public int LoteId { get; set; }
+
+        public string Usuario { get; set; }
     }
 }

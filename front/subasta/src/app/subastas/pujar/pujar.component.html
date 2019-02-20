@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <h4>{{title}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="cancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<mat-card>
+  <div class="col-md-12 vertical-modal">
+    <mat-form-field class="example-full-width">
+      <input matInput [formControl]="control" maxlength="15" currencyMask 
+      autocomplete="off" required>
+      <mat-error *ngIf="control.hasError('min')">
+        Por favor asegurese de ingresar un valor mayor a <strong>{{min}}</strong>
+      </mat-error>
+    </mat-form-field>
+  </div>
+</mat-card>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-cr-other yellow" data-dismiss="modal" (click)="guardar()">Pujar</button>
+</div>

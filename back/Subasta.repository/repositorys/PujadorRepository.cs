@@ -34,6 +34,22 @@ namespace Subasta.repository.repositorys
                 throw new ExceptionData("error al buscar la entidad", ex);
             }
         }
+
+        public int AddWithReturn(Pujador pujador)
+        {
+            try
+            {
+                context.Pujadores.Add(pujador);
+                context.SaveChanges();
+                return pujador.PujadorId;
+            }
+            catch (Exception ex)
+            {
+
+                throw new ExceptionData("error al agregar el pujador", ex);
+            }
+
+        }
     }
 
 }

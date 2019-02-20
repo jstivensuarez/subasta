@@ -21,7 +21,8 @@
                     <span class="bold">Precio inicial: </span> {{lote.precioInicial | currency:"USD":true}}
                   </p>
                   <p>
-                    <span class="bold">Puja Actual: </span> 0
+                    <span class="bold">Puja Actual: </span> {{lote.pujaMinima.valor | number}}
+                    <img *ngIf="usuario && usuario == lote.pujaMinima.usuario" src="assets/images/ok.png" alt="succsses">
                   </p>
                   <p *ngIf="!validarInicio(subasta.horaInicio)">
                     <span class="bold">Hora de inicio</span> {{subasta.horaInicio | date:"dd/MM/yyyy hh:mm a"}}
@@ -42,7 +43,7 @@
                 </mat-card-content>
                 <div *ngIf="!isAdmin">
                   <mat-card-actions *ngIf="subasta.estadoSolicitud === 'NO_AUTORIZADO' && estaAutenticado">
-                    <button class="btn green" (click)="enviarSolicitud(subasta.subastaId)">Solicitar Ingreso</button>
+                    <button class="btn green" (click)="enviarSolicitud(subasta)">Solicitar Ingreso</button>
                   </mat-card-actions>
                   <mat-card-actions *ngIf="subasta.estadoSolicitud === 'PENDIENTE_POR_APROBAR'">
                     <button class="btn green" disabled>Solicitud pendiente por aprobar</button>
@@ -51,7 +52,7 @@
                     <button class="btn green" disabled>Solicitud rechazada</button>
                   </mat-card-actions>
                   <mat-card-actions *ngIf="subasta.estadoSolicitud === 'AUTORIZADO'">
-                    <button class="btn green">Realizar puja</button>
+                    <button class="btn green" (click)="Pujar(lote)">Realizar puja</button>
                   </mat-card-actions>
                 </div>
               </mat-card>

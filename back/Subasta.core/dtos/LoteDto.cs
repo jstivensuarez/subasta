@@ -21,21 +21,14 @@ namespace Subasta.core.dtos
         public MunicipioDto Municipio { get; set; }
         public int SubastaId { get; set; }
         public SubastaDto Subasta { get; set; }
-        
+        public PujaDto PujaMinima { get; set; }
         public int CategoriaId { get; set; }
-
-        public CategoriaDto Categoria { get; set; }
-        
+        public CategoriaDto Categoria { get; set; }        
         public int RazaId { get; set; }
-
-        public RazaDto Raza { get; set; }
-        
+        public RazaDto Raza { get; set; }   
         public int ClasificacionId { get; set; }
-
         public ClasificacionDto Clasificacion { get; set; }
-
         public bool Activo { get; set; }
-
         public Microsoft.AspNetCore.Http.IFormFile Imagen { get; set; }  
         public List<AnimalDto> AnimalesDto { get; set; }
     }

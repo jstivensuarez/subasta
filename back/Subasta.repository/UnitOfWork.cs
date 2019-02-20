@@ -24,6 +24,7 @@ namespace Subasta.repository
         private SolicitudRepository solicitudRepository;
         private RolRepository rolRepository;
         private ClasificacionRepository clasificacionRepository;
+        private PujaRepository pujaRepository;
         public UnitOfWork(SubastaContext context)
         {
             this.context = context;
@@ -206,6 +207,18 @@ namespace Subasta.repository
                     this.clasificacionRepository = new ClasificacionRepository(context);
                 }
                 return clasificacionRepository;
+            }
+        }
+
+        public IPujaRepository PujaRepository
+        {
+            get
+            {
+                if (this.pujaRepository == null)
+                {
+                    this.pujaRepository = new PujaRepository(context);
+                }
+                return pujaRepository;
             }
         }
 

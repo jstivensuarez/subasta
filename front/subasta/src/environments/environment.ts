@@ -20,6 +20,7 @@ export const environment = {
   endpointSolicitud: urlBase+'/solicitudes',
   endpointClasificacion: urlBase+'/clasificaciones',
   endpointUsuario: urlBase+'/usuarios',
+  endpointPuja: urlBase+'/pujas',
 
   imageLotesUrl: urlBaseImage+'/images/LOTES/',
   imageAnimalesUrl: urlBaseImage+'/images/ANIMALES/',

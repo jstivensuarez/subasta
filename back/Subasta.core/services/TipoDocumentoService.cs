@@ -16,13 +16,10 @@ namespace Subasta.core.services
     {
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
-        readonly IClienteRepository clienteRepository;
-        public TipoDocumentoService(IMapper mapper, IUnitOfWork uowService,
-             IClienteRepository clienteRepository)
+        public TipoDocumentoService(IMapper mapper, IUnitOfWork uowService)
         {
             this.mapper = mapper;
             this.uowService = uowService;
-            this.clienteRepository = clienteRepository;
         }
 
         public void Add(TipoDocumentoDto dto)
@@ -64,7 +61,7 @@ namespace Subasta.core.services
         {
             try
             {
-                var clientes = clienteRepository.GetAll().Where(c => c.TipoDocumentoId == entity.TipoDocumentoId);
+                var clientes = uowService.ClienteRepository.GetAll().Where(c => c.TipoDocumentoId == entity.TipoDocumentoId);
                 if (clientes.Count() == 0)
                 {
                     uowService.TipoDocumentoRepository.Delete(mapper.Map<TipoDocumento>(entity));

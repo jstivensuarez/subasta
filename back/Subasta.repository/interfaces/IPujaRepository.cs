@@ -5,10 +5,7 @@ using System.Text;
 
 namespace Subasta.repository.interfaces
 {
-    public interface IPujadorRepository: IGenericRepository<Pujador>
+    public interface IPujaRepository: IGenericRepository<Puja>
     {
-        List<Pujador> GetllWithInclude();
-
-        int AddWithReturn(Pujador pujador);
     }
 }
