@@ -34,8 +34,6 @@
                     <p>
                       Tiempo restante
                     </p>
-                    <countdown (reached)="callback($event)" [text]="formatoFecha" units="Days | Hours | Minutes | Seconds"
-                      end="{{subasta.horaFin}}"></countdown>
                   </div>
                   Ver detalles del lote
                   <mat-icon class="icon-medium" (click)="verLote(lote)">visibility</mat-icon>

@@ -11,6 +11,7 @@ import { Solicitud } from 'src/app/dtos/solicitud-subasta';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PujarComponent } from '../pujar/pujar.component';
 import { FormControl, Validators } from '@angular/forms';
+import { SignalRService } from 'src/app/services/signal-r.service';
 
 @Component({
   selector: 'app-subastas',
@@ -35,7 +36,8 @@ export class SubastasComponent implements OnInit {
     private usuarioService: UsuarioService,
     private alertService: MesaggesManagerService,
     private solicitudService: SolicitudService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private signalRService: SignalRService) {
     this.isAdmin = false;
     this.title = "Subastas";
     this.eventos = [];
@@ -43,7 +45,8 @@ export class SubastasComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.signalRService.IniciarConeccion();
+    this.signalRService.agregarListenerParaHub(); 
   }
 
   obtenerEventos() {
@@ -143,6 +146,7 @@ export class SubastasComponent implements OnInit {
     component.usuario = this.usuario;
     component.control = new FormControl(lote.pujaMinima.valor+1, [Validators.min(lote.pujaMinima.valor+1)]);
     component.completo.subscribe(resp=>{
+      lote.pujaMinima.usuario = this.usuario;
       lote.pujaMinima.valor = resp;
       this.obtenerEventos();
     });

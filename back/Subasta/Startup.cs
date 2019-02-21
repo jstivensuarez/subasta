@@ -98,12 +98,6 @@ namespace Subasta
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -120,6 +114,16 @@ namespace Subasta
                     };
                 });
 
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                       .AllowAnyMethod()
+                       .AllowCredentials()
+                       .AllowAnyHeader();
+            }));
+
+            services.AddSignalR();
+
             services.AddDirectoryBrowser();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(options =>
@@ -127,7 +131,8 @@ namespace Subasta
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
 
-            services.Configure<FormOptions>(o => {
+            services.Configure<FormOptions>(o =>
+            {
                 o.ValueLengthLimit = int.MaxValue;
                 o.MultipartBodyLengthLimit = int.MaxValue;
                 o.MemoryBufferThreshold = int.MaxValue;
@@ -155,7 +160,13 @@ namespace Subasta
                 Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images")),
                 RequestPath = "/images"
             });
+
             app.UseAuthentication();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<SubastaHub>("/notificacion");
+            });
+
             app.UseMvc();
         }
     }
