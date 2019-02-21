@@ -1,5 +1,6 @@
 import { Time } from "@angular/common";
 import { Evento } from "./evento";
+import { Lote } from "./lote";
 
 export class Subasta {
 
@@ -15,5 +16,6 @@ export class Subasta {
     evento: Evento;
     totalSegundos: number;
     estadoSolicitud: string;
+    lotesDto: Lote[];
     constructor(){}
 }

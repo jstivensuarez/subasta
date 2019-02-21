@@ -8,6 +8,6 @@ namespace Subasta.core.dtos
     {
         public string Mensaje { get; set; }
 
-        public string Usuario { get; set; }
+        public string Tipo { get; set; }
     }
 }

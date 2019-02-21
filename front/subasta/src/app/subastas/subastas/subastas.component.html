@@ -18,7 +18,7 @@
                 </mat-card-header>
                 <mat-card-content>
                   <p>
-                    <span class="bold">Precio inicial: </span> {{lote.precioInicial | currency:"USD":true}}
+                    <span class="bold">Precio inicial: </span> {{lote.precioInicial | number}}
                   </p>
                   <p>
                     <span class="bold">Puja Actual: </span> {{lote.pujaMinima.valor | number}}
@@ -34,6 +34,8 @@
                     <p>
                       Tiempo restante
                     </p>
+                    <countdown (reached)="callback($event)" [text]="formatoFecha" units="Days | Hours | Minutes | Seconds"
+                    end="{{subasta.horaFin}}"></countdown>
                   </div>
                   Ver detalles del lote
                   <mat-icon class="icon-medium" (click)="verLote(lote)">visibility</mat-icon>

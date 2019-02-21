@@ -94,6 +94,8 @@ namespace Subasta
 
             services.AddScoped<ICorreoHelper, CorreoHelper>();
 
+            services.AddScoped<IMensajesService, MensajesService>();
+
             services.AddScoped<IFileHelper, FileHelper>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -162,6 +164,7 @@ namespace Subasta
             });
 
             app.UseAuthentication();
+            app.UseCors("MyPolicy");
             app.UseSignalR(routes =>
             {
                 routes.MapHub<SubastaHub>("/notificacion");

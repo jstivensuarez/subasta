@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Subasta
+namespace Subasta.core.helpers
 {
         public class SubastaHub : Hub
         {

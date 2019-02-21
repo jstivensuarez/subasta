@@ -5,8 +5,10 @@
   </button>
 </div>
 <div>
+  <br>
   <div class="row">
     <div class="col-md-12 vertical-modal">
+        <img *ngIf="currentMessageType === pujaType" src="assets/images/puja.png" alt="nueva puja">
       <img *ngIf="currentMessageType === successType" src="assets/images/icon-sucess.png" alt="succsses">
       <img *ngIf="currentMessageType === alertType || currentMessageType === confirmType" src="assets/images/icon-warning.png"
         alt="alert">
@@ -14,6 +16,7 @@
       <p class="text-modal"> {{message}} </p>
     </div>
   </div>
+  <br>
 </div>
 <div class="modal-footer">
   <div *ngIf="currentMessageType === confirmType">

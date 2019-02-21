@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
+using Subasta.core.constants;
 using Subasta.core.dtos;
 using Subasta.core.exceptions;
 using Subasta.core.interfaces;
@@ -18,11 +20,13 @@ namespace Subasta.core.services
     {
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
+        readonly IMensajesService mensajesService;
 
-        public PujaService(IMapper mapper, IUnitOfWork uowService)
+        public PujaService(IMapper mapper, IUnitOfWork uowService, IMensajesService mensajesService)
         {
             this.mapper = mapper;
             this.uowService = uowService;
+            this.mensajesService = mensajesService;
         }
 
         public void Add(PujaDto dto)
@@ -48,6 +52,7 @@ namespace Subasta.core.services
                 }
                 uowService.PujaRepository.Add(mapper.Map<Puja>(dto));
                 uowService.Save();
+                NotificarPuja(dto);
             }
             catch (ExceptionData)
             {
@@ -164,6 +169,26 @@ namespace Subasta.core.services
             {
                 throw new ExceptionCore("error al intentar obtener la puja", ex);
             }
+        }
+
+        private void NotificarPuja(PujaDto puja)
+        {
+            var pujador = uowService.PujadorRepository.GetllWithInclude()
+                .SingleOrDefault(p => p.Estado != Estados.BORRADO && p.PujadorId == puja.PujadorId);
+            var subasta = uowService.SubastaRepository.GetAllWithInclude()
+                            .SingleOrDefault(s => s.SubastaId == pujador.Lote.SubastaId);
+
+            var mensaje = new {
+                usuario = puja.Usuario,
+                valor = puja.Valor,
+                loteId = puja.LoteId,
+                subastaId = subasta.SubastaId, 
+                eventoId = subasta.EventoId
+            };
+
+            string mensajeFinal = mensajesService.ObtenerMenajeFinal(mensaje, TipoMensajes.ACTUALIZARLOTEPUJA);
+
+            mensajesService.EnviarMensaje(mensajeFinal);
         }
     }
 }

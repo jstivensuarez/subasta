@@ -15,6 +15,7 @@ export class ModalMessageComponent implements OnInit {
   @Input() message: string;
   @Output() action = new EventEmitter();
 
+  pujaType: number = constants.nuevaPuja;
   successType: number = constants.success;
   errorType: number = constants.error;
   alertType: number = constants.alert;

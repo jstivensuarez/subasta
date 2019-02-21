@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using Subasta.core.dtos;
 using Subasta.core.exceptions;
+using Subasta.core.helpers;
 using Subasta.core.interfaces;
 using Subasta.core.states;
 using Subasta.repository.exceptions;
@@ -23,12 +25,14 @@ namespace Subasta.core.services
         readonly IAnimalService animalService;
         readonly IClienteService clienteService;
         readonly ISolicitudService solicitudService;
+       
         public EventoService(IMapper mapper, IUnitOfWork uowService,
              ISubastaService subastaService,
              ILoteService loteService,
              IAnimalService animalService,
              IClienteService clienteService,
-              ISolicitudService solicitudService)
+              ISolicitudService solicitudService,
+              IHubContext<SubastaHub> hub)
         {
             this.mapper = mapper;
             this.uowService = uowService;
@@ -245,7 +249,8 @@ namespace Subasta.core.services
 
                                                                   }).ToList()
                                                   }).OrderBy(s => s.HoraInicio).ToList()
-                               });
+                               });            
+                
                 return mapper.Map<List<EventoDto>>(eventos);
             }
             catch (ExceptionData)
@@ -288,6 +293,6 @@ namespace Subasta.core.services
                 return valorMinimo;
             }
             return new PujaDto { Valor = lote.PrecioInicial};
-        }
+        }      
     }
 }

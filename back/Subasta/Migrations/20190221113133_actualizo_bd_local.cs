@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Subasta.Migrations
 {
-    public partial class nueva_bd_azure : Migration
+    public partial class actualizo_bd_local : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

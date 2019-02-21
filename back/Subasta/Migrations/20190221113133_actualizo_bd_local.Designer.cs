@@ -9,14 +9,14 @@ using Subasta.repository;
 namespace Subasta.Migrations
 {
     [DbContext(typeof(SubastaContext))]
-    [Migration("20190218010344_nueva_bd_azure")]
-    partial class nueva_bd_azure
+    [Migration("20190221113133_actualizo_bd_local")]
+    partial class actualizo_bd_local
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Subasta.repository.models.Animal", b =>

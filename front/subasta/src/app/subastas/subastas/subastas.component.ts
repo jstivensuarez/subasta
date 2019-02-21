@@ -45,8 +45,23 @@ export class SubastasComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.signalRService.nuevoMensaje.subscribe(mensaje => {
+      debugger;
+      const objeto = JSON.parse(mensaje);
+      if (objeto.Tipo == "ACTUALIZAR_LOTE_PUJA") {
+        const puja = JSON.parse(objeto.Mensaje);
+        const evento = this.eventos.find(e => e.eventoId == puja.eventoId);
+        const subasta = evento.subastasDto.find(s => s.subastaId == puja.subastaId);
+        const lote = subasta.lotesDto.find(l => l.loteId == puja.loteId);
+        if (lote.pujaMinima.usuario == this.usuario && lote.pujaMinima.usuario != puja.usuario) {
+          this.alertService.
+            showSimpleMessage(constants.nuevaPujaTitle, constants.nuevaPuja, constants.pujaSuperada+ "'" +lote.nombre+ "' ha sido superada");
+        }
+        lote.pujaMinima.usuario = puja.usuario;
+        lote.pujaMinima.valor = puja.valor;
+      }
+    });
     this.signalRService.IniciarConeccion();
-    this.signalRService.agregarListenerParaHub(); 
   }
 
   obtenerEventos() {
@@ -132,20 +147,20 @@ export class SubastasComponent implements OnInit {
   EsAdministrador() {
     if (this.usuarioService.isAuthenticated()) {
       const claims = this.usuarioService.getClaims();
-      if(claims && claims.Role.toLowerCase() == 'administrador'){
+      if (claims && claims.Role.toLowerCase() == 'administrador') {
         return true;
       }
     }
     return false;
   }
 
-  Pujar(lote){
+  Pujar(lote) {
     const component = this.modalService.open(PujarComponent).componentInstance;
-    component.min = lote.pujaMinima.valor+1;
+    component.min = lote.pujaMinima.valor + 1;
     component.loteId = lote.loteId;
     component.usuario = this.usuario;
-    component.control = new FormControl(lote.pujaMinima.valor+1, [Validators.min(lote.pujaMinima.valor+1)]);
-    component.completo.subscribe(resp=>{
+    component.control = new FormControl(lote.pujaMinima.valor + 1, [Validators.min(lote.pujaMinima.valor + 1)]);
+    component.completo.subscribe(resp => {
       lote.pujaMinima.usuario = this.usuario;
       lote.pujaMinima.valor = resp;
       this.obtenerEventos();

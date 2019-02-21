@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
 import { urlBase } from 'src/environments/environment';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignalRService {
 
+  nuevoMensaje = new Subject<string>();
   private hubConnection: signalR.HubConnection
  
   public IniciarConeccion = () => {
@@ -19,12 +21,10 @@ export class SignalRService {
       .start()
       .then(() => console.log('Conección iniciada'))
       .catch(err => console.log('Error mientras se iniciaba la coneccion: ' + err))
-  }
- 
-  public agregarListenerParaHub = () => {
-    this.hubConnection.on('enviarATodos', (data) => {
-      debugger;
-      console.log(data);
-    });
+
+      this.hubConnection.on('enviarATodos', (data) => {
+        console.log(data);
+        this.nuevoMensaje.next(data);
+      });
   }
 }
