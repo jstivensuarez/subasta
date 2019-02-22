@@ -1,26 +1,28 @@
 
-export const urlBase = 'http://localhost:3002/api';
+export const urlBase = 'http://localhost:3002';
+export const urlBaseApi = 'http://localhost:3002/api';
 export const urlBaseImage = 'http://localhost:3002';
 
 export const environment = {
   production: false,
-  endpointTipoDocumentos: urlBase+'/tipoDocumentos',
-  endpointDepartamentos: urlBase+'/departamentos',
-  endpointMunicipios: urlBase+'/municipios',
-  endpointClientes: urlBase+'/Clientes',
-  endpointEvento: urlBase+'/eventos',
-  endpointSubasta: urlBase+'/subastas',
-  endpointLogin: urlBase+'/login',
-  endpointLote: urlBase+'/lotes',
-  endpointCategoria: urlBase+'/categorias',
-  endpointRaza: urlBase+'/razas',
-  endpointSexo: urlBase+'/sexos',
-  endpointAnimal: urlBase+'/animales',
-  endpointPujador: urlBase+'/pujadores',
-  endpointSolicitud: urlBase+'/solicitudes',
-  endpointClasificacion: urlBase+'/clasificaciones',
-  endpointUsuario: urlBase+'/usuarios',
-  endpointPuja: urlBase+'/pujas',
+  endpointTipoDocumentos: urlBaseApi+'/tipoDocumentos',
+  endpointDepartamentos: urlBaseApi+'/departamentos',
+  endpointMunicipios: urlBaseApi+'/municipios',
+  endpointClientes: urlBaseApi+'/Clientes',
+  endpointEvento: urlBaseApi+'/eventos',
+  endpointSubasta: urlBaseApi+'/subastas',
+  endpointLogin: urlBaseApi+'/login',
+  endpointLote: urlBaseApi+'/lotes',
+  endpointCategoria: urlBaseApi+'/categorias',
+  endpointRaza: urlBaseApi+'/razas',
+  endpointSexo: urlBaseApi+'/sexos',
+  endpointAnimal: urlBaseApi+'/animales',
+  endpointPujador: urlBaseApi+'/pujadores',
+  endpointSolicitud: urlBaseApi+'/solicitudes',
+  endpointClasificacion: urlBaseApi+'/clasificaciones',
+  endpointUsuario: urlBaseApi+'/usuarios',
+  endpointPuja: urlBaseApi+'/pujas',
+  endpointSignal: urlBase+'/notificacion',
 
   imageLotesUrl: urlBaseImage+'/images/LOTES/',
   imageAnimalesUrl: urlBaseImage+'/images/ANIMALES/',

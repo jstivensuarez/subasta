@@ -58,4 +58,14 @@ export class Validation {
             return null
         }
     }
+
+    static MatchValidatorChange(AC: AbstractControl) {
+        let pass = AC.get('claveChange').value;
+        let passValidation = AC.get('claveRepeat').value;
+        if (pass !== passValidation) {
+            AC.get('claveRepeat').setErrors({ claveMala: true })
+        } else {
+            return null
+        }
+    }
 }

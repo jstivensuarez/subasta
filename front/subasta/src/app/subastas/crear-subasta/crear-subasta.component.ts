@@ -49,7 +49,9 @@ export class CrearSubastaComponent implements OnInit {
       subasta.horaFinAux = this.horaFin.value;
       subasta.descripcion = this.descripcion.value;
       subasta.eventoId = this.eventoInput.eventoId;
-      subasta.valorAnticipo = this.valorAnticipo.value;
+      if(this.valorAnticipo.value){
+        subasta.valorAnticipo = this.valorAnticipo.value;
+     }
       if (this.subastaInput.subastaId) {
         subasta.subastaId = this.subastaInput.subastaId;
         this.editarSubasta(subasta);

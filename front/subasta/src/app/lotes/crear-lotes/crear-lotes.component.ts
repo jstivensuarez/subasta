@@ -170,7 +170,6 @@ export class CrearLotesComponent implements OnInit {
 
   obtenerLote(id: string) {
     this.lotesService.getDto(id).subscribe(res => {
-      debugger;
       this.lote = res;
       this.selectedDepartamento = this.lote.municipio.departamentoId;
       this.selectedSubasta = this.lote.subastaId;

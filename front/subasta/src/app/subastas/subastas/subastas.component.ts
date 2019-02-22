@@ -46,7 +46,6 @@ export class SubastasComponent implements OnInit {
 
   ngOnInit() {
     this.signalRService.nuevoMensaje.subscribe(mensaje => {
-      debugger;
       const objeto = JSON.parse(mensaje);
       if (objeto.Tipo == "ACTUALIZAR_LOTE_PUJA") {
         const puja = JSON.parse(objeto.Mensaje);

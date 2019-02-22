@@ -83,7 +83,6 @@ export class AdminClasificacionesComponent implements OnInit {
                 showSimpleMessage(constants.successTitle, constants.success, constants.successDelete);
               this.eliminarChip(clasificacion);
             }, err => {
-              debugger;
               if (err == constants.enUso) {
                 this.alertService.
                   showSimpleMessage(constants.errorTitle, constants.error, constants.errorEnUso);

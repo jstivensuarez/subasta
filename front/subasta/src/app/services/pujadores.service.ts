@@ -29,7 +29,6 @@ export class PujadoresService {
   }
 
   put(dto: Pujador): Observable<any> {
-    debugger;
     return this.http.put<any>(environment.endpointPujador, dto, { headers: this.httpHeaders });
   }
 

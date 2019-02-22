@@ -69,10 +69,8 @@ export class ListarPujadorComponent implements OnInit {
   }
 
   obtenerPujadores() {
-    debugger;
     this.pujadorService.get().subscribe(
       resp => {
-        debugger;
         this.pujadores = resp;
         this.dataSource = new MatTableDataSource(resp);
         this.dataSource.paginator = this.paginator;

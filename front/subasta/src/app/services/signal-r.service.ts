@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
-import { urlBase } from 'src/environments/environment';
+import { urlBaseApi, environment } from 'src/environments/environment';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class SignalRService {
  
   public IniciarConeccion = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-                            .withUrl('http://localhost:3002/notificacion')
+                            .withUrl(environment.endpointSignal)
                             .configureLogging(signalR.LogLevel.Information)
                             .build();
  

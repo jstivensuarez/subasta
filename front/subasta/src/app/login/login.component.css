@@ -9,10 +9,16 @@
 }
 
 .login{
-  width: 450px;
+  width: 35%;
+}
+
+@media only screen and (max-width: 400px) {
+  .login{
+    width: 100%;
+  }
 }
 
 .simulalink:hover {
-  text-decoration:underline
+  text-decoration:underline;
 }
 

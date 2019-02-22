@@ -16,7 +16,6 @@ import { constants } from 'src/app/util/constants';
         .pipe(
           retry(0),
           catchError((error: HttpErrorResponse) => {
-            debugger;
             let errorMessage = '';
             if (error.error instanceof ErrorEvent) {
               // client-side error

@@ -101,6 +101,7 @@ export class CrearEventoComponent implements OnInit {
       this.evento = res;
       this.selectedDepartamento = this.evento.municipio.departamentoId;
       this.selectedMunicipio = this.evento.municipioId;
+      this.minDate = this.evento.fechaInicio;
       this.firstFormGroup = this.createFirstForm();
       this.obtenerMunicipios(this.selectedDepartamento);
       this.obtenerSubastas();
@@ -204,12 +205,11 @@ export class CrearEventoComponent implements OnInit {
   }
 
   editarSubasta(subasta) {
-    const component = this.modalService.open(CrearSubastaComponent).componentInstance;
+    const component = this.modalService.open(CrearSubastaComponent,{centered: true}).componentInstance;
     component.eventoInput = this.evento;
     component.subastaInput = subasta;
     component.minDate = new Date(this.evento.fechaInicio);
     component.maxDate = new Date(this.evento.fechaFin);
-    debugger;
     if (subasta.valorAnticipo)
       component.selectedAnticipo = true;
     component.createForm();
@@ -219,7 +219,7 @@ export class CrearEventoComponent implements OnInit {
   }
 
   agregarSubasta() {
-    const component = this.modalService.open(CrearSubastaComponent).componentInstance;
+    const component = this.modalService.open(CrearSubastaComponent,{centered: true}).componentInstance;
     component.eventoInput = this.evento;
     component.minDate = new Date(this.evento.fechaInicio);
     component.maxDate = new Date(this.evento.fechaFin);

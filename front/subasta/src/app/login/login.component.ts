@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
   usuario: Usuario;
   usuarioPass: Usuario;
   claveRepeat: string;
+  claveChangeRepeat: string;
   claveChange: string;
   selected: number;
   constructor(
@@ -64,7 +65,11 @@ export class LoginComponent implements OnInit {
   }
 
   cambiarTab(numero) {
-    this.selected = numero;
+      this.selected = numero;
+      this.form = this.createForm();
+      this.formRegister = this.createFormRegister();
+      this.formPass = this.createFormPass();
+      this.formChange = this.createFormChange();
   }
 
   ngOnInit() {
@@ -98,7 +103,7 @@ export class LoginComponent implements OnInit {
         if (err.includes(401)) {
           this.alertService.
             showSimpleMessage(constants.errorTitle, constants.alert, constants.errorUnautorized);
-        } else{
+        } else {
           this.alertService.
             showSimpleMessage(constants.errorTitle, constants.error, constants.errorCambio);
         }
@@ -139,7 +144,6 @@ export class LoginComponent implements OnInit {
   login(usuario) {
     this.usuarioService.login(usuario).subscribe(
       res => {
-        debugger;
         localStorage.setItem('token', res.token);
         this.usuarioService.redirectToMenu();
       }, err => {
@@ -219,7 +223,7 @@ export class LoginComponent implements OnInit {
       departamento: new FormControl(this.selectedDepartamento),
       direccion: new FormControl(this.cliente.direccion, [Validators.required]),
       usuario: new FormControl(this.cliente.usuario, [Validators.required, Validators.minLength(8)]),
-      clave: new FormControl(this.cliente.clave, [Validators.required, Validators.minLength(8)]),
+      clave: new FormControl(this.cliente.clave, [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]),
       claveRepeat: new FormControl(this.claveRepeat, [Validators.required])
     }, [Validation.MatchValidator]);
   }
@@ -228,8 +232,9 @@ export class LoginComponent implements OnInit {
     return new FormGroup({
       ingreso: new FormControl(this.cliente.usuario, [Validators.required, Validators.minLength(8)]),
       clave: new FormControl(this.cliente.clave, [Validators.required, Validators.minLength(8)]),
-      claveChange: new FormControl(this.claveChange, [Validators.required, Validators.minLength(8)])
-    });
+      claveRepeat: new FormControl(this.claveChangeRepeat, [Validators.required, Validators.minLength(8)]),
+      claveChange: new FormControl(this.claveChange, [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')])
+    }, [Validation.MatchValidatorChange]);
   }
 
   obtenerMunicipios(departamentoId) {
@@ -279,6 +284,10 @@ export class LoginComponent implements OnInit {
 
   get ingresoChange() {
     return this.formChange.get('ingreso');
+  }
+
+  get claveNewRepeat() {
+    return this.formChange.get('claveRepeat')
   }
 
   get claveOld() {

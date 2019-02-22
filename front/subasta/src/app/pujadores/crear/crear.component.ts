@@ -129,7 +129,6 @@ export class CrearPujadorComponent implements OnInit {
 
   verificarUrl() {
     this.route.queryParams.subscribe(params => {
-      debugger;
       if (params['id']) {
         this.isEditing = true;
         this.title = 'Editar pujador';
@@ -145,7 +144,6 @@ export class CrearPujadorComponent implements OnInit {
 
   obtenerPujador(id) {
     this.pujadoresService.getDto(id).subscribe(res => {
-      debugger;
       this.pujador = res;
       this.form = this.createForm();
     }, err => {

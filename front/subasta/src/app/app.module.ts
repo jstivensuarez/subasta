@@ -27,6 +27,8 @@ import { FooterComponent } from './footer/footer.component';
 import { SolicitudesModule } from './solicitudes/solicitudes.module';
 import { MaestrosModule } from './maestros/maestros.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
+import { LoadingComponent } from './loading/loading.component';
+import { LoadingInterceptorService } from './services/loading-interceptor.service';
 
 export function getToken(){
   return localStorage.getItem('token');
@@ -40,7 +42,7 @@ const JWT_Module_Options: JwtModuleOptions = {
 
 @NgModule({
   declarations: [
-    AppComponent, ModalMessageComponent, DetallesComponent, LoginComponent, HeaderComponent, FooterComponent
+    AppComponent, ModalMessageComponent, DetallesComponent, LoginComponent, HeaderComponent, FooterComponent, LoadingComponent
   ],
   imports: [
   BrowserModule,
@@ -65,13 +67,11 @@ const JWT_Module_Options: JwtModuleOptions = {
     [NgxMaterialTimepickerModule.forRoot()]
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor,
-      multi: true,
-    },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true,},
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptorService, multi: true}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [LoadingComponent]
 })
 export class AppModule { }

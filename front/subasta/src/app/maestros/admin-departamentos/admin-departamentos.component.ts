@@ -76,7 +76,6 @@ export class AdminDepartamentosComponent implements OnInit {
                 showSimpleMessage(constants.successTitle, constants.success, constants.successDelete);
               this.eliminarChip(departamento);
             }, err => {
-              debugger;
               if (err == constants.enUso) {
                 this.alertService.
                   showSimpleMessage(constants.errorTitle, constants.error, constants.errorEnUso);

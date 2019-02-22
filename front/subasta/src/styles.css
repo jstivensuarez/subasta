@@ -166,3 +166,13 @@ table {
   width: 100%;
 }
 
+#app {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+body {
+	height: 100vh;
+}

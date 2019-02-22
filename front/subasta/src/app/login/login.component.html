@@ -14,8 +14,7 @@
             <div class="row">
               <div class="col-md-12">
                 <mat-form-field class="example-full-width">
-                  <input matInput [formControl]="ingreso" autocomplete="off" maxlength="50"
-                   placeholder="Usuario / Correo"
+                  <input matInput [formControl]="ingreso" autocomplete="off" maxlength="50" placeholder="Usuario / Correo"
                     required>
                   <mat-error *ngIf="ingreso.hasError('required')">
                     El usuario es <strong>requerido</strong>
@@ -153,6 +152,9 @@
               <mat-error *ngIf="claveRegister.hasError('minlength')">
                 Mínimo <strong>8 caracteres</strong>
               </mat-error>
+              <mat-error *ngIf="claveRegister.hasError('pattern')">
+                  Esta contraseña <strong>no es segura</strong>, asegurese que contenga caracteres especiales, mayúsculas, minúsculas, números. (Mínimo 8 caracteres) 
+              </mat-error>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
@@ -218,8 +220,8 @@
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <input type="password" matInput autocomplete="off" [formControl]="claveOld" maxlength="50"
-                placeholder="Contraseña actual" required>
+              <input type="password" matInput autocomplete="off" [formControl]="claveOld" maxlength="50" placeholder="Contraseña actual"
+                required>
               <mat-error *ngIf="claveOld.hasError('required')">
                 La contraseña actual es <strong>requerida</strong>
               </mat-error>
@@ -228,14 +230,32 @@
               </mat-error>
             </mat-form-field>
 
+            
+            <mat-divider></mat-divider>
+            <br>
+
             <mat-form-field class="example-full-width">
-              <input type="password" matInput [formControl]="claveNew" maxlength="50" 
-              placeholder="Contraseña nueva"  autocomplete="off" required>
+              <input type="password" matInput [formControl]="claveNew" maxlength="50" placeholder="Contraseña nueva"
+                autocomplete="off" required>
               <mat-error *ngIf="claveNew.hasError('required')">
                 La contraseña nueva es <strong>requerida</strong>
               </mat-error>
               <mat-error *ngIf="claveNew.hasError('minlength')">
                 Mínimo <strong>8 caracteres</strong>
+              </mat-error>
+              <mat-error *ngIf="claveNew.hasError('pattern')">
+                  Esta contraseña <strong>no es segura</strong> , asegurese que contenga caracteres especiales, mayúsculas, minúsculas, números. (Mínimo 8 caracteres) 
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <input type="password" matInput [formControl]="claveNewRepeat" maxlength="50" placeholder="Validar contraseña"
+                autocomplete="off" required>
+              <mat-error *ngIf="claveNewRepeat.hasError('required')">
+                Es <strong>requerido</strong> validar la contraseña
+              </mat-error>
+              <mat-error *ngIf="claveNewRepeat.hasError('claveMala')">
+                La clave no coincide
               </mat-error>
             </mat-form-field>
 

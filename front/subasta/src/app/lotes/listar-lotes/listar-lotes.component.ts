@@ -51,7 +51,6 @@ export class ListarLotesComponent implements OnInit {
   }
 
   ver(lote) {
-    debugger;
     let video = null;
     let imagen = null;
     if (/^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/.test(lote.fotoLote)) {

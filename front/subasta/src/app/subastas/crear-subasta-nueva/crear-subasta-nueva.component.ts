@@ -90,7 +90,6 @@ export class CrearSubastaNuevaComponent implements OnInit {
   }
 
   onSubmit() {
-    debugger;
     if (this.form.valid) {
       const subasta = new Subasta();
       subasta.horaFin = this.fechaFin.value;
@@ -148,7 +147,6 @@ export class CrearSubastaNuevaComponent implements OnInit {
   }
 
   createForm() {
-    debugger;
     if (this.subasta.horaInicio && this.subasta.horaFin) {
       this.horaInicioActual = this.datepipe.transform(this.subasta.horaInicio, 'HH:mm');
       this.horaFinActual = this.datepipe.transform(this.subasta.horaFin, 'HH:mm');

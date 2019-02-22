@@ -143,7 +143,6 @@ export class CrearComponent implements OnInit {
       if (this.video.value) {
         payload.append('video', this.video.value);
       }
-      debugger;
       if (this.isEditing) {
         payload.append('animalId', this.animal.animalId);
         payload.append('foto', this.animal.foto);

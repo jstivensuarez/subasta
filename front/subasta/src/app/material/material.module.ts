@@ -26,7 +26,7 @@ import {
   MatTabsModule,
   MatPaginatorModule, 
   MatBadgeModule,
-  MatChipsModule
+  MatChipsModule, MatProgressBarModule
 } from '@angular/material'; 
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 @NgModule({
@@ -59,7 +59,7 @@ import { ScrollDispatchModule } from '@angular/cdk/scrolling';
     MatTabsModule,
     MatPaginatorModule,
     MatBadgeModule,
-    MatChipsModule
+    MatChipsModule,MatProgressBarModule
   ], 
   exports: [
     CommonModule, 
@@ -89,7 +89,7 @@ import { ScrollDispatchModule } from '@angular/cdk/scrolling';
     MatTabsModule,
     MatPaginatorModule,
     MatBadgeModule,
-    MatChipsModule
+    MatChipsModule, MatProgressBarModule
   ]
 })
 export class MaterialModule { }
