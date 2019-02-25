@@ -118,7 +118,7 @@ namespace Subasta
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
-                builder.WithOrigins("http://localhost:4200")
+                builder.WithOrigins("http://localhost:4200", "https://subasta-front.azurewebsites.net")
                        .AllowAnyMethod()
                        .AllowCredentials()
                        .AllowAnyHeader();
