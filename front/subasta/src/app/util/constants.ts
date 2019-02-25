@@ -30,6 +30,7 @@ export const constants = {
     errorAlreadyExists: "Este registro ya existe",
     errorEnUso: "No se puede eliminar este registro porque ya está siendo usado!",
     userAlreadyExists: "Este usuario ya se encuentra registrado en el sistema, por favor verifique su correo y su número de documento...",
+    confirmWinner: 'Haz ganado!!',
     confirmDelete: "¿Está seguro que desea eliminar este registro?",
     confirmSolicitud: "¿Enviar solicitud para pujar en esta subasta?",
     confirmDeleteEvento: "¿Está seguro que desea eliminar este evento, también se eliminarán los elementos asociados como subastas, lotes y animales...?",

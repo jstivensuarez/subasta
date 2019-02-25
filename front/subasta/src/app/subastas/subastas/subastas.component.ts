@@ -52,9 +52,9 @@ export class SubastasComponent implements OnInit {
         const evento = this.eventos.find(e => e.eventoId == puja.eventoId);
         const subasta = evento.subastasDto.find(s => s.subastaId == puja.subastaId);
         const lote = subasta.lotesDto.find(l => l.loteId == puja.loteId);
-        if (lote.pujaMinima.usuario == this.usuario && lote.pujaMinima.usuario != puja.usuario) {
+        if (lote.pujaMinima.usuario && lote.pujaMinima.usuario == this.usuario && lote.pujaMinima.usuario != puja.usuario) {
           this.alertService.
-            showSimpleMessage(constants.nuevaPujaTitle, constants.nuevaPuja, constants.pujaSuperada+ "'" +lote.nombre+ "' ha sido superada");
+            showSimpleMessage(constants.nuevaPujaTitle, constants.nuevaPuja, constants.pujaSuperada + "'" + lote.nombre + "' ha sido superada");
         }
         lote.pujaMinima.usuario = puja.usuario;
         lote.pujaMinima.valor = puja.valor;
@@ -104,6 +104,13 @@ export class SubastasComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  mostrarGanador(lote) {
+    if (lote.pujaMinima.usuario == this.usuario) {
+      this.alertService.
+        showSimpleMessage(constants.confirmWinner, constants.success, "ahora, el lote: " + "'" + lote.nombre + "'" + " te pertenece, en minutos te enviaremos un correo de confirmación");
+    }
   }
 
   getVideo(video) {

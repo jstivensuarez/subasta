@@ -24,8 +24,14 @@ export class Validation {
     }
 
     static SubastaFechas(AC: AbstractControl) {
-        let fechaInicio = new Date(AC.get('fechaInicio').value);
-        let fechaFin = new Date(AC.get('fechaFin').value);
+        let realFechaInicio = AC.get('fechaInicio').value;
+        let realFechaFin = AC.get('fechaFin').value;
+        if(AC.get('fechaInicio').value && AC.get('fechaFin').value){
+            realFechaInicio = AC.get('fechaInicio').value.split('T')[0];
+            realFechaFin = AC.get('fechaFin').value.split('T')[0];
+        }
+        let fechaInicio = new Date(realFechaInicio);
+        let fechaFin = new Date(realFechaFin);
         if (fechaInicio > fechaFin) {
             AC.get('fechaFin').setErrors({ fechaMala: true })
         } else {
@@ -34,11 +40,16 @@ export class Validation {
     }
 
     static SubastaHoras(AC: AbstractControl) {
-        let fechaInicio = new Date(AC.get('fechaInicio').value);
+        debugger;
+        let realFechaInicio = AC.get('fechaInicio').value;
+        let realFechaFin = AC.get('fechaFin').value;
+        if(AC.get('fechaInicio').value && AC.get('fechaFin').value){
+            realFechaInicio = AC.get('fechaInicio').value.split('T')[0];
+            realFechaFin = AC.get('fechaFin').value.split('T')[0];
+        }
         let horaInicio = Date.parse('01/01/2011 '+AC.get('horaInicio').value);
-        let fechaFin = new Date(AC.get('fechaFin').value);
         let horaFin = Date.parse('01/01/2011 '+AC.get('horaFin').value);
-        if (fechaInicio && fechaFin && fechaInicio.getTime() === fechaFin.getTime()) {
+        if (realFechaInicio && realFechaFin && realFechaInicio === realFechaFin) {
             if (horaInicio && horaFin && horaInicio > horaFin) {
                 AC.get('horaFin').setErrors({ horaMala: true })
             } else {

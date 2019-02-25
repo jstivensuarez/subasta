@@ -25,7 +25,7 @@
                   </p>
                   <p>
                     <span class="bold">Puja Actual: </span> {{lote.pujaMinima.valor | number}}
-                    <img *ngIf="usuario && usuario == lote.pujaMinima.usuario" src="assets/images/ok.png" alt="succsses">
+                    <img *ngIf="usuario && lote.pujaMinima && usuario == lote.pujaMinima.usuario" src="assets/images/ok.png" alt="succsses">
                   </p>
 
                   <div *ngIf="!validarInicio(subasta.horaInicio)" class="bold">
@@ -38,7 +38,7 @@
                   <div *ngIf="validarInicio(subasta.horaInicio)" class="bold">
                     Tiempo restante
                     <mat-icon class="icon-medium">timer</mat-icon>
-                    <countdown [text]="formatoFecha" units="Days | Hours | Minutes | Seconds"
+                    <countdown (reached)="mostrarGanador(lote)" [text]="formatoFecha" units="Days | Hours | Minutes | Seconds"
                       end="{{subasta.horaFin}}"></countdown>
                   </div>
 

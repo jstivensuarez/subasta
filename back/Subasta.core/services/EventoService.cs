@@ -291,6 +291,9 @@ namespace Subasta.core.services
                                        Usuario = pujador.Cliente.Usuario,
                                        Valor = puja.Valor
                                    }).FirstOrDefault();
+                valorMinimo = valorMinimo == null ? valorMinimo = new PujaDto {
+                    Valor = lote.PrecioInicial
+                } : valorMinimo;
                 return valorMinimo;
             }
             return new PujaDto { Valor = lote.PrecioInicial};

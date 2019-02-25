@@ -70,10 +70,11 @@ export class CrearSubastaNuevaComponent implements OnInit {
     this.subastaService.getDto(id).subscribe(res => {
       this.subasta = res;
       this.selectedEvento = this.subasta.eventoId;
+      if (this.subasta.valorAnticipo)
+        this.selectedAnticipo = true;
       this.limitarHoras(this.selectedEvento);
       this.createForm();
-      if(this.subasta.valorAnticipo)
-        this.selectedAnticipo = true;
+
     }, err => {
       console.error(err);
     });
@@ -98,8 +99,8 @@ export class CrearSubastaNuevaComponent implements OnInit {
       subasta.horaFinAux = this.horaFin.value;
       subasta.descripcion = this.descripcion.value;
       subasta.eventoId = this.evento.value;
-      if(this.valorAnticipo.value){
-         subasta.valorAnticipo = this.valorAnticipo.value;
+      if (this.valorAnticipo.value) {
+        subasta.valorAnticipo = this.valorAnticipo.value;
       }
       if (this.isEditing) {
         subasta.subastaId = this.subasta.subastaId;
@@ -134,7 +135,7 @@ export class CrearSubastaNuevaComponent implements OnInit {
     });
   }
 
-  limitarHoras(id){
+  limitarHoras(id) {
     this.fechaFin.setValue(null);
     this.fechaInicio.setValue(null);
     const evento = this.eventos.find(e => e.eventoId === id);
@@ -166,16 +167,16 @@ export class CrearSubastaNuevaComponent implements OnInit {
   }
 
   tConvert(time) {
-    time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
-  
-    if (time.length > 1) { 
-      time = time.slice (1);  
-      time[5] = +time[0] < 12 ? ' am' : ' pm'; 
-      time[0] = +time[0] % 12 || 12; 
+    time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+    if (time.length > 1) {
+      time = time.slice(1);
+      time[5] = +time[0] < 12 ? ' am' : ' pm';
+      time[0] = +time[0] % 12 || 12;
     }
-    return time.join ('');
+    return time.join('');
   }
-  
+
   onChangeCheckAnticipo(evento) {
     this.selectedAnticipo = evento.checked;
     if (evento.checked) {
