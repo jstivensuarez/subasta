@@ -186,6 +186,10 @@ namespace Subasta.core.services
                     {
                         subasta.EstadoSolicitud = Estados.AUTORIZADO;
                     }
+                    else if (cliente == null)
+                    {
+                        subasta.EstadoSolicitud = Estados.NO_AUTORIZADO;
+                    } 
                     else
                     {
                         solicitud = solicitudService.GetAll().SingleOrDefault(s => s.ClienteId == cliente.ClienteId

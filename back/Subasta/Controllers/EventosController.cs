@@ -42,7 +42,6 @@ namespace Subasta.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        [AllowAnonymous]
         public IActionResult GetForClientAutenticated()
         {
             try
