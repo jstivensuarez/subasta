@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Usuario } from '../dtos/usuario';
 import { environment } from 'src/environments/environment';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import decode from 'jwt-decode';
@@ -14,29 +14,32 @@ import { map } from 'rxjs/internal/operators/map';
 export class UsuarioService {
 
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+  claims = new Subject<any>();
 
   constructor(private http: HttpClient,
     private router: Router,
     public jwtHelper: JwtHelperService) { }
 
+
+
   login(dto: Usuario): Observable<any> {
-    return this.http.post<any>(environment.endpointLogin+'/login', dto, { headers: this.httpHeaders });
+    return this.http.post<any>(environment.endpointLogin + '/login', dto, { headers: this.httpHeaders });
   }
 
   register(dto: Cliente): Observable<any> {
-    return this.http.post<any>(environment.endpointLogin+'/register', dto, { headers: this.httpHeaders });
+    return this.http.post<any>(environment.endpointLogin + '/register', dto, { headers: this.httpHeaders });
   }
 
   validate(nombreUsuario: string): Observable<any> {
-    return this.http.post<any>(environment.endpointLogin+'/validateUser/'+nombreUsuario, { headers: this.httpHeaders });
+    return this.http.post<any>(environment.endpointLogin + '/validateUser/' + nombreUsuario, { headers: this.httpHeaders });
   }
 
   recover(nombreUsuario: string): Observable<any> {
-    return this.http.post<any>(environment.endpointLogin+'/RecoverePass/'+nombreUsuario, { headers: this.httpHeaders });
+    return this.http.post<any>(environment.endpointLogin + '/RecoverePass/' + nombreUsuario, { headers: this.httpHeaders });
   }
 
   change(usuario: Usuario): Observable<any> {
-    return this.http.post<any>(environment.endpointLogin+'/ChangePass',usuario, { headers: this.httpHeaders });
+    return this.http.post<any>(environment.endpointLogin + '/ChangePass', usuario, { headers: this.httpHeaders });
   }
 
   get(): Observable<any[]> {
@@ -69,7 +72,7 @@ export class UsuarioService {
   logout() {
     window.location.reload();
     localStorage.removeItem('token');
-    setTimeout(function() {
+    setTimeout(function () {
       this.router.navigate(['login']);
     }, 2500);
 
@@ -83,12 +86,7 @@ export class UsuarioService {
 
   redirectToMenu() {
     const claims = this.getClaims();
-    window.location.reload();
-    if(claims.Role.toLowerCase() == 'administrador'){
-      this.router.navigate(['listar-evento']);
-    }
-    if(claims.Role == 'Pujador'){
-       this.router.navigate(['subastas']);
-    }
+    this.claims.next(claims);
+    this.router.navigate(['subastas']);
   }
 }

@@ -17,13 +17,17 @@ export class HeaderComponent implements OnInit {
     private solicitudService: SolicitudService) {
     this.cantidadSolicitudes = 0;
     this.usuario = '';
-    this.getClaims();
+    this.obtenerUsuario();
   }
 
   ngOnInit() {
+    this.usuarioService.claims.subscribe( claims => {
+      this.claims = claims;
+      this.usuario = claims.sub;
+    });
   }
 
-  getClaims() {
+  obtenerUsuario() {
     if (this.usuarioService.isAuthenticated()) {
       this.claims = this.usuarioService.getClaims();
       this.usuario = this.claims.sub;

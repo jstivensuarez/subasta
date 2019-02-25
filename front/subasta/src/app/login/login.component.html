@@ -70,6 +70,9 @@
               <mat-error *ngIf="documento.hasError('required')">
                 El documento es <strong>requerido</strong>
               </mat-error>
+              <mat-error *ngIf="documento.hasError('pattern')">
+                Por favor, ingrese <strong>solo números</strong> 
+              </mat-error>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
@@ -84,6 +87,9 @@
                 (keypress)="isNumberKey($event)" required>
               <mat-error *ngIf="telefono.hasError('required')">
                 El teléfono es <strong>requerido</strong>
+              </mat-error>
+              <mat-error *ngIf="telefono.hasError('pattern')">
+                Por favor, ingrese <strong>solo números</strong> 
               </mat-error>
             </mat-form-field>
 
@@ -153,7 +159,8 @@
                 Mínimo <strong>8 caracteres</strong>
               </mat-error>
               <mat-error *ngIf="claveRegister.hasError('pattern')">
-                  Esta contraseña <strong>no es segura</strong>, asegurese que contenga caracteres especiales, mayúsculas, minúsculas, números. (Mínimo 8 caracteres) 
+                Esta contraseña <strong>no es segura</strong>, asegurese que contenga caracteres especiales,
+                mayúsculas, minúsculas, números. (Mínimo 8 caracteres)
               </mat-error>
             </mat-form-field>
 
@@ -230,7 +237,7 @@
               </mat-error>
             </mat-form-field>
 
-            
+
             <mat-divider></mat-divider>
             <br>
 
@@ -244,7 +251,8 @@
                 Mínimo <strong>8 caracteres</strong>
               </mat-error>
               <mat-error *ngIf="claveNew.hasError('pattern')">
-                  Esta contraseña <strong>no es segura</strong> , asegurese que contenga caracteres especiales, mayúsculas, minúsculas, números. (Mínimo 8 caracteres) 
+                Esta contraseña <strong>no es segura</strong> , asegurese que contenga caracteres especiales,
+                mayúsculas, minúsculas, números. (Mínimo 8 caracteres)
               </mat-error>
             </mat-form-field>
 

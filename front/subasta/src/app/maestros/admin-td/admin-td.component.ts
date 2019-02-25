@@ -23,11 +23,13 @@ export class AdminTdComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   title: string;
+  value: FormControl;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   constructor(private tdService: TdServiceService,
     private alertService: MesaggesManagerService,
     private modalService: NgbModal) {
+    this.value = new FormControl('');
     this.title = "Tipos de documentos";
     this.obtenerTipoDocumento();
   }
@@ -47,6 +49,7 @@ export class AdminTdComponent implements OnInit {
 
 
   agregar(event: MatChipInputEvent): void {
+    this.value.setValue('');
     const value = event.value;
     if ((value || '').trim() && this.validarSiExiste(value)) {
       const td = new TipoDocumento();

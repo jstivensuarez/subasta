@@ -63,10 +63,10 @@ namespace Subasta.core.services
         {
             try
             {
-                var clientes = uowService.ClienteRepository.GetAll().Where(c => c.Municipio.DepartamentoId == entity.DepartamentoId);
-                var eventos = uowService.EventoRepository.GetAll().Where(d => d.Municipio.DepartamentoId == entity.DepartamentoId);
-                var lotes = uowService.LoteRepository.GetAll().Where(d => d.Municipio.DepartamentoId == entity.DepartamentoId);
-                var animales = uowService.AnimalRepository.GetAll().Where(d => d.Municipio.DepartamentoId == entity.DepartamentoId);
+                var clientes = uowService.ClienteRepository.GetAllWithInclude().Where(c => c.Municipio.DepartamentoId == entity.DepartamentoId);
+                var eventos = uowService.EventoRepository.GetAllWithInclude().Where(d => d.Municipio.DepartamentoId == entity.DepartamentoId);
+                var lotes = uowService.LoteRepository.GetAllWithInclude().Where(d => d.Municipio.DepartamentoId == entity.DepartamentoId);
+                var animales = uowService.AnimalRepository.GetllWithInclude().Where(d => d.Municipio.DepartamentoId == entity.DepartamentoId);
 
                 if (clientes.Count() == 0 && eventos.Count() == 0 && lotes.Count() == 0 && animales.Count() == 0)
                 {

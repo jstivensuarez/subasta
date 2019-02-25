@@ -25,11 +25,13 @@ export class AdminDepartamentosComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   title: string;
+  value: FormControl;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   constructor(private departamentoService: DepartamentoService,
     private alertService: MesaggesManagerService,
     private modalService: NgbModal) {
+    this.value = new FormControl('');
     this.title = "Departamentos";
     this.obtenerDepartamentos();
   }
@@ -49,6 +51,7 @@ export class AdminDepartamentosComponent implements OnInit {
 
 
   agregar(event: MatChipInputEvent): void {
+    this.value.setValue('');
     const value = event.value;
     if ((value || '').trim() && this.validarSiExiste(value)) {
       const departamento = new Departamento();

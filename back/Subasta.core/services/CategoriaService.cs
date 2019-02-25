@@ -62,7 +62,7 @@ namespace Subasta.core.services
         {
             try
             {
-                var lotes = uowService.CategoriaRepository.GetAll().Where(r => r.CategoriaId == entity.CategoriaId);
+                var lotes = uowService.LoteRepository.GetAll().Where(r => r.CategoriaId == entity.CategoriaId);
                 var razas = uowService.RazaRepository.GetAll().Where(r => r.CategoriaId == entity.CategoriaId);
                 var clasificaciones = uowService.ClasificacionRepository.GetAll().Where(r => r.CategoriaId == entity.CategoriaId);
 

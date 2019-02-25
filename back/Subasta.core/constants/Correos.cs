@@ -14,5 +14,9 @@ namespace Subasta.core.constants
 
         public const string ASUNTOBIENVENIDO = "Bienvenido a la subasta ganadera";
         public const string MENSAJEBIENVENIDA = "Gracias por registrarse al sistema de subasta ganadera";
+
+        public const string ASUNTOSOLICITUD = "Solicitud de ingreso";
+        public const string MENSAJEACEPTACION = "Te informamos que han aceptado tu solicitud para ingresar a la subasta: ";
+        public const string MENSAJERECHAZO = "Lo sentimos, pero no pudimos aceptar tu solicitud de ingreso para la subasta: ";
     }
 }

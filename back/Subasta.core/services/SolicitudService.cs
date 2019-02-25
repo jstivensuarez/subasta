@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Subasta.core.constants;
 using Subasta.core.dtos;
 using Subasta.core.exceptions;
 using Subasta.core.interfaces;
@@ -19,11 +20,13 @@ namespace Subasta.core.services
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
         readonly IClienteService clienteService;
-        public SolicitudService(IMapper mapper, IUnitOfWork uowService, IClienteService clienteService)
+        readonly ICorreoHelper correoHelper;
+        public SolicitudService(IMapper mapper, IUnitOfWork uowService, IClienteService clienteService,ICorreoHelper correoHelper)
         {
             this.mapper = mapper;
             this.uowService = uowService;
             this.clienteService = clienteService;
+            this.correoHelper = correoHelper;
         }
 
         public void Add(SolicitudSubastaDto dto, string usuario)
@@ -107,6 +110,7 @@ namespace Subasta.core.services
                 entity.Estado = Estados.AUTORIZADO;
                 uowService.SolicitudRepository.Edit(mapper.Map<SolicitudSubasta>(entity));
                 uowService.Save();
+                correoHelper.enviarDesdeSubasta(Correos.MENSAJEACEPTACION+ entity.Subasta.Descripcion, Correos.ASUNTOSOLICITUD, entity.Cliente.Correo);
             }
             catch (ExceptionData)
             {
@@ -126,6 +130,7 @@ namespace Subasta.core.services
                 entity.Estado = Estados.RECHAZADO;
                 uowService.SolicitudRepository.Edit(mapper.Map<SolicitudSubasta>(entity));
                 uowService.Save();
+                correoHelper.enviarDesdeSubasta(Correos.MENSAJERECHAZO + entity.Subasta.Descripcion, Correos.ASUNTOSOLICITUD, entity.Cliente.Correo);
             }
             catch (ExceptionData)
             {

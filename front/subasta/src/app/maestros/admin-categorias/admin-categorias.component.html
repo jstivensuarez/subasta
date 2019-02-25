@@ -12,7 +12,8 @@
           <mat-icon matChipRemove *ngIf="removable" (click)="elminar(categoria)">cancel</mat-icon>
         </mat-chip>
         <input placeholder="Agregar categorías" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="agregar($event)"  maxlength="50" >
+          [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="agregar($event)"  maxlength="50" autocomplete="off"
+          [formControl]="value">
       </mat-chip-list>
     </mat-form-field>
   </mat-card>

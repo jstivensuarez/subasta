@@ -26,11 +26,13 @@ export class AdminCategoriasComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   title: string;
+  value: FormControl;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   constructor(private categoriaService: CategoriaService,
     private alertService: MesaggesManagerService,
     private modalService: NgbModal) {
+    this.value = new FormControl();
     this.title = "Categorías";
     this.obtenerCategorias();
   }
@@ -50,6 +52,7 @@ export class AdminCategoriasComponent implements OnInit {
 
 
   agregar(event: MatChipInputEvent): void {
+    this.value.setValue('');
     const value = event.value;
     if ((value || '').trim() && this.validarSiExiste(value)) {
       const categoria = new Categoria();

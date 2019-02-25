@@ -22,9 +22,7 @@ export class LoadingService {
   hide(modalRef) {
     try {
       if (modalRef) {
-        setTimeout(function () {
           modalRef.componentInstance.close();
-        }, 200);
       }
     } catch (err) { }
   }

@@ -144,6 +144,7 @@ export class LoginComponent implements OnInit {
   login(usuario) {
     this.usuarioService.login(usuario).subscribe(
       res => {
+        debugger;
         localStorage.setItem('token', res.token);
         this.usuarioService.redirectToMenu();
       }, err => {
@@ -214,10 +215,10 @@ export class LoginComponent implements OnInit {
     this.selectedMunicipio = this.cliente.municipioId;
     return new FormGroup({
       td: new FormControl(this.selectedTd),
-      documento: new FormControl(this.cliente.clienteId, [Validators.required]),
+      documento: new FormControl(this.cliente.clienteId, [Validators.required, Validators.pattern('^\d+$')]),
       nombre: new FormControl(this.cliente.nombre, [Validators.required]),
       representante: new FormControl(this.cliente.representante),
-      telefono: new FormControl(this.cliente.telefono, [Validators.required]),
+      telefono: new FormControl(this.cliente.telefono, [Validators.required, Validators.pattern('^\d+$')]),
       correo: new FormControl(this.cliente.correo, [Validators.required, Validators.email]),
       municipio: new FormControl(this.selectedMunicipio),
       departamento: new FormControl(this.selectedDepartamento),
