@@ -96,7 +96,7 @@ export class CrearLotesComponent implements OnInit {
   }
 
   obtenerPropietarios() {
-    this.clienteService.get().subscribe(
+    this.clienteService.getPropietarios().subscribe(
       resp => {
         this.propietarios = resp;
       }, err => {
