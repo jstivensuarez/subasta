@@ -115,7 +115,7 @@ namespace Subasta.Controllers
         public IActionResult ValidateUser(string nombreUsuario)
         {
             var usuario = usuarioService.GetAll().
-                SingleOrDefault(u => u.Nombre == nombreUsuario);
+                SingleOrDefault(u => u.Nombre.ToLower() == nombreUsuario.ToLower());
             if (usuario == null)
             {
                 return Ok();

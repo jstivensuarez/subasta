@@ -26,10 +26,10 @@ export class SubastasComponent implements OnInit {
   isAdmin: boolean;
   usuario: string;
   formatoFecha: any = {
-    Days: "Días ",
-    Hours: "Horas",
-    Minutes: "Min",
-    Seconds: "Seg",
+    Days: " Días:",
+    Hours: " Horas:",
+    Minutes: " Minutos:",
+    Seconds: " Segundos",
   };
   constructor(private eventoService: EventoService,
     private _sanitizer: DomSanitizer,
@@ -93,6 +93,14 @@ export class SubastasComponent implements OnInit {
   validarInicio(fechaInicio) {
     const hoy = new Date();
     if (hoy >= new Date(fechaInicio)) {
+      return true;
+    }
+    return false;
+  }
+
+  validarFinal(fechaFin) {
+    const hoy = new Date();
+    if (hoy <= new Date(fechaFin)) {
       return true;
     }
     return false;

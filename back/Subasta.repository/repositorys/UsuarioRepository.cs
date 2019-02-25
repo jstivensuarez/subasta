@@ -24,7 +24,8 @@ namespace Subasta.repository.repositorys
             {
                 var entity = context.Usuarios.AsNoTracking()
                     .Include(c => c.Rol)
-                    .SingleOrDefault(c => (c.Nombre == usuario || c.Correo == correo) && c.Clave == pass);
+                    .SingleOrDefault(c => (c.Nombre.ToLower() == usuario.ToLower() 
+                    || c.Correo.ToLower() == correo.ToLower()) && c.Clave == pass);
                 return entity;
             }
             catch (Exception ex)

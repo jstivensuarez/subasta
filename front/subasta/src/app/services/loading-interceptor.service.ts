@@ -26,7 +26,6 @@ export class LoadingInterceptorService implements HttpInterceptor {
   }
   
   private onEnd(ref): void {
-    debugger;
     if(ref){
       this.hideLoader(ref);
     }  
