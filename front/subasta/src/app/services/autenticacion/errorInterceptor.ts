@@ -30,6 +30,9 @@ import { constants } from 'src/app/util/constants';
             if(error.error && error.error.innerException && error.error.innerException.message.includes(constants.enUso)){
               errorMessage = constants.enUso;
             }
+            if(error.error && error.error.innerException && error.error.innerException.message.includes(constants.subastaFinalizada)){
+              errorMessage = constants.subastaFinalizada;
+            }
             return throwError(errorMessage);
           })
         )

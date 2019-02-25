@@ -175,9 +175,11 @@ export class SubastasComponent implements OnInit {
     component.usuario = this.usuario;
     component.control = new FormControl(lote.pujaMinima.valor + 1, [Validators.min(lote.pujaMinima.valor + 1)]);
     component.completo.subscribe(resp => {
-      lote.pujaMinima.usuario = this.usuario;
-      lote.pujaMinima.valor = resp;
-      this.obtenerEventos();
+      if (resp) {
+        lote.pujaMinima.usuario = this.usuario;
+        lote.pujaMinima.valor = resp;
+        this.obtenerEventos();
+      }
     });
   }
 

@@ -40,19 +40,30 @@ namespace Subasta.core.services
                 var pujador = uowService.PujadorRepository.GetllWithInclude()
                    .SingleOrDefault(p => p.Estado != Estados.BORRADO && p.ClienteId == cliente.ClienteId
                    && p.LoteId == dto.LoteId);
-                if (pujador == null)
+                var lote = uowService.LoteRepository.GetAllWithInclude()
+                    .SingleOrDefault(l => l.LoteId == dto.LoteId);
+                if (dto.HoraPuja <= lote.Subasta.HoraFin)
                 {
-                    var pujadroDto = new PujadorDto();
-                    pujadroDto.LoteId = dto.LoteId;
-                    pujadroDto.ClienteId = cliente.ClienteId;
-                    dto.PujadorId = uowService.PujadorRepository.AddWithReturn(mapper.Map<Pujador>(pujadroDto));
+                    if (pujador == null)
+                    {
+                        var pujadroDto = new PujadorDto();
+                        pujadroDto.LoteId = dto.LoteId;
+                        pujadroDto.ClienteId = cliente.ClienteId;
+                        dto.PujadorId = uowService.PujadorRepository.AddWithReturn(mapper.Map<Pujador>(pujadroDto));
+                    }
+                    else
+                    {
+                        dto.PujadorId = pujador.PujadorId;
+                    }
+                    uowService.PujaRepository.Add(mapper.Map<Puja>(dto));
+                    uowService.Save();
+                    NotificarPuja(dto);
                 }
-                else {
-                    dto.PujadorId = pujador.PujadorId;
+                else
+                {
+                    throw new ExceptionCore("Subasta finalizada");
                 }
-                uowService.PujaRepository.Add(mapper.Map<Puja>(dto));
-                uowService.Save();
-                NotificarPuja(dto);
+
             }
             catch (ExceptionData)
             {
@@ -178,11 +189,12 @@ namespace Subasta.core.services
             var subasta = uowService.SubastaRepository.GetAllWithInclude()
                             .SingleOrDefault(s => s.SubastaId == pujador.Lote.SubastaId);
 
-            var mensaje = new {
+            var mensaje = new
+            {
                 usuario = puja.Usuario,
                 valor = puja.Valor,
                 loteId = puja.LoteId,
-                subastaId = subasta.SubastaId, 
+                subastaId = subasta.SubastaId,
                 eventoId = subasta.EventoId
             };
 

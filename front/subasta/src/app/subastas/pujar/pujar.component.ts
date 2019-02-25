@@ -31,7 +31,7 @@ export class PujarComponent implements OnInit {
   }
 
   guardar() {
-    if(this.control.valid){
+    if (this.control.valid) {
       const puja = new Puja();
       puja.loteId = this.loteId;
       puja.usuario = this.usuario;
@@ -42,8 +42,15 @@ export class PujarComponent implements OnInit {
         this.completo.emit(this.control.value);
         this.activeModal.close();
       }, err => {
-        this.alertService.
-          showSimpleMessage(constants.errorTitle, constants.error, constants.errorPuja);
+        if (err == constants.subastaFinalizada) {
+          this.alertService.
+            showSimpleMessage(constants.errorPujaTarde, constants.alert, constants.errorPujatiempo);
+        } else {
+          this.alertService.
+            showSimpleMessage(constants.errorTitle, constants.error, constants.errorPuja);
+        }
+        this.completo.emit(null);
+        this.activeModal.close();
         console.error(err);
       });
     }
