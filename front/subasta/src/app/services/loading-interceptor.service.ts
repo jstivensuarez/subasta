@@ -11,7 +11,10 @@ export class LoadingInterceptorService implements HttpInterceptor {
 
   constructor(private loaderService: LoadingService) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const ref = this.showLoader();
+    let ref = null;
+    if(!req.url.includes("validateUser")){
+        ref = this.showLoader();
+    }
     return next.handle(req).pipe(tap((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
         this.onEnd(ref);
@@ -23,7 +26,10 @@ export class LoadingInterceptorService implements HttpInterceptor {
   }
   
   private onEnd(ref): void {
-    this.hideLoader(ref);
+    debugger;
+    if(ref){
+      this.hideLoader(ref);
+    }  
   }
   private showLoader() {
     return this.loaderService.show();
