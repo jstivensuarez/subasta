@@ -70,6 +70,21 @@ namespace Subasta.Controllers
             }
         }
 
+        [HttpGet()]
+        [Route("[action]")]
+        public IActionResult GetPropietarios()
+        {
+            try
+            {
+                var clientes = clienteService.GetPropietarios();
+                return Ok(clientes);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         // POST: api/Clientes
         [HttpPost]
         public IActionResult Post(ClienteDto cliente)

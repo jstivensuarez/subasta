@@ -86,7 +86,7 @@ export class ListarClientesComponent implements OnInit {
   }
   
   obtenerClientes() {
-    this.clienteService.get().subscribe(
+    this.clienteService.getPropietarios().subscribe(
       resp => {
         this.clientes = resp;
         this.dataSource = new MatTableDataSource(resp);
