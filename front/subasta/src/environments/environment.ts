@@ -2,6 +2,7 @@
 export const urlBase = 'http://localhost:3002';
 export const urlBaseApi = 'http://localhost:3002/api';
 export const urlBaseImage = 'http://localhost:3002';
+export const local = 'http://localhost:4200';
 
 export const environment = {
   production: false,

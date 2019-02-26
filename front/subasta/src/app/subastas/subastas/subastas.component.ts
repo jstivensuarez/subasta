@@ -184,28 +184,26 @@ export class SubastasComponent implements OnInit {
   }
 
   verLote(lote) {
-    setTimeout(function () {
-      let video = null;
-      let imagen = null;
-      if (/^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/.test(lote.fotoLote)) {
-        video = lote.fotoLote;
-      } else {
-        imagen = 'LOTES/' + lote.fotoLote;
-      }
-      this.alertService.showDetails('Detalles del lote', {
-        Nombre: lote.nombre,
-        "Cantidad de animales": lote.cantidadElementos,
-        "Peso Total": lote.pesoTotal,
-        "Promedio": lote.pesoPromedio,
-        "Precio base": lote.precioBase,
-        imagen: imagen,
-        video: video,
-        Ciudad: lote.municipio.descripcion,
-        Subasta: lote.subasta.descripcion,
-        Categoría: lote.categoria.descripcion,
-        Raza: lote.raza.descripcion,
-        Clasificación: lote.clasificacion.descripcion
-      });
-    }.bind(this), 1500);
+    let video = null;
+    let imagen = null;
+    if (/^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/.test(lote.fotoLote)) {
+      video = lote.fotoLote;
+    } else {
+      imagen = 'LOTES/' + lote.fotoLote;
+    }
+    this.alertService.showDetails('Detalles del lote', {
+      Nombre: lote.nombre,
+      "Cantidad de animales": lote.cantidadElementos,
+      "Peso Total": lote.pesoTotal,
+      "Promedio": lote.pesoPromedio,
+      "Precio base": lote.precioBase,
+      imagen: imagen,
+      video: video,
+      Ciudad: lote.municipio.descripcion,
+      Subasta: lote.subasta.descripcion,
+      Categoría: lote.categoria.descripcion,
+      Raza: lote.raza.descripcion,
+      Clasificación: lote.clasificacion.descripcion
+    });
   }
 }

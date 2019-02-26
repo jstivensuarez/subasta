@@ -4,12 +4,15 @@ export const constants = {
     error: 3,
     confirm: 4,
     nuevaPuja: 5,
+
     errorPujaTarde: 'Demasiado tarde!',
     errorTitle: 'Error!',
     deleteTitle: 'Eliminar registro',
     nuevaPujaTitle: 'Puja superada!',
     solicitudTitle: 'Enviar solicitud',
     successTitle: 'Confirmación',
+    sessionTitle: 'Su sesión ha expirado',
+
     successCreate: "Se creó exitosamente!",
     successPuja: "Se realizó la puja exitosamente!",
     successRecuperar: "Hemos enviado su nueva contraseña a su correo electrónico",
@@ -21,6 +24,8 @@ export const constants = {
     enUso: "Entidad en uso",
     subastaFinalizada: "Subasta finalizada",
     pujaSuperada: "Tu puja en: ",
+    sessionExpiradaa: "Tu sesión ha expirado, por favor vuelve a ingresar al sistema",
+
     errorCreate: "Error al tratar de crear el registro!",
     errorPuja: "No se pudo realizar la puja, por favor vuelva a intentarlo!",
     errorPujatiempo: "Lo sentimos, no se pudo realizar la puja porque esta subasta ya se finalizó, por favor siga subastando!",
@@ -32,6 +37,7 @@ export const constants = {
     errorUnautorized: "Por favor verifique sus credenciales!",
     errorAlreadyExists: "Este registro ya existe",
     errorEnUso: "No se puede eliminar este registro porque ya está siendo usado!",
+    
     userAlreadyExists: "Este usuario ya se encuentra registrado en el sistema, por favor verifique su correo y su número de documento...",
     confirmWinner: 'Haz ganado!!',
     confirmDelete: "¿Está seguro que desea eliminar este registro?",

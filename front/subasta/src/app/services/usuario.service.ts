@@ -75,7 +75,6 @@ export class UsuarioService {
     setTimeout(function () {
       this.router.navigate(['login']);
     }, 2500);
-
   }
 
   getClaims() {

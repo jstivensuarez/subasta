@@ -2,6 +2,7 @@
 export const urlBase = 'https://subastaservice.azurewebsites.net';
 export const urlBaseApi = 'https://subastaservice.azurewebsites.net/api';
 export const urlBaseImage = 'https://subastaservice.azurewebsites.net';
+export const local = 'https://subasta-front.azurewebsites.net';
 
 export const environment = {
   production: false,
