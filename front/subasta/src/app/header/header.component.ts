@@ -21,9 +21,15 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.usuarioService.claims.subscribe( claims => {
-      this.claims = claims;
-      this.usuario = claims.sub;
+    this.usuarioService.claims.subscribe(claims => {
+      debugger;
+      if (claims) {
+        this.claims = claims;
+        this.usuario = claims.sub;
+      } else {
+        this.claims = null;
+        this.usuario = null;
+      }
     });
   }
 

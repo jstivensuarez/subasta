@@ -88,4 +88,10 @@ export class UsuarioService {
     this.claims.next(claims);
     this.router.navigate(['subastas']);
   }
+
+  deleteClaimsAndToken(){
+    debugger;
+    localStorage.removeItem("token");
+    this.claims.next(null);
+  }
 }

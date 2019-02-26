@@ -13,11 +13,15 @@ import { environment } from 'src/environments/environment.prod';
 import { local } from 'src/environments/environment';
 import { MesaggesManagerService } from '../mesagges-manager.service';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { UsuarioService } from '../usuario.service';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
-  constructor(private alertService: MesaggesManagerService) {
+  constructor(private alertService: MesaggesManagerService,
+              private router: Router,
+              private usuarioService: UsuarioService) {
 
   }
 
@@ -29,10 +33,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           if (error.status === 401) {
             this.alertService.
               showSimpleMessage(constants.sessionTitle, constants.alert, constants.sessionExpiradaa);
-            setTimeout(function () {
-              localStorage.removeItem('token');
-              window.location.href = local + "/login";
-            }, 5000);
+              this.usuarioService.deleteClaimsAndToken();
+              this.router.navigate(['/login']);
           }
           let errorMessage = '';
           if (error.error instanceof ErrorEvent) {
