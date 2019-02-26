@@ -30,11 +30,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
       .pipe(
         retry(0),
         catchError((error: HttpErrorResponse) => {
-          if (error.status === 401) {
-            this.alertService.
-              showSimpleMessage(constants.sessionTitle, constants.alert, constants.sessionExpiradaa);
-              this.usuarioService.deleteClaimsAndToken();
-              this.router.navigate(['/login']);
+          if (error.status === 401 && !error.url.includes('/login')) {
+            this.usuarioService.logoutSession();
           }
           let errorMessage = '';
           if (error.error instanceof ErrorEvent) {

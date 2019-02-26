@@ -8,6 +8,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import decode from 'jwt-decode';
 import { Cliente } from '../dtos/cliente';
 import { map } from 'rxjs/internal/operators/map';
+import { constants } from '../util/constants';
+import { MesaggesManagerService } from './mesagges-manager.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +20,8 @@ export class UsuarioService {
 
   constructor(private http: HttpClient,
     private router: Router,
-    public jwtHelper: JwtHelperService) { }
+    public jwtHelper: JwtHelperService,
+    private alertService: MesaggesManagerService) { }
 
 
 
@@ -70,11 +73,15 @@ export class UsuarioService {
   }
 
   logout() {
-    window.location.reload();
-    localStorage.removeItem('token');
-    setTimeout(function () {
-      this.router.navigate(['login']);
-    }, 2500);
+    this.deleteClaimsAndToken();
+    this.router.navigate(['/login']);
+  }
+
+  logoutSession() {
+    this.alertService.
+      showSimpleMessage(constants.sessionTitle, constants.alert, constants.sessionExpiradaa);
+    this.deleteClaimsAndToken();
+    this.router.navigate(['/login']);
   }
 
   getClaims() {
@@ -89,7 +96,7 @@ export class UsuarioService {
     this.router.navigate(['subastas']);
   }
 
-  deleteClaimsAndToken(){
+  deleteClaimsAndToken() {
     localStorage.removeItem("token");
     this.claims.next(null);
   }

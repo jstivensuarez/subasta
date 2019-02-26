@@ -11,7 +11,7 @@ export class AutenticacionService implements CanActivate {
 
     canActivate(): boolean {
         if (!this.usuarioService.isAuthenticated()) {
-            this.usuarioService.logout();
+            this.usuarioService.logoutSession();
             return false;
         }
         return true;

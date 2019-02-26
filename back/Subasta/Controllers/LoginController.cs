@@ -156,7 +156,7 @@ namespace Subasta.Controllers
             var token = new JwtSecurityToken(config["Jwt:Issuer"],
               config["Jwt:Issuer"],
               claims,
-              expires: DateTime.Now.AddMinutes(120),
+              expires: DateTime.Now.AddMinutes(180),
               signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
