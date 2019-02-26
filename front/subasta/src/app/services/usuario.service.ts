@@ -90,7 +90,6 @@ export class UsuarioService {
   }
 
   deleteClaimsAndToken(){
-    debugger;
     localStorage.removeItem("token");
     this.claims.next(null);
   }

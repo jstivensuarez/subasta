@@ -22,7 +22,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.usuarioService.claims.subscribe(claims => {
-      debugger;
       if (claims) {
         this.claims = claims;
         this.usuario = claims.sub;
