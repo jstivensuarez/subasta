@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
 export class SignalRService {
 
   nuevoMensaje = new Subject<string>();
+  actualizar = new Subject<string>();
   private hubConnection: signalR.HubConnection
 
   public IniciarConeccion = () => {
@@ -18,8 +19,8 @@ export class SignalRService {
       .configureLogging(signalR.LogLevel.Information)
       .build();
 
-    this.hubConnection.serverTimeoutInMilliseconds = 900000;
-    this.hubConnection.keepAliveIntervalInMilliseconds = 900000;
+    //this.hubConnection.serverTimeoutInMilliseconds = 900000;
+    //this.hubConnection.keepAliveIntervalInMilliseconds = 900000;
     
     this.hubConnection
       .start()
@@ -44,6 +45,7 @@ export class SignalRService {
   verificarConeccion() {
     if (!this.hubConnection || this.hubConnection.state == signalR.HubConnectionState.Disconnected) {
       this.IniciarConeccion();
+      this.actualizar.next("Actualizar datos");
     }
   }
 }

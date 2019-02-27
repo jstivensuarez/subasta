@@ -62,6 +62,12 @@ export class SubastasComponent implements OnInit {
       }
     });
 
+    this.signalRService.actualizar.subscribe(mensaje => {
+      if(mensaje){
+        this.obtenerEventos();
+      }    
+    });
+
     interval(2000)
       .subscribe((val) => { this.signalRService.verificarConeccion() });
   }
