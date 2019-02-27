@@ -12,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PujarComponent } from '../pujar/pujar.component';
 import { FormControl, Validators } from '@angular/forms';
 import { SignalRService } from 'src/app/services/signal-r.service';
+import { Observable, interval } from 'rxjs';
 
 @Component({
   selector: 'app-subastas',
@@ -60,7 +61,9 @@ export class SubastasComponent implements OnInit {
         lote.pujaMinima.valor = puja.valor;
       }
     });
-    this.signalRService.IniciarConeccion();
+
+    interval(2000)
+      .subscribe((val) => { this.signalRService.verificarConeccion() });
   }
 
   obtenerEventos() {

@@ -199,7 +199,7 @@ export class LoginComponent implements OnInit {
   createForm() {
     return new FormGroup({
       ingreso: new FormControl(this.usuario.correo, [Validators.required]),
-      clave: new FormControl(this.usuario.clave, [Validators.required, Validators.min(8)]),
+      clave: new FormControl(this.usuario.clave, [Validators.required]),
     });
   }
 
@@ -223,18 +223,18 @@ export class LoginComponent implements OnInit {
       municipio: new FormControl(this.selectedMunicipio),
       departamento: new FormControl(this.selectedDepartamento),
       direccion: new FormControl(this.cliente.direccion, [Validators.required]),
-      usuario: new FormControl(this.cliente.usuario, [Validators.required, Validators.minLength(8)]),
-      clave: new FormControl(this.cliente.clave, [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]),
+      usuario: new FormControl(this.cliente.usuario, [Validators.required]),
+      clave: new FormControl(this.cliente.clave, [Validators.required]),
       claveRepeat: new FormControl(this.claveRepeat, [Validators.required])
     }, [Validation.MatchValidator]);
   }
 
   createFormChange() {
     return new FormGroup({
-      ingreso: new FormControl(this.cliente.usuario, [Validators.required, Validators.minLength(8)]),
-      clave: new FormControl(this.cliente.clave, [Validators.required, Validators.minLength(8)]),
-      claveRepeat: new FormControl(this.claveChangeRepeat, [Validators.required, Validators.minLength(8)]),
-      claveChange: new FormControl(this.claveChange, [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')])
+      ingreso: new FormControl(this.cliente.usuario, [Validators.required]),
+      clave: new FormControl(this.cliente.clave, [Validators.required]),
+      claveRepeat: new FormControl(this.claveChangeRepeat, [Validators.required]),
+      claveChange: new FormControl(this.claveChange, [Validators.required])
     }, [Validation.MatchValidatorChange]);
   }
 

@@ -140,11 +140,7 @@
               <mat-error *ngIf="usuarioRegister.hasError('required')">
                 El usuario es <strong>requerido</strong>
               </mat-error>
-              <mat-error *ngIf="usuarioRegister.hasError('minlength') && !usuarioRegister.hasError('required')">
-                Mínimo <strong>8 caracteres</strong>
-              </mat-error>
-              <mat-error *ngIf="!usuarioRegister.valid && !usuarioRegister.hasError('required')
-                    && !usuarioRegister.hasError('minlength')">
+              <mat-error *ngIf="!usuarioRegister.valid && !usuarioRegister.hasError('required')">
                 Este nombre de usuario no está <strong>disponible</strong>
               </mat-error>
             </mat-form-field>
@@ -154,13 +150,6 @@
                 placeholder="Contraseña" required>
               <mat-error *ngIf="claveRegister.hasError('required')">
                 La contraseña es <strong>requerida</strong>
-              </mat-error>
-              <mat-error *ngIf="claveRegister.hasError('minlength')">
-                Mínimo <strong>8 caracteres</strong>
-              </mat-error>
-              <mat-error *ngIf="claveRegister.hasError('pattern')">
-                Esta contraseña <strong>no es segura</strong>, asegurese que contenga caracteres especiales,
-                mayúsculas, minúsculas, números. (Mínimo 8 caracteres)
               </mat-error>
             </mat-form-field>
 
@@ -221,9 +210,6 @@
               <mat-error *ngIf="ingresoChange.hasError('required')">
                 El usuario es <strong>requerido</strong>
               </mat-error>
-              <mat-error *ngIf="ingresoChange.hasError('minlength') && !usuarioRegister.hasError('required')">
-                Mínimo <strong>8 caracteres</strong>
-              </mat-error>
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
@@ -231,9 +217,6 @@
                 required>
               <mat-error *ngIf="claveOld.hasError('required')">
                 La contraseña actual es <strong>requerida</strong>
-              </mat-error>
-              <mat-error *ngIf="claveOld.hasError('minlength')">
-                Mínimo <strong>8 caracteres</strong>
               </mat-error>
             </mat-form-field>
 
@@ -246,13 +229,6 @@
                 autocomplete="off" required>
               <mat-error *ngIf="claveNew.hasError('required')">
                 La contraseña nueva es <strong>requerida</strong>
-              </mat-error>
-              <mat-error *ngIf="claveNew.hasError('minlength')">
-                Mínimo <strong>8 caracteres</strong>
-              </mat-error>
-              <mat-error *ngIf="claveNew.hasError('pattern')">
-                Esta contraseña <strong>no es segura</strong> , asegurese que contenga caracteres especiales,
-                mayúsculas, minúsculas, números. (Mínimo 8 caracteres)
               </mat-error>
             </mat-form-field>
 

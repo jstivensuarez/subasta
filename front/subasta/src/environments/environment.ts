@@ -1,8 +1,8 @@
 
-export const urlBase = 'http://localhost:3002';
-export const urlBaseApi = 'http://localhost:3002/api';
-export const urlBaseImage = 'http://localhost:3002';
-export const local = 'http://localhost:4200';
+export const urlBase = 'https://subastaservice.azurewebsites.net';
+export const urlBaseApi = 'https://subastaservice.azurewebsites.net/api';
+export const urlBaseImage = 'https://subastaservice.azurewebsites.net';
+export const local = 'https://subasta-front.azurewebsites.net';
 
 export const environment = {
   production: false,
@@ -24,7 +24,7 @@ export const environment = {
   endpointUsuario: urlBaseApi+'/usuarios',
   endpointPuja: urlBaseApi+'/pujas',
   endpointSignal: urlBase+'/notificacion',
-
+  
   imageLotesUrl: urlBaseImage+'/images/LOTES/',
   imageAnimalesUrl: urlBaseImage+'/images/ANIMALES/',
   imageUrl: urlBaseImage+'/images/',
