@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
 import { urlBaseApi, environment } from 'src/environments/environment';
@@ -17,6 +18,9 @@ export class SignalRService {
       .configureLogging(signalR.LogLevel.Information)
       .build();
 
+    this.hubConnection.serverTimeoutInMilliseconds = 900000;
+    this.hubConnection.keepAliveIntervalInMilliseconds = 900000;
+    
     this.hubConnection
       .start()
       .then(() => console.log('Conección iniciada'))
