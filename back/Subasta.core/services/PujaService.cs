@@ -33,8 +33,8 @@ namespace Subasta.core.services
         {
             try
             {
-
-                dto.HoraPuja = DateTime.Now;
+                var myTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
+                dto.HoraPuja = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, myTimeZone);
                 var cliente = uowService.ClienteRepository.GetAll()
                     .SingleOrDefault(u => u.Usuario == dto.Usuario);
                 var pujador = uowService.PujadorRepository.GetllWithInclude()

@@ -12,7 +12,7 @@ export class LoadingInterceptorService implements HttpInterceptor {
   constructor(private loaderService: LoadingService) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let ref = null;
-    if(!req.url.includes("validateUser")){
+    if(!req.url.includes("validateUser") && !req.url.includes("GetForClientAutenticated")){
         ref = this.showLoader();
     }
     return next.handle(req).pipe(tap((event: HttpEvent<any>) => {
