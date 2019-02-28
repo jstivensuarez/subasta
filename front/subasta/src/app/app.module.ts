@@ -21,7 +21,7 @@ import { SubastasModule } from './subastas/subastas.module';
 import { LotesModule } from './lotes/lotes.module';
 import { AnimalesModule } from './animales/animales.module';
 import { PujadoresModule } from './pujadores/pujadores.module';
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { SolicitudesModule } from './solicitudes/solicitudes.module';
@@ -29,14 +29,15 @@ import { MaestrosModule } from './maestros/maestros.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { LoadingComponent } from './loading/loading.component';
 import { LoadingInterceptorService } from './services/loading-interceptor.service';
+import { MatSnackBarModule } from '@angular/material';
 
-export function getToken(){
+export function getToken() {
   return localStorage.getItem('token');
 }
 
 const JWT_Module_Options: JwtModuleOptions = {
   config: {
-      tokenGetter: getToken
+    tokenGetter: getToken
   }
 };
 
@@ -45,15 +46,16 @@ const JWT_Module_Options: JwtModuleOptions = {
     AppComponent, ModalMessageComponent, DetallesComponent, LoginComponent, HeaderComponent, FooterComponent, LoadingComponent
   ],
   imports: [
-  BrowserModule,
-  DataTableModule, FormsModule, HttpClientModule, MaterialModule,
+    BrowserModule,
+    DataTableModule, FormsModule, HttpClientModule, MaterialModule,
+    MatSnackBarModule,
     RouterModule,
     NgbModule,
     AppRoutingModule,
     ClientesModule,
     MaterialModule,
-    ReactiveFormsModule, 
-    BrowserModule, 
+    ReactiveFormsModule,
+    BrowserModule,
     BrowserAnimationsModule,
     EventosModule,
     SubastasModule,
@@ -67,9 +69,9 @@ const JWT_Module_Options: JwtModuleOptions = {
     [NgxMaterialTimepickerModule.forRoot()]
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true,},
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true, },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptorService, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent],
   entryComponents: [LoadingComponent]

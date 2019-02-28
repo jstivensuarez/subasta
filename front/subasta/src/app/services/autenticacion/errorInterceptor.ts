@@ -50,6 +50,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           if (error.error && error.error.innerException && error.error.innerException.message.includes(constants.subastaFinalizada)) {
             errorMessage = constants.subastaFinalizada;
           }
+          if (error.error && error.error.innerException && error.error.innerException.message.includes(constants.pujaTarde)) {
+            errorMessage = constants.pujaTarde;
+          }
           return throwError(errorMessage);
         })
       )

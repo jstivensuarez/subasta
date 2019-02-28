@@ -23,10 +23,12 @@ export const constants = {
     alreadyExist: "Ya existe",
     enUso: "Entidad en uso",
     subastaFinalizada: "Subasta finalizada",
+    pujaTarde: "Valor actualizado",
     pujaSuperada: "Tu puja en: ",
     sessionExpiradaa: "Tu sesión ha expirado, por favor vuelve a ingresar al sistema",
 
     errorCreate: "Error al tratar de crear el registro!",
+    PujaActualizada: "Alguien ha sido más rápido que tu, por favor vuelve a intentarlo...",
     errorPuja: "No se pudo realizar la puja, por favor vuelva a intentarlo!",
     errorPujatiempo: "Lo sentimos, no se pudo realizar la puja porque esta subasta ya se finalizó, por favor siga subastando!",
     errorRecuperar: "Error al tratar de restablecer la nueva contraseña!",

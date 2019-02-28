@@ -39,10 +39,28 @@ namespace Subasta.core.services
                     .SingleOrDefault(u => u.Usuario == dto.Usuario);
                 var pujador = uowService.PujadorRepository.GetllWithInclude()
                    .SingleOrDefault(p => p.Estado != Estados.BORRADO && p.ClienteId == cliente.ClienteId
-                   && p.LoteId == dto.LoteId);
+                   && p.LoteId == dto.LoteId);             
                 var lote = uowService.LoteRepository.GetAllWithInclude()
                     .SingleOrDefault(l => l.LoteId == dto.LoteId);
-                if (dto.HoraPuja <= lote.Subasta.HoraFin)
+
+                var ultimaPuja = (from p in uowService.PujaRepository.GetAll()
+                                  join puj in uowService.PujadorRepository.GetAll()
+                                  on p.PujadorId equals puj.PujadorId
+                                  join l in uowService.LoteRepository.GetAll()
+                                  on puj.LoteId equals l.LoteId
+                                  where l.LoteId == lote.LoteId                               
+                                  select p);
+
+
+                if (dto.HoraPuja > lote.Subasta.HoraFin)
+                {
+                   throw new ExceptionCore("Subasta finalizada");
+                }
+                else if (ultimaPuja.Count() > 0 &&  dto.Valor < ultimaPuja.Max(p => p.Valor))
+                {
+                    throw new ExceptionCore("Valor actualizado");
+                }
+                else
                 {
                     if (pujador == null)
                     {
@@ -58,10 +76,7 @@ namespace Subasta.core.services
                     uowService.PujaRepository.Add(mapper.Map<Puja>(dto));
                     uowService.Save();
                     NotificarPuja(dto);
-                }
-                else
-                {
-                    throw new ExceptionCore("Subasta finalizada");
+                    
                 }
 
             }

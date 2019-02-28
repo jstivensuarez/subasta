@@ -13,6 +13,7 @@ import { PujarComponent } from '../pujar/pujar.component';
 import { FormControl, Validators } from '@angular/forms';
 import { SignalRService } from 'src/app/services/signal-r.service';
 import { Observable, interval } from 'rxjs';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-subastas',
@@ -39,7 +40,8 @@ export class SubastasComponent implements OnInit {
     private alertService: MesaggesManagerService,
     private solicitudService: SolicitudService,
     private modalService: NgbModal,
-    private signalRService: SignalRService) {
+    private signalRService: SignalRService,
+    private snackBar: MatSnackBar) {
     this.isAdmin = false;
     this.title = "Subastas";
     this.eventos = [];
@@ -188,10 +190,23 @@ export class SubastasComponent implements OnInit {
     component.usuario = this.usuario;
     component.control = new FormControl(lote.pujaMinima.valor + 50000, [Validators.min(lote.pujaMinima.valor + 50000)]);
     component.completo.subscribe(resp => {
-      if (resp) {
+      if (resp.ok) {
+        this.snackBar.open(constants.successPuja, 'Ok!', {
+          duration: 10000
+        });
         lote.pujaMinima.usuario = this.usuario;
-        lote.pujaMinima.valor = resp;
+        lote.pujaMinima.valor = resp.value;
         this.obtenerEventos();
+      } else {
+        if (resp.value == constants.subastaFinalizada) {
+          this.snackBar.open(constants.errorPujatiempo, 'Ok!', {
+            duration: 10000
+          });
+        } else if (resp.value == constants.pujaTarde) {
+          this.snackBar.open(constants.PujaActualizada, 'Ok!', {
+            duration: 10000
+          });
+        }
       }
     });
   }

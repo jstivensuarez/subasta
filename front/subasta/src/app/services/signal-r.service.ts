@@ -19,8 +19,8 @@ export class SignalRService {
       .configureLogging(signalR.LogLevel.Information)
       .build();
 
-    //this.hubConnection.serverTimeoutInMilliseconds = 900000;
-    //this.hubConnection.keepAliveIntervalInMilliseconds = 900000;
+    this.hubConnection.serverTimeoutInMilliseconds = 900000;
+    this.hubConnection.keepAliveIntervalInMilliseconds = 900000;
     
     this.hubConnection
       .start()

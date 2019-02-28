@@ -144,7 +144,6 @@ export class LoginComponent implements OnInit {
   login(usuario) {
     this.usuarioService.login(usuario).subscribe(
       res => {
-        debugger;
         localStorage.setItem('token', res.token);
         this.usuarioService.redirectToMenu();
       }, err => {

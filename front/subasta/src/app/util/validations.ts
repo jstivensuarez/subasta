@@ -40,7 +40,6 @@ export class Validation {
     }
 
     static SubastaHoras(AC: AbstractControl) {
-        debugger;
         let realFechaInicio = AC.get('fechaInicio').value;
         let realFechaFin = AC.get('fechaFin').value;
         if(AC.get('fechaInicio').value && AC.get('fechaFin').value){

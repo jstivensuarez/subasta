@@ -37,19 +37,14 @@ export class PujarComponent implements OnInit {
       puja.usuario = this.usuario;
       puja.valor = this.control.value;
       this.pujaService.post(puja).subscribe(res => {
-        this.alertService.
-          showSimpleMessage(constants.successTitle, constants.success, constants.successPuja);
-        this.completo.emit(this.control.value);
+        this.completo.emit({ok: true, value: this.control.value});
         this.activeModal.close();
       }, err => {
-        if (err == constants.subastaFinalizada) {
-          this.alertService.
-            showSimpleMessage(constants.errorPujaTarde, constants.alert, constants.errorPujatiempo);
-        } else {
+        if (err != constants.subastaFinalizada && err != constants.pujaTarde) {
           this.alertService.
             showSimpleMessage(constants.errorTitle, constants.error, constants.errorPuja);
         }
-        this.completo.emit(null);
+        this.completo.emit({ok: false, value: err});
         this.activeModal.close();
         console.error(err);
       });
