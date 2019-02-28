@@ -11,7 +11,7 @@
       <input matInput [formControl]="control" maxlength="15" currencyMask 
       autocomplete="off" required>
       <mat-error *ngIf="control.hasError('min')">
-        Por favor asegurese de ingresar un valor mayor a <strong>{{min}}</strong>
+        Por favor asegurese de ingresar un valor mayor a <strong>{{min | number}}</strong>
       </mat-error>
     </mat-form-field>
   </div>

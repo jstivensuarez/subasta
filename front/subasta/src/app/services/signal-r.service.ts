@@ -24,7 +24,7 @@ export class SignalRService {
     
     this.hubConnection
       .start()
-      .then(() => console.log('Conección iniciada'))
+      .then(() => this.actualizar.next("Actualizar datos"))
       .catch(err => console.log('Error mientras se iniciaba la coneccion: ' + err))
 
     this.hubConnection.on('enviarATodos', (data) => {
@@ -36,7 +36,7 @@ export class SignalRService {
       setTimeout(function () {
         this.hubConnection
           .start()
-          .then(() => console.log('Conección iniciada'))
+          .then(() => this.actualizar.next("Actualizar datos"))
           .catch(err => console.log('Error mientras se iniciaba la coneccion: ' + err))
       }, 3000);
     });
@@ -44,8 +44,7 @@ export class SignalRService {
 
   verificarConeccion() {
     if (!this.hubConnection || this.hubConnection.state == signalR.HubConnectionState.Disconnected) {
-      this.IniciarConeccion();
-      this.actualizar.next("Actualizar datos");
+      this.IniciarConeccion();     
     }
   }
 }

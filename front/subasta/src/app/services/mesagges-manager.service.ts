@@ -10,7 +10,22 @@ import { DetallesComponent } from '../detalles/detalles.component';
 })
 export class MesaggesManagerService {
 
+  mensajeActual: string;
   constructor(private modalService: NgbModal) { }
+
+  showSimpleMessageWithRetuns(title, type, mesagge) {
+    if (!this.mensajeActual || this.mensajeActual != mesagge) {
+      //alert("mensaje actual: "+this.mensajeActual+ " mensaje: "+mesagge)
+      this.mensajeActual = mesagge;
+      const modalRef = this.modalService.open(ModalMessageComponent);
+      modalRef.componentInstance.currentMessageType = type;
+      modalRef.componentInstance.title = title;
+      modalRef.componentInstance.message = mesagge;
+      modalRef.componentInstance.action.subscribe(resp => {
+        this.mensajeActual = null;
+      });
+    }
+  }
 
   showSimpleMessage(title, type, mesagge) {
     const modalRef = this.modalService.open(ModalMessageComponent);

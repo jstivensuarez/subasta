@@ -32,6 +32,7 @@ export class SubastasComponent implements OnInit {
     Minutes: " Minutos:",
     Seconds: " Segundos",
   };
+
   constructor(private eventoService: EventoService,
     private _sanitizer: DomSanitizer,
     private usuarioService: UsuarioService,
@@ -54,21 +55,24 @@ export class SubastasComponent implements OnInit {
         const subasta = evento.subastasDto.find(s => s.subastaId == puja.subastaId);
         const lote = subasta.lotesDto.find(l => l.loteId == puja.loteId);
         if (lote.pujaMinima.usuario && lote.pujaMinima.usuario == this.usuario && lote.pujaMinima.usuario != puja.usuario) {
+          const mensaje = constants.pujaSuperada + "'" + lote.nombre + "' ha sido superada";
           this.alertService.
-            showSimpleMessage(constants.nuevaPujaTitle, constants.nuevaPuja, constants.pujaSuperada + "'" + lote.nombre + "' ha sido superada");
+            showSimpleMessageWithRetuns(constants.nuevaPujaTitle, constants.nuevaPuja, mensaje);
         }
         lote.pujaMinima.usuario = puja.usuario;
         lote.pujaMinima.valor = puja.valor;
       }
     });
 
+    this.signalRService.IniciarConeccion();
+
     this.signalRService.actualizar.subscribe(mensaje => {
-      if(mensaje){
+      if (mensaje) {
         this.obtenerEventos();
-      }    
+      }
     });
 
-    interval(2000)
+    interval(5000)
       .subscribe((val) => { this.signalRService.verificarConeccion() });
   }
 
@@ -179,10 +183,10 @@ export class SubastasComponent implements OnInit {
 
   Pujar(lote) {
     const component = this.modalService.open(PujarComponent).componentInstance;
-    component.min = lote.pujaMinima.valor + 1;
+    component.min = lote.pujaMinima.valor + 50000;
     component.loteId = lote.loteId;
     component.usuario = this.usuario;
-    component.control = new FormControl(lote.pujaMinima.valor + 1, [Validators.min(lote.pujaMinima.valor + 1)]);
+    component.control = new FormControl(lote.pujaMinima.valor + 50000, [Validators.min(lote.pujaMinima.valor + 50000)]);
     component.completo.subscribe(resp => {
       if (resp) {
         lote.pujaMinima.usuario = this.usuario;
