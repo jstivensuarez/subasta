@@ -19,6 +19,11 @@ export class AnimalService {
       map((data: Animal[]) => data));
   }
 
+  getByLote(loteId): Observable<any> {
+    return this.http.get<any>(environment.endpointAnimal + '/GetByLote/' + loteId).pipe(
+      map((data: any) => data));
+  }
+
   getDto(id): Observable<any> {
     return this.http.get<any>(environment.endpointAnimal + '/Get/' + id).pipe(
       map((data: any) => data));

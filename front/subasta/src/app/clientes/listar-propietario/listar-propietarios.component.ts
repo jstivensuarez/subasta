@@ -67,7 +67,7 @@ export class ListarPropietariosComponent implements OnInit {
         Ubicación: resp.direccion + ' (' + resp.municipio.descripcion + ')',
         Documento: resp.clienteId + ' (' + resp.tipoDocumento.descripcion + ')',
         Representante: resp.representante
-      });
+      }, null);
     }, err => {
       console.error(err);
     });

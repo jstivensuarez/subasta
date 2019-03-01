@@ -1,0 +1,55 @@
+<div class="container text-align-center">
+  <br>
+  <p>
+    <span matBadge="{{animales.length}}" matBadgeOverlap="false">
+      Lote: {{lote}}
+    </span>
+  </p>
+  <span class="bold">
+    Peso menor:
+  </span> {{minPeso}} Kg <br>
+  <span class="bold">
+    Peso mayor:
+  </span> {{maxPeso}} Kg <br>
+  <span class="bold">
+    Peso promedio:
+  </span>{{promedio}} Kg <br><br>
+  <div *ngFor="let animal of animales">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>
+          {{animal.descripcion}}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          <div class="col-md-12 vertical-modal">
+            <div *ngIf="esVideo(animal.foto)">
+              <a href="{{animal.foto}}" target="_blank">Ver video</a>
+            </div>
+            <div *ngIf="!esVideo(animal.foto)">
+              <br>
+              <img mat-card-image src="{{getImage(animal.foto)}}" alt="Foto">
+              <br>
+            </div>
+            <p>
+              Peso: {{animal.peso}} (Kg)
+            </p>
+            <p>
+              Sexo: {{animal.sexo}}
+            </p>
+            <p>
+              Ubicación: {{animal.municipio.descripcion}}
+            </p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <br>
+    <br>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-cr-other yellow" data-dismiss="modal" (click)="close()">Aceptar</button>
+  </div>
+  <br>
+</div>

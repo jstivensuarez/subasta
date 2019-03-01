@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
 
@@ -18,8 +18,10 @@ export class DetallesComponent implements OnInit {
   withImage: boolean;
   withVideo: boolean;
   safeURL: any;
+  otherComponent: any;
   constructor(public activeModal: NgbActiveModal,
-    private _sanitizer: DomSanitizer) {
+    private _sanitizer: DomSanitizer,
+    private modalService: NgbModal) {
     this.keys = [];
   }
 
@@ -67,5 +69,13 @@ export class DetallesComponent implements OnInit {
   getImage() {
     const url = environment.imageUrl + this.mesagge['imagen'];
     return url;
+  }
+
+  openOtherComponent(){
+    const component = this.modalService.open(this.otherComponent).componentInstance;
+    component.loteId = this.mesagge['loteId'];
+    component.lote = this.mesagge["Nombre"];
+    component.promedio = this.mesagge["Promedio"];
+    component.obtenerAnimales();
   }
 }

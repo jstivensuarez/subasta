@@ -30,6 +30,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { LoadingComponent } from './loading/loading.component';
 import { LoadingInterceptorService } from './services/loading-interceptor.service';
 import { MatSnackBarModule } from '@angular/material';
+import { DetalleLoteComponent } from './lotes/detalle-lote/detalle-lote.component';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -74,6 +75,6 @@ const JWT_Module_Options: JwtModuleOptions = {
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [LoadingComponent]
+  entryComponents: [LoadingComponent, DetalleLoteComponent]
 })
 export class AppModule { }

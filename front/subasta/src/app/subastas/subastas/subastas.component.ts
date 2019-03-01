@@ -14,6 +14,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { SignalRService } from 'src/app/services/signal-r.service';
 import { Observable, interval } from 'rxjs';
 import { MatSnackBar } from '@angular/material';
+import { DetalleLoteComponent } from 'src/app/lotes/detalle-lote/detalle-lote.component';
 
 @Component({
   selector: 'app-subastas',
@@ -233,7 +234,8 @@ export class SubastasComponent implements OnInit {
       Subasta: lote.subasta.descripcion,
       Categoría: lote.categoria.descripcion,
       Raza: lote.raza.descripcion,
-      Clasificación: lote.clasificacion.descripcion
-    });
+      Clasificación: lote.clasificacion.descripcion,
+      loteId: lote.loteId
+    }, DetalleLoteComponent);
   }
 }

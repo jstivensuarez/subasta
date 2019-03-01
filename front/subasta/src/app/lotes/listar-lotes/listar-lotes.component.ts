@@ -6,6 +6,7 @@ import { constants } from 'src/app/util/constants';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { environment } from 'src/environments/environment';
+import { DetalleLoteComponent } from '../detalle-lote/detalle-lote.component';
 
 @Component({
   selector: 'app-listar-lotes',
@@ -73,7 +74,7 @@ export class ListarLotesComponent implements OnInit {
       Categoría: lote.categoria.descripcion,
       Raza: lote.raza.descripcion,
       Clasificación: lote.clasificacion.descripcion
-    });
+    }, DetalleLoteComponent);
   }
 
   editar(lote) {

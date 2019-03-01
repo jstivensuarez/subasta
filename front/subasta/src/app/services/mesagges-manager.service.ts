@@ -42,10 +42,11 @@ export class MesaggesManagerService {
     return modalRef.componentInstance.action;
   }
 
-  showDetails(title, object) {
+  showDetails(title, object, otherComponent) {
     const modalRef = this.modalService.open(DetallesComponent);
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.mesagge = object;
+    modalRef.componentInstance.otherComponent = otherComponent;
     modalRef.componentInstance.getFinalMesagge();
   }
 }

@@ -18,10 +18,10 @@
 <div *ngIf="withImage">
   <mat-card>
     <mat-card-content>
-      <img mat-card-image src="{{getImage()}}" alt="Photo of a Shiba Inu">
+      <img mat-card-image src="{{getImage()}}" alt="Foto">
       <div class="col-md-12 vertical-modal">
         <p *ngFor="let obj of keys">
-          <span *ngIf="mesagge[obj] && obj != 'imagen' || mesagge[obj] === 0">
+          <span *ngIf="mesagge[obj] && obj != 'imagen' && !obj.includes('Id') || mesagge[obj] === 0">
             <strong>{{obj}} </strong> : {{mesagge[obj]}}
           </span>
         </p>
@@ -35,7 +35,7 @@
       <div class="col-md-12 vertical-modal">
         <a href="{{mesagge['video']}}" target="_blank">Ver video</a>
         <p *ngFor="let obj of keys">
-          <span *ngIf="mesagge[obj] && obj != 'video' || mesagge[obj] === 0">
+          <span *ngIf="mesagge[obj] && obj != 'video' && !obj.includes('Id') || mesagge[obj] === 0 ">
             <strong>{{obj}} </strong>: {{mesagge[obj]}}
           </span>
         </p>
@@ -44,5 +44,6 @@
   </mat-card>
 </div>
 <div class="modal-footer">
+  <button *ngIf="otherComponent" type="button" class="btn btn-cr-other green" data-dismiss="modal" (click)="openOtherComponent()">Ver detalle</button>
   <button type="button" class="btn btn-cr-other yellow" data-dismiss="modal" (click)="close()">Aceptar</button>
 </div>

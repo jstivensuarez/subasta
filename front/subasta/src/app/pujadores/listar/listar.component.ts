@@ -57,17 +57,6 @@ export class ListarPujadorComponent implements OnInit {
     );
   }
 
-  ver(pujador) {
-    this.pujadorService.getDto(pujador.pujadorId).subscribe(resp => {
-      this.alertService.showDetails('Detalles del pujador', {
-
-      });
-    }, err => {
-      console.error(err);
-    });
-
-  }
-
   obtenerPujadores() {
     this.pujadorService.get().subscribe(
       resp => {

@@ -163,6 +163,25 @@ namespace Subasta.core.services
             }
         }
 
+        public List<AnimalDto> GetAllByLote(int loteId)
+        {
+            try
+            {
+                var result = uowService.AnimalRepository.GetllWithInclude()
+                    .Where(a => a.LoteId == loteId)
+                    .OrderBy(a => a.Descripcion);
+                return mapper.Map<List<AnimalDto>>(result);
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener los animales", ex);
+            }
+        }
+
         public List<AnimalDto> GetAll()
         {
             try

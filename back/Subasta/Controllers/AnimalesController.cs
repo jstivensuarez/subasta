@@ -24,6 +24,22 @@ namespace Subasta.Controllers
             this.animalService = animalService;
         }
 
+        [HttpGet()]
+        [Route("[action]/{loteId}")]
+        [AllowAnonymous]
+        public IActionResult GetByLote(int loteId)
+        {
+            try
+            {
+                var animales = animalService.GetAllByLote(loteId);
+                return Ok(animales);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         [HttpGet]
         public IActionResult Get()
         {

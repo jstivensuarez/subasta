@@ -17,20 +17,21 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from '../app-routing.module';
 import { ClientesModule } from '../clientes/clientes.module';
-import {CountDown} from "ng6-date-countdown";
+import { CountDown } from "ng6-date-countdown";
 import { PujarComponent } from './pujar/pujar.component';
+import { DetalleLoteComponent } from '../lotes/detalle-lote/detalle-lote.component';
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialModule,
-    FormsModule, 
-    ReactiveFormsModule, 
-    BrowserModule, 
-    BrowserAnimationsModule, 
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     CurrencyMaskModule,
     [NgxMaterialTimepickerModule.forRoot()],
-     HttpClientModule,
+    HttpClientModule,
     RouterModule,
     NgbModule,
     AppRoutingModule,
@@ -38,8 +39,8 @@ import { PujarComponent } from './pujar/pujar.component';
   declarations: [CrearSubastaComponent, SubastasComponent, CountDown,
     ListarSubastaComponent, CrearSubastaNuevaComponent, PujarComponent],
   exports: [CrearSubastaComponent],
-  providers:[DatePipe,  
+  providers: [DatePipe,
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }],
-    entryComponents: [PujarComponent]
+  entryComponents: [PujarComponent, DetalleLoteComponent]
 })
 export class SubastasModule { }

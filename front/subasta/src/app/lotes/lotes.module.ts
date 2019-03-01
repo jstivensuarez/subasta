@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config';
 import { CustomCurrencyMaskConfig } from '../util/numberMaskConfig';
+import { DetalleLoteComponent } from './detalle-lote/detalle-lote.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ import { CustomCurrencyMaskConfig } from '../util/numberMaskConfig';
     MaterialModule,
     FormsModule, ReactiveFormsModule, BrowserModule, BrowserAnimationsModule, CurrencyMaskModule
   ],
-  declarations: [ListarLotesComponent, CrearLotesComponent],
+  declarations: [ListarLotesComponent, CrearLotesComponent, DetalleLoteComponent],
   providers:[{ provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }]
 })
 export class LotesModule { }

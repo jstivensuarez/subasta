@@ -61,7 +61,7 @@ export class ListarClienteComponent implements OnInit {
         Teléfono: resp.telefono,
         Ubicación: resp.direccion + ' (' + resp.municipio.descripcion + ')',
         Documento: resp.clienteId + ' (' + resp.tipoDocumento.descripcion + ')'
-      });
+      }, null);
     }, err => {
       console.error(err);
     });
