@@ -205,7 +205,9 @@ namespace Subasta.core.services
         {
             try
             {
-                var hoy = DateTime.Today;
+
+                var myTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
+                var hoy = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, myTimeZone);
                 var eventos = (from evento in uowService.EventoRepository.GetAllWithInclude()
                                where evento.Activo && evento.FechaFin.Year >= hoy.Year &&
                                evento.FechaFin.Month >= hoy.Month && evento.FechaFin.Day >= hoy.Day

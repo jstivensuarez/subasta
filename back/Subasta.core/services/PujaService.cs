@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Subasta.core.constants;
 using Subasta.core.dtos;
@@ -43,22 +44,9 @@ namespace Subasta.core.services
                 var lote = uowService.LoteRepository.GetAllWithInclude()
                     .SingleOrDefault(l => l.LoteId == dto.LoteId);
 
-                var ultimaPuja = (from p in uowService.PujaRepository.GetAll()
-                                  join puj in uowService.PujadorRepository.GetAll()
-                                  on p.PujadorId equals puj.PujadorId
-                                  join l in uowService.LoteRepository.GetAll()
-                                  on puj.LoteId equals l.LoteId
-                                  where l.LoteId == lote.LoteId                               
-                                  select p);
-
-
                 if (dto.HoraPuja > lote.Subasta.HoraFin)
                 {
                    throw new ExceptionCore("Subasta finalizada");
-                }
-                else if (ultimaPuja.Count() > 0 &&  dto.Valor < ultimaPuja.Max(p => p.Valor))
-                {
-                    throw new ExceptionCore("Valor actualizado");
                 }
                 else
                 {
@@ -75,13 +63,19 @@ namespace Subasta.core.services
                     }
                     uowService.PujaRepository.Add(mapper.Map<Puja>(dto));
                     uowService.Save();
-                    NotificarPuja(dto);
-                    
+                    NotificarPuja(dto);                   
                 }
-
             }
             catch (ExceptionData)
             {
+                throw;
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.GetBaseException().Message.Contains("Valor actualizado"))
+                {
+                    throw new ExceptionCore("Valor actualizado");
+                }            
                 throw;
             }
             catch (Exception ex)

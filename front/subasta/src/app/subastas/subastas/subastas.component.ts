@@ -49,6 +49,7 @@ export class SubastasComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     this.signalRService.nuevoMensaje.subscribe(mensaje => {
       const objeto = JSON.parse(mensaje);
       if (objeto.Tipo == "ACTUALIZAR_LOTE_PUJA") {
@@ -56,7 +57,8 @@ export class SubastasComponent implements OnInit {
         const evento = this.eventos.find(e => e.eventoId == puja.eventoId);
         const subasta = evento.subastasDto.find(s => s.subastaId == puja.subastaId);
         const lote = subasta.lotesDto.find(l => l.loteId == puja.loteId);
-        if (lote.pujaMinima.usuario && lote.pujaMinima.usuario == this.usuario && lote.pujaMinima.usuario != puja.usuario) {
+        if (lote.pujaMinima.usuario && lote.pujaMinima.usuario == 
+          this.usuario && lote.pujaMinima.usuario != puja.usuario && puja.valor > lote.pujaMinima.valor) {
           const mensaje = constants.pujaSuperada + "'" + lote.nombre + "' ha sido superada";
           this.alertService.
             showSimpleMessageWithRetuns(constants.nuevaPujaTitle, constants.nuevaPuja, mensaje);
