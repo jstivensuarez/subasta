@@ -7,9 +7,14 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20190216155102_actualizo_tamaño_decimales.cs" />
+    <Compile Remove="Migrations\20190221113133_actualizo_bd_local.cs" />
+    <Compile Remove="Migrations\20190301184101_agrego_campo_publicado.cs" />
+    <Compile Remove="Migrations\20190301184214_agrego_campo_publicado.cs" />
+    <Compile Remove="Migrations\20190301184249_agrego_campo_publicado.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

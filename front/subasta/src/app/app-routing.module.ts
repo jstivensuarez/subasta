@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ListarClientesComponent } from './clientes/listar-clientes/listar-clientes.component';
 import { CrearPropietarioComponent } from './clientes/crear-propietario/crear-propietario';
 import { LoginComponent } from './login/login.component';
 import { AutenticacionService } from './services/autenticacion/autenticacion.service';
@@ -27,10 +26,18 @@ import { AdminDepartamentosComponent } from './maestros/admin-departamentos/admi
 import { AdminTdComponent } from './maestros/admin-td/admin-td.component';
 import { CrearUsuarioComponent } from './usuarios/crear-usuario/crear-usuario.component';
 import { ListarUsuarioComponent } from './usuarios/listar-usuario/listar-usuario.component';
+import { ListarPropietariosComponent } from './clientes/listar-propietario/listar-propietarios.component';
+import { ListarClienteComponent } from './clientes/listar-cliente/listar-cliente.component';
 
 const routes: Routes = [
   {
-    path: 'listar-propietario', component: ListarClientesComponent, canActivate: [AutenticacionService, RoleguardService],
+    path: 'listar-cliente', component: ListarClienteComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  },
+  {
+    path: 'listar-propietario', component: ListarPropietariosComponent, canActivate: [AutenticacionService, RoleguardService],
     data: {
       expectedRole: 'Administrador'
     }
@@ -193,7 +200,8 @@ const routes: Routes = [
     }
   },
   {
-    path: 'subastas', component: SubastasComponent},
+    path: 'subastas', component: SubastasComponent
+  },
   { path: 'login', component: LoginComponent },
   { path: '**', component: SubastasComponent },
 ];

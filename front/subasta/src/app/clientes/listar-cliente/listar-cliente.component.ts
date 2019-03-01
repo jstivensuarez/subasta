@@ -1,33 +1,25 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ClienteService } from 'src/app/services/cliente.service';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Cliente } from 'src/app/dtos/cliente';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ClienteService } from 'src/app/services/cliente.service';
+import { Router } from '@angular/router';
 import { MesaggesManagerService } from 'src/app/services/mesagges-manager.service';
-import { constants } from 'src/app/util/constants';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { MatDialog, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { MunicipioService } from 'src/app/services/municipio.service';
 import { DomSanitizer } from '@angular/platform-browser';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
+import { constants } from 'src/app/util/constants';
 
 @Component({
-  selector: 'app-listar-clientes',
-  templateUrl: './listar-clientes.component.html',
-  styleUrls: ['./listar-clientes.component.css']
+  selector: 'app-listar-cliente',
+  templateUrl: './listar-cliente.component.html',
+  styleUrls: ['./listar-cliente.component.css']
 })
-export class ListarClientesComponent implements OnInit {
+export class ListarClienteComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   dataSource: MatTableDataSource<Cliente>;
-  title = 'Propietarios';
-  displayedColumns: string[] = ['nombre', 'correo', 'telefono', 'usuario', 'acciones'];
+  title = 'Clientes';
+  displayedColumns: string[] = ['nombre', 'correo', 'telefono', 'acciones'];
   clientes: Cliente[];
   constructor(private clienteService: ClienteService,
     private router: Router,
@@ -39,10 +31,6 @@ export class ListarClientesComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-  editar(cliente) {
-    this.router.navigate(['/crear-propietario'], { queryParams: { id: cliente.clienteId } });
   }
 
   eliminar(cliente) {
@@ -72,21 +60,16 @@ export class ListarClientesComponent implements OnInit {
         Usuario: resp.usuario,
         Teléfono: resp.telefono,
         Ubicación: resp.direccion + ' (' + resp.municipio.descripcion + ')',
-        Documento: resp.clienteId + ' (' + resp.tipoDocumento.descripcion + ')',
-        Representante: resp.representante
+        Documento: resp.clienteId + ' (' + resp.tipoDocumento.descripcion + ')'
       });
     }, err => {
       console.error(err);
     });
 
   }
-
-  agregarPropietario() {
-    this.router.navigate(['/crear-propietario']);
-  }
   
   obtenerClientes() {
-    this.clienteService.getPropietarios().subscribe(
+    this.clienteService.getPujadores().subscribe(
       resp => {
         this.clientes = resp;
         this.dataSource = new MatTableDataSource(resp);
@@ -112,5 +95,5 @@ export class ListarClientesComponent implements OnInit {
     this.dataSource.data = clientesFiltrados;
     this.dataSource.paginator.firstPage();
   }
-}
 
+}

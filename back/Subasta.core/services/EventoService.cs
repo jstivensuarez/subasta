@@ -221,6 +221,7 @@ namespace Subasta.core.services
                                {
                                    EventoId = evento.EventoId,
                                    Activo = evento.Activo,
+                                   Publicado = evento.Publicado,
                                    Descripcion = evento.Descripcion,
                                    FechaFin = evento.FechaFin,
                                    FechaInicio = evento.FechaInicio,

@@ -21,6 +21,8 @@ namespace Subasta.core.dtos
 
         public bool Activo { get; set; }
 
+        public bool Publicado { get; set; }
+
         public List<SubastaDto> SubastasDto { get; set; }
     }
 }

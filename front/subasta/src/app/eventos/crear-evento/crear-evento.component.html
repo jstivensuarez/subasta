@@ -1,5 +1,5 @@
-<div class="great">  
-  <h1 class="title margin-top-cero contet-great">{{titleEvento}}</h1>  
+<div class="great">
+  <h1 class="title margin-top-cero contet-great">{{titleEvento}}</h1>
 </div>
 <mat-horizontal-stepper #stepper [linear]="true">
   <mat-step [stepControl]="firstFormGroup">
@@ -9,16 +9,16 @@
         <form class="example-form" [formGroup]="firstFormGroup" (submit)="onSubmitEvento()">
 
           <mat-form-field class="example-full-width">
-            <input matInput [formControl]="descripcion" maxlength="50" 
-            autocomplete="off" placeholder="Descripción" required>
+            <input matInput [formControl]="descripcion" maxlength="50" autocomplete="off" placeholder="Descripción"
+              required>
             <mat-error *ngIf="descripcion.hasError('required')">
               La descripción del evento es <strong>requerida</strong>
             </mat-error>
           </mat-form-field>
 
           <mat-form-field class="example-full-width">
-            <input matInput [formControl]="fechaInicio" [matDatepicker]="inicio" [disabled]="isEditing"
-            autocomplete="off" placeholder="Fecha de inicio" [min]="minDate" readonly required>
+            <input matInput [formControl]="fechaInicio" [matDatepicker]="inicio" [disabled]="isEditing" autocomplete="off"
+              placeholder="Fecha de inicio" [min]="minDate" readonly required>
             <mat-datepicker-toggle matSuffix [for]="inicio"></mat-datepicker-toggle>
             <mat-datepicker #inicio></mat-datepicker>
             <mat-error *ngIf="fechaInicio.hasError('required')">
@@ -27,8 +27,8 @@
           </mat-form-field>
 
           <mat-form-field class="example-full-width">
-            <input matInput [formControl]="fechaFin" [matDatepicker]="fin" [disabled]="isEditing"
-            autocomplete="off" placeholder="Fecha de finalización" [min]="minDate" readonly required>
+            <input matInput [formControl]="fechaFin" [matDatepicker]="fin" [disabled]="isEditing" autocomplete="off"
+              placeholder="Fecha de finalización" [min]="minDate" readonly required>
             <mat-datepicker-toggle matSuffix [for]="fin"></mat-datepicker-toggle>
             <mat-datepicker #fin></mat-datepicker>
             <mat-error *ngIf="fechaFin.hasError('required')">
@@ -58,7 +58,9 @@
             <mat-error *ngIf="municipio.hasError('required')">Por favor seleccione un municipio</mat-error>
           </mat-form-field>
 
-
+          <mat-slide-toggle [formControl]="publicado">
+            ¿Publicar evento?
+          </mat-slide-toggle>
           <div class="text-align-center">
             <button class="btn yellow " mat-button matStepperNext [disabled]="firstFormGroup.invalid">Continuar</button>
           </div>

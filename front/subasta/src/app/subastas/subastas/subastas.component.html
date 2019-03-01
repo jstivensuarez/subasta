@@ -3,7 +3,7 @@
     <br>
     <div class="container">
       <div *ngFor="let evento of eventos">
-        <div *ngIf="validarInicio(evento.fechaInicio)">
+        <div *ngIf="validarInicio(evento.fechaInicio) && evento.publicado">
           <h2>{{evento.descripcion}}</h2>
           <mat-divider></mat-divider>
           <br>

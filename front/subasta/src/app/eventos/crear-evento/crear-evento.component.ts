@@ -127,8 +127,9 @@ export class CrearEventoComponent implements OnInit {
       departamento: new FormControl(this.selectedDepartamento),
       fechaInicio: new FormControl(this.evento.fechaInicio, [Validators.required]),
       fechaFin: new FormControl(this.evento.fechaFin, [Validators.required,]),
+      publicado: new FormControl(this.evento.publicado),
     },
-      Validation.EventoFechas // your validation method
+      Validation.EventoFechas
     );
   }
 
@@ -149,11 +150,13 @@ export class CrearEventoComponent implements OnInit {
   }
 
   onSubmitEvento() {
+    
     const evento = new Evento();
     evento.descripcion = this.descripcion.value;
     evento.fechaFin = this.fechaFin.value;
     evento.fechaInicio = this.fechaInicio.value;
     evento.municipioId = this.municipio.value;
+    evento.publicado  = this.publicado.value;
     if (this.evento.eventoId) {
       evento.eventoId = this.evento.eventoId;
       this.editarEvento(evento);
@@ -205,7 +208,7 @@ export class CrearEventoComponent implements OnInit {
   }
 
   editarSubasta(subasta) {
-    const component = this.modalService.open(CrearSubastaComponent,{centered: true}).componentInstance;
+    const component = this.modalService.open(CrearSubastaComponent, { centered: true }).componentInstance;
     component.eventoInput = this.evento;
     component.subastaInput = subasta;
     component.minDate = new Date(this.evento.fechaInicio);
@@ -219,7 +222,7 @@ export class CrearEventoComponent implements OnInit {
   }
 
   agregarSubasta() {
-    const component = this.modalService.open(CrearSubastaComponent,{centered: true}).componentInstance;
+    const component = this.modalService.open(CrearSubastaComponent, { centered: true }).componentInstance;
     component.eventoInput = this.evento;
     component.minDate = new Date(this.evento.fechaInicio);
     component.maxDate = new Date(this.evento.fechaFin);
@@ -227,6 +230,11 @@ export class CrearEventoComponent implements OnInit {
     component.completo.subscribe(res => {
       this.obtenerSubastas();
     });
+  }
+
+
+  get publicado() {
+    return this.firstFormGroup.get('publicado');
   }
 
   get descripcion() {

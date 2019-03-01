@@ -9,6 +9,7 @@ export class Evento {
     fechaFin: Date;
     municipioId: number;
     municipio: Municipio;
+    publicado: boolean;
     subastasDto: Subasta[];
     constructor(){}
 }

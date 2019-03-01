@@ -35,6 +35,10 @@ namespace Subasta.repository.models
         [Required]
         public int MunicipioId { get; set; }
 
+        [Column("PUBLICADO_EVEN")]
+        [Required]
+        public bool Publicado { get; set; }
+
         public Municipio Municipio { get; set; }
 
         public List<Subasta> Subastas { get; set; } = new List<Subasta>();

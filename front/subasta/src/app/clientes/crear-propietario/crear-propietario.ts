@@ -203,10 +203,10 @@ export class CrearPropietarioComponent implements OnInit {
     this.selectedMunicipio = this.cliente.municipioId;
     return new FormGroup({
       td: new FormControl(this.selectedTd),
-      documento: new FormControl(this.cliente.clienteId, [Validators.required]),
+      documento: new FormControl(this.cliente.clienteId, [Validators.required, Validators.pattern('^[1-9][0-9]*$')]),
       nombre: new FormControl(this.cliente.nombre, [Validators.required]),
       representante: new FormControl(this.cliente.representante),
-      telefono: new FormControl(this.cliente.telefono, [Validators.required]),
+      telefono: new FormControl(this.cliente.telefono, [Validators.required, Validators.pattern('^[0-9]*$')]),
       correo: new FormControl(this.cliente.correo, [Validators.required, Validators.email]),
       municipio: new FormControl(this.selectedMunicipio),
       departamento: new FormControl(this.selectedDepartamento),
