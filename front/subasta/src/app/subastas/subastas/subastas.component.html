@@ -38,10 +38,9 @@
                   <div *ngIf="validarInicio(subasta.horaInicio)" class="bold">
                     Tiempo restante
                     <mat-icon class="icon-medium">timer</mat-icon>
-                    <countdown (reached)="mostrarGanador(lote)" [text]="formatoFecha" units="Days | Hours | Minutes | Seconds"
+                    <countdown  [text]="formatoFecha" units="Days | Hours | Minutes | Seconds"
                       end="{{subasta.horaFin}}"></countdown>
                   </div>
-
 
                 </mat-card-content>
                 <div *ngIf="!isAdmin">
@@ -98,7 +97,7 @@
                   <div class="bold">
                       Esta subasta se inicia en
                       <mat-icon class="icon-medium">calendar_today</mat-icon>
-                      <countdown (reached)="obtenerEventos()" [text]="formatoFecha" units="Days | Hours | Minutes | Seconds"
+                      <countdown [text]="formatoFecha" units="Days | Hours | Minutes | Seconds"
                         end="{{subasta.horaInicio}}"></countdown>
                     </div>
 

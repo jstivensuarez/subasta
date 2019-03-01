@@ -48,6 +48,8 @@ namespace Subasta.core.services
         {
             try
             {
+                dto.FechaInicio = dto.FechaInicio.Date;
+                dto.FechaFin = dto.FechaFin.Date;
                 dto.Activo = true;
                 uowService.EventoRepository.Add(mapper.Map<Evento>(dto));
                 uowService.Save();
@@ -67,6 +69,8 @@ namespace Subasta.core.services
         {
             try
             {
+                dto.FechaInicio = dto.FechaInicio.Date;
+                dto.FechaFin = dto.FechaFin.Date;
                 dto.Activo = true;
                 var result = uowService.EventoRepository.AddWithReturn(mapper.Map<Evento>(dto));
                 return mapper.Map<EventoDto>(result);
@@ -106,6 +110,8 @@ namespace Subasta.core.services
         {
             try
             {
+                entity.FechaInicio = entity.FechaInicio.Date;
+                entity.FechaFin = entity.FechaFin.Date;
                 entity.Activo = true;
                 uowService.EventoRepository.Edit(mapper.Map<Evento>(entity));
                 uowService.Save();
