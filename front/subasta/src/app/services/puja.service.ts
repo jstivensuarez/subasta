@@ -14,6 +14,11 @@ export class PujaService {
 
   constructor(private http: HttpClient) { }
 
+  getGanador(loteId): Observable<any> {
+    return this.http.get<any>(environment.endpointPuja + '/GetGanador/'+loteId).pipe(
+      map((data: any) => data));
+  }
+
   get(): Observable<any[]> {
     return this.http.get<any[]>(environment.endpointPuja).pipe(
       map((data: Puja[]) => data));
@@ -22,6 +27,10 @@ export class PujaService {
   getDto(id): Observable<any> {
     return this.http.get<any>(environment.endpointPuja + '/Get/' + id).pipe(
       map((data: any) => data));
+  }
+
+  confirmarGanador(loteId): Observable<any> {
+    return this.http.post<any>(environment.endpointPuja+"/ConfirmarGanador/"+loteId, { headers: this.httpHeaders });
   }
 
   post(dto: Puja): Observable<any> {

@@ -31,6 +31,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { LoadingInterceptorService } from './services/loading-interceptor.service';
 import { MatSnackBarModule } from '@angular/material';
 import { DetalleLoteComponent } from './lotes/detalle-lote/detalle-lote.component';
+import { ConfirmacionCompraComponent } from './confirmacion-compra/confirmacion-compra.component';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -44,7 +45,7 @@ const JWT_Module_Options: JwtModuleOptions = {
 
 @NgModule({
   declarations: [
-    AppComponent, ModalMessageComponent, DetallesComponent, LoginComponent, HeaderComponent, FooterComponent, LoadingComponent
+    AppComponent, ModalMessageComponent, DetallesComponent, LoginComponent, HeaderComponent, FooterComponent, LoadingComponent, ConfirmacionCompraComponent
   ],
   imports: [
     BrowserModule,

@@ -112,7 +112,7 @@ export class CrearComponent implements OnInit {
       }
     });
   }
-
+  
   obtenerAnimal(id: string) {
     this.animalService.getDto(id).subscribe(res => {
       this.animal = res;

@@ -87,7 +87,7 @@ export class CrearSubastaComponent implements OnInit {
       console.error(err);
     });
   }
-
+  
   createForm() {
     if (this.subastaInput.horaInicio && this.subastaInput.horaFin) {
       this.horaInicioActual = this.datepipe.transform(this.subastaInput.horaInicio, 'HH:mm');

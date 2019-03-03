@@ -46,6 +46,10 @@ namespace Subasta.repository.models
         [Required]
         public bool Activo { get; set; }
 
+        [Column("FINALIZADO_LOTE")]
+        [Required]
+        public bool Finalizado { get; set; }
+
         [Column("ID_CLIENTE_LOTE")]
         [Required]
         public string ClienteId { get; set; }
@@ -90,5 +94,7 @@ namespace Subasta.repository.models
         public List<Animal> Animales { get; set; } = new List<Animal>();
 
         public List<Pujador> Pujadores { get; set; } = new List<Pujador>();
+
+        public List<ConfirmacionPago> confirmaciones { get; set; } = new List<ConfirmacionPago>();
     }
 }

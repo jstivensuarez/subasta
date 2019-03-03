@@ -17,5 +17,9 @@ namespace Subasta.core.states
         public const string AUTORIZADO = "AUTORIZADO";
 
         public const string RECHAZADO = "RECHAZADO";
+
+        public const string PENDIENTE_PAGAR = "PENDIENTE_POR_CONFIRMAR";
+
+        public const string CONFIRMADO = "CONFIRMADO";
     }
 }

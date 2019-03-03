@@ -113,6 +113,10 @@ namespace Subasta.core.services
                     ActualizarInformacionLote(dto.LoteId, 1, dto.Peso);
                     ActualizarInformacionLote(animal.LoteId, -1, -dto.Peso);
                 }
+                else if( animal.Peso != dto.Peso)
+                {
+                    ActualizarInformacionLote(animal.LoteId, 0, dto.Peso-animal.Peso);
+                }
 
                 uowService.Save();
             }

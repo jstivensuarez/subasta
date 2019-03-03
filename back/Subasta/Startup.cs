@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Subasta.core;
 using Subasta.core.helpers;
 using Subasta.core.interfaces;
+using Subasta.core.jobs;
 using Subasta.core.services;
 using Subasta.repository;
 using Subasta.repository.interfaces;
@@ -100,6 +101,7 @@ namespace Subasta
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            services.AddHostedService<EnvioCorreoGanadorService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

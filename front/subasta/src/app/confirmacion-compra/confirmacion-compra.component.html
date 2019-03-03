@@ -1,0 +1,38 @@
+<br>
+<br>
+<div class="container text-align-center">
+  <mat-card class="example-card">
+    <div class="col-md-12 vertical-modal">
+      <p>
+        <span class="bold">
+          Número de documento:
+        </span> {{puja.pujador.cliente.clienteId}}
+      </p>
+      <p>
+        <span class="bold">
+          Comprador:
+        </span> {{puja.pujador.cliente.nombre}}
+      </p>
+      <p>
+        <span class="bold">
+          Dirección:
+        </span> {{puja.pujador.cliente.direccion}}
+      </p>
+      <p>
+        <span class="bold">
+          Nombre del lote:
+        </span> {{puja.pujador.lote.nombre}}
+      </p>
+      <p>
+        <span class="bold">
+          Valor a pagar:
+        </span> {{puja.valor | number}}
+      </p>
+    </div>
+    <div class="row">
+      <div class="col-12 text-align-center">
+        <button *ngIf="habilitarBoton" class="btn yellow" (click)="confirmar()">Confirmar compra</button>
+      </div>
+    </div>
+  </mat-card>
+</div>

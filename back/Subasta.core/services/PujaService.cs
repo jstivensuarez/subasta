@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Subasta.core.constants;
 using Subasta.core.dtos;
@@ -22,12 +23,16 @@ namespace Subasta.core.services
         readonly IMapper mapper;
         readonly IUnitOfWork uowService;
         readonly IMensajesService mensajesService;
-
-        public PujaService(IMapper mapper, IUnitOfWork uowService, IMensajesService mensajesService)
+        readonly ICorreoHelper correoHelper;
+        readonly IConfiguration configuration;
+        public PujaService(IMapper mapper, IUnitOfWork uowService,
+            IMensajesService mensajesService, ICorreoHelper correoHelper, IConfiguration configuration)
         {
             this.mapper = mapper;
             this.uowService = uowService;
             this.mensajesService = mensajesService;
+            this.correoHelper = correoHelper;
+            this.configuration = configuration;
         }
 
         public void Add(PujaDto dto)
@@ -40,13 +45,13 @@ namespace Subasta.core.services
                     .SingleOrDefault(u => u.Usuario == dto.Usuario);
                 var pujador = uowService.PujadorRepository.GetllWithInclude()
                    .SingleOrDefault(p => p.Estado != Estados.BORRADO && p.ClienteId == cliente.ClienteId
-                   && p.LoteId == dto.LoteId);             
+                   && p.LoteId == dto.LoteId);
                 var lote = uowService.LoteRepository.GetAllWithInclude()
                     .SingleOrDefault(l => l.LoteId == dto.LoteId);
 
                 if (dto.HoraPuja > lote.Subasta.HoraFin)
                 {
-                   throw new ExceptionCore("Subasta finalizada");
+                    throw new ExceptionCore("Subasta finalizada");
                 }
                 else
                 {
@@ -63,7 +68,7 @@ namespace Subasta.core.services
                     }
                     uowService.PujaRepository.Add(mapper.Map<Puja>(dto));
                     uowService.Save();
-                    NotificarPuja(dto);                   
+                    NotificarPuja(dto);
                 }
             }
             catch (ExceptionData)
@@ -75,7 +80,7 @@ namespace Subasta.core.services
                 if (ex.GetBaseException().Message.Contains("Valor actualizado"))
                 {
                     throw new ExceptionCore("Valor actualizado");
-                }            
+                }
                 throw;
             }
             catch (Exception ex)
@@ -191,6 +196,140 @@ namespace Subasta.core.services
             }
         }
 
+        public void NotificarGanadores(List<PujaDto> ganadores)
+        {
+            try
+            {
+                DateTime hoy = DateTime.Now;
+                foreach (var item in ganadores)
+                {            
+                    string host = configuration.GetSection("url-front").Value;                
+                       var lote = uowService.LoteRepository.GetAll()
+                         .SingleOrDefault(l => l.LoteId == item.Pujador.LoteId);
+                    var cliente = uowService.ClienteRepository.GetAll()
+                        .SingleOrDefault(c => c.ClienteId == item.Pujador.ClienteId);
+                    string compraInfo = $"{cliente.Usuario}-{lote.LoteId}-{hoy.ToString()}";
+                    string link = $"<a href = '{host}/confirmacion/{obtenerInfoCompra(compraInfo)}'" +
+                        $" target = '_blank'>Confirmar Compra<a>";
+                    lote.Finalizado = true;
+                    ConfirmacionPago confirmacion = new ConfirmacionPago
+                    {
+                        Estado = Estados.PENDIENTE_PAGAR,
+                        Fecha = hoy,
+                        Usuario = cliente.Usuario,
+                        LoteId = lote.LoteId
+                    };
+                    uowService.LoteRepository.Edit(lote);
+                    uowService.ConfirmacionRepository.Add(confirmacion);
+                    uowService.Save();
+                    correoHelper.enviarDesdeSubasta(Correos.MENSAJEGANAR + link, Correos.ASUNTOGANAR, cliente.Correo);
+                }
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al notificar los clientes", ex);
+            }
+        }
+        public List<PujaDto> obtenerGanadores()
+        {
+            try
+            {
+                var myTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
+                var hoy = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, myTimeZone);
+                var ganadores = (from lote in uowService.LoteRepository.GetAll()
+                                 join subasta in uowService.SubastaRepository.GetAll()
+                                 on lote.SubastaId equals subasta.SubastaId
+                                 where subasta.HoraFin < hoy && subasta.Activo && !lote.Finalizado && lote.Activo
+                                 select (from puja in uowService.PujaRepository.GetAll().OrderByDescending(p => p.Valor)
+                                         join pujador in uowService.PujadorRepository.GetAll()
+                                         on puja.PujadorId equals pujador.PujadorId
+                                         where pujador.LoteId == lote.LoteId
+                                         select new PujaDto
+                                         {
+                                             HoraPuja = puja.HoraPuja,
+                                             LoteId = lote.LoteId,
+                                             Pujador = mapper.Map<PujadorDto>(pujador),
+                                             PujadorId = pujador.PujadorId,
+                                             PujaId = puja.PujaId,
+                                             Valor = puja.Valor
+                                         }).FirstOrDefault()
+                                 ).ToList();
+                return ganadores;
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener los ganadores", ex);
+            }
+        }
+
+        public PujaDto obtenerGanadorInfo(int loteId)
+        {
+            try
+            {
+                var ganador = (from lote in uowService.LoteRepository.GetAll()
+                                 where lote.LoteId == loteId
+                                 select (from puja in uowService.PujaRepository.GetAll().OrderByDescending(p => p.Valor)
+                                         join pujador in uowService.PujadorRepository.GetAll()
+                                         on puja.PujadorId equals pujador.PujadorId
+                                         where pujador.LoteId == lote.LoteId
+                                         select new PujaDto
+                                         {
+                                             HoraPuja = puja.HoraPuja,                                  
+                                             LoteId = lote.LoteId,
+                                             Pujador = mapper.Map<PujadorDto>(pujador),
+                                             PujadorId = pujador.PujadorId,
+                                             PujaId = puja.PujaId,
+                                             Valor = puja.Valor
+                                         }).FirstOrDefault()
+                                 ).SingleOrDefault();
+                ganador.Pujador.Cliente = mapper.Map<ClienteDto>(uowService.ClienteRepository.GetAll()
+                    .SingleOrDefault(c => c.ClienteId == ganador.Pujador.ClienteId));
+                ganador.Pujador.Lote = mapper.Map<LoteDto>(uowService.LoteRepository.GetAll()
+                    .SingleOrDefault(c => c.LoteId == ganador.Pujador.LoteId));
+                return ganador;
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener al ganador", ex);
+            }
+        }
+
+        public void ConfirmarGanador(int loteId, string usuario)
+        {
+            try
+            {
+                var confirmacion = uowService.ConfirmacionRepository.GetAll()
+                    .SingleOrDefault(c => c.LoteId == loteId);
+                var tiempo = DateTime.Now - confirmacion.Fecha;
+                if (tiempo.TotalMinutes < 10 && confirmacion.Usuario == usuario && confirmacion.Estado == Estados.PENDIENTE_PAGAR)
+                {
+                    confirmacion.Estado = Estados.CONFIRMADO;
+                    uowService.ConfirmacionRepository.Edit(confirmacion);
+                    uowService.Save();
+                }         
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar guardar la confirmacion", ex);
+            }
+        }
+
         private void NotificarPuja(PujaDto puja)
         {
             var pujador = uowService.PujadorRepository.GetllWithInclude()
@@ -210,6 +349,19 @@ namespace Subasta.core.services
             string mensajeFinal = mensajesService.ObtenerMenajeFinal(mensaje, TipoMensajes.ACTUALIZARLOTEPUJA);
 
             mensajesService.EnviarMensaje(mensajeFinal);
+        }
+
+        private string obtenerInfoCompra(string mensaje)
+        {
+            byte[] toEncodeAsBytes
+
+              = System.Text.ASCIIEncoding.ASCII.GetBytes(mensaje);
+
+            string returnValue
+
+                  = System.Convert.ToBase64String(toEncodeAsBytes);
+
+            return returnValue;
         }
     }
 }

@@ -5,4 +5,5 @@ export class Puja{
     valor: number;
     usuario: string;
     loteId: number;
+    pujador: Pujador;
 }

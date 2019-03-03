@@ -28,6 +28,7 @@ import { CrearUsuarioComponent } from './usuarios/crear-usuario/crear-usuario.co
 import { ListarUsuarioComponent } from './usuarios/listar-usuario/listar-usuario.component';
 import { ListarPropietariosComponent } from './clientes/listar-propietario/listar-propietarios.component';
 import { ListarClienteComponent } from './clientes/listar-cliente/listar-cliente.component';
+import { ConfirmacionCompraComponent } from './confirmacion-compra/confirmacion-compra.component';
 
 const routes: Routes = [
   {
@@ -199,6 +200,8 @@ const routes: Routes = [
       expectedRole: 'Administrador'
     }
   },
+  {
+    path: 'confirmacion/:info', component: ConfirmacionCompraComponent, canActivate: [AutenticacionService]},
   {
     path: 'subastas', component: SubastasComponent
   },

@@ -25,6 +25,39 @@ namespace Subasta.Controllers
             this.pujaService = pujaService;
         }
 
+        [HttpGet()]
+        [Route("[action]/{loteId}")]
+        public IActionResult GetGanador(int loteId)
+        {
+            try
+            {
+                var ganador = pujaService.obtenerGanadorInfo(loteId);
+                return Ok(ganador);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        [Route("[action]/{loteId}")]
+        public IActionResult ConfirmarGanador(int loteId)
+        {
+            try
+            {
+                var usuario = User.Claims.First().Value;
+                pujaService.ConfirmarGanador(loteId, usuario);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+
         [HttpGet]
         public IActionResult Get()
         {
