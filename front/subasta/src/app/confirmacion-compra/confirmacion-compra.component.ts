@@ -57,9 +57,9 @@ export class ConfirmacionCompraComponent implements OnInit {
   calcularFechas(fechaPago) {
     const hoy = new Date();
     const fecha = new Date(fechaPago)
-    var dif = hoy.getTime() - fecha.getTime();
-    var minutos = Math.round(dif / (1000 * 60));
-    if (minutos < 30) {
+    const dif = hoy.getTime() - fecha.getTime();
+    const minutos = Math.round(dif / (1000 * 60));
+    if (minutos < 15) {
       this.habilitarBoton = true;
     }
   }

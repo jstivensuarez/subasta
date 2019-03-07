@@ -24,6 +24,10 @@ namespace Subasta.repository.models
         [Required]
         public int PujadorId { get; set; }
 
+        [Column("ANULADA_PUJA")]
+        [Required]
+        public bool Anulada { get; set; }
+
         public Pujador Pujador { get; set; }
     }
 }

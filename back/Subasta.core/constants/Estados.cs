@@ -21,5 +21,7 @@ namespace Subasta.core.states
         public const string PENDIENTE_PAGAR = "PENDIENTE_POR_CONFIRMAR";
 
         public const string CONFIRMADO = "CONFIRMADO";
+
+        public const string CANCELADO = "CANCELADO";
     }
 }

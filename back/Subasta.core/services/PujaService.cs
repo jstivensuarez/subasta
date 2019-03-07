@@ -202,27 +202,38 @@ namespace Subasta.core.services
             {
                 DateTime hoy = DateTime.Now;
                 foreach (var item in ganadores)
-                {            
-                    string host = configuration.GetSection("url-front").Value;                
-                       var lote = uowService.LoteRepository.GetAll()
-                         .SingleOrDefault(l => l.LoteId == item.Pujador.LoteId);
-                    var cliente = uowService.ClienteRepository.GetAll()
-                        .SingleOrDefault(c => c.ClienteId == item.Pujador.ClienteId);
-                    string compraInfo = $"{cliente.Usuario}-{lote.LoteId}-{hoy.ToString()}";
-                    string link = $"<a href = '{host}/confirmacion/{obtenerInfoCompra(compraInfo)}'" +
-                        $" target = '_blank'>Confirmar Compra<a>";
-                    lote.Finalizado = true;
-                    ConfirmacionPago confirmacion = new ConfirmacionPago
+                {
+                    if (item != null)
                     {
-                        Estado = Estados.PENDIENTE_PAGAR,
-                        Fecha = hoy,
-                        Usuario = cliente.Usuario,
-                        LoteId = lote.LoteId
-                    };
-                    uowService.LoteRepository.Edit(lote);
-                    uowService.ConfirmacionRepository.Add(confirmacion);
-                    uowService.Save();
-                    correoHelper.enviarDesdeSubasta(Correos.MENSAJEGANAR + link, Correos.ASUNTOGANAR, cliente.Correo);
+                        string host = configuration.GetSection("url-front").Value;
+                        var lote = uowService.LoteRepository.GetAll()
+                          .SingleOrDefault(l => l.LoteId == item.Pujador.LoteId);
+                        var cliente = uowService.ClienteRepository.GetAll()
+                            .SingleOrDefault(c => c.ClienteId == item.Pujador.ClienteId);
+                        string compraInfo = $"{cliente.Usuario}-{lote.LoteId}-{hoy.ToString()}";
+                        string link = $"<a href = '{host}/confirmacion/{obtenerInfoCompra(compraInfo)}'" +
+                            $" target = '_blank'>Confirmar Compra<a>";
+                        string ganadorInfo = $"<br><br><p>Cédula del ganador: {cliente.ClienteId}</p>" +
+                            $"<p>Nombre: {cliente.Nombre}<p/>" +
+                            $"<p>Dirección: {cliente.Direccion}</p>" +
+                            $"<p>Correo: {cliente.Correo}</p>" +
+                            $"<p>Teléfono: {cliente.Telefono}</p>" +
+                            $"<p>Nombre del lote: {lote.Nombre}</p>" +
+                            $"<p>Valor a pagar: { string.Format("{0:C}", item.Valor)}</p>";
+                        lote.Finalizado = true;
+                        ConfirmacionPago confirmacion = new ConfirmacionPago
+                        {
+                            Estado = Estados.PENDIENTE_PAGAR,
+                            Fecha = hoy,
+                            Usuario = cliente.Usuario,
+                            LoteId = lote.LoteId
+                        };
+                        uowService.LoteRepository.Edit(lote);
+                        uowService.ConfirmacionRepository.Add(confirmacion);
+                        uowService.Save();
+                        correoHelper.enviarDesdeSubasta(Correos.MENSAJEGANAR + link, Correos.ASUNTOGANAR, cliente.Correo);
+                        correoHelper.enviarDesdeSubasta(Correos.MENSAJEGANARPROPIETARIO + ganadorInfo, Correos.ASUNTOGANARPROPIETARIO, lote.Cliente.Correo);
+                    }
                 }
             }
             catch (ExceptionData)
@@ -243,11 +254,14 @@ namespace Subasta.core.services
                 var ganadores = (from lote in uowService.LoteRepository.GetAll()
                                  join subasta in uowService.SubastaRepository.GetAll()
                                  on lote.SubastaId equals subasta.SubastaId
-                                 where subasta.HoraFin < hoy && subasta.Activo && !lote.Finalizado && lote.Activo
-                                 select (from puja in uowService.PujaRepository.GetAll().OrderByDescending(p => p.Valor)
+                                 where subasta.HoraFin < hoy && subasta.Activo
+                                 && !lote.Finalizado && lote.Activo
+                                 select (from puja in uowService.PujaRepository.GetAll()
+                                         .Where(p => !p.Anulada)
+                                         .OrderByDescending(p => p.Valor)
                                          join pujador in uowService.PujadorRepository.GetAll()
                                          on puja.PujadorId equals pujador.PujadorId
-                                         where pujador.LoteId == lote.LoteId
+                                         where pujador.LoteId == lote.LoteId && !lote.Finalizado
                                          select new PujaDto
                                          {
                                              HoraPuja = puja.HoraPuja,
@@ -270,25 +284,71 @@ namespace Subasta.core.services
             }
         }
 
+        public void ActualizarConfirmaciones()
+        {
+            try
+            {
+                var myTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
+                var hoy = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, myTimeZone);
+                var confirmaciones = uowService.ConfirmacionRepository.GetAll()
+                    .Where(c => c.Estado == Estados.PENDIENTE_PAGAR && (hoy - c.Fecha).TotalMinutes > 15);
+
+                foreach (var item in confirmaciones)
+                {
+                    item.Estado = Estados.CANCELADO;
+                    uowService.ConfirmacionRepository.Edit(item);
+
+                    var lote = uowService.LoteRepository.GetAll()
+                           .SingleOrDefault(l => l.LoteId == item.LoteId);
+                    lote.Finalizado = false;
+                    uowService.LoteRepository.Edit(lote);
+
+                    var cliente = uowService.ClienteRepository.GetAll()
+                        .SingleOrDefault(c => c.Usuario == item.Usuario);
+
+                    var pujador = uowService.PujadorRepository.GetAll()
+                            .SingleOrDefault(p => p.LoteId == item.LoteId && p.ClienteId == cliente.ClienteId);
+
+                    var pujas = uowService.PujaRepository.GetAll()
+                        .Where(p => p.PujadorId == pujador.PujadorId);
+
+                    foreach (var itempujas in pujas)
+                    {
+                        itempujas.Anulada = true;
+                    }
+                    uowService.Save();
+                }
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar actualizar las confirmacion", ex);
+            }
+        }
+
         public PujaDto obtenerGanadorInfo(int loteId)
         {
             try
             {
                 var ganador = (from lote in uowService.LoteRepository.GetAll()
-                                 where lote.LoteId == loteId
-                                 select (from puja in uowService.PujaRepository.GetAll().OrderByDescending(p => p.Valor)
-                                         join pujador in uowService.PujadorRepository.GetAll()
-                                         on puja.PujadorId equals pujador.PujadorId
-                                         where pujador.LoteId == lote.LoteId
-                                         select new PujaDto
-                                         {
-                                             HoraPuja = puja.HoraPuja,                                  
-                                             LoteId = lote.LoteId,
-                                             Pujador = mapper.Map<PujadorDto>(pujador),
-                                             PujadorId = pujador.PujadorId,
-                                             PujaId = puja.PujaId,
-                                             Valor = puja.Valor
-                                         }).FirstOrDefault()
+                               where lote.LoteId == loteId
+                               select (from puja in uowService.PujaRepository.GetAll()
+                                       .OrderByDescending(p => p.Valor)
+                                       join pujador in uowService.PujadorRepository.GetAll()
+                                       on puja.PujadorId equals pujador.PujadorId
+                                       where pujador.LoteId == lote.LoteId && !puja.Anulada
+                                       select new PujaDto
+                                       {
+                                           HoraPuja = puja.HoraPuja,
+                                           LoteId = lote.LoteId,
+                                           Pujador = mapper.Map<PujadorDto>(pujador),
+                                           PujadorId = pujador.PujadorId,
+                                           PujaId = puja.PujaId,
+                                           Valor = puja.Valor
+                                       }).FirstOrDefault()
                                  ).SingleOrDefault();
                 ganador.Pujador.Cliente = mapper.Map<ClienteDto>(uowService.ClienteRepository.GetAll()
                     .SingleOrDefault(c => c.ClienteId == ganador.Pujador.ClienteId));
@@ -306,6 +366,37 @@ namespace Subasta.core.services
             }
         }
 
+        public void ActualizarLotesHuerfanos()
+        {
+            var myTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
+            var hoy = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, myTimeZone);
+            try
+            {
+                var lotes = (from lote in uowService.LoteRepository.GetAll()
+                             join subasta in uowService.SubastaRepository.GetAll()
+                             on lote.SubastaId equals subasta.SubastaId
+                             where !lote.Finalizado && subasta.HoraFin < hoy && subasta.Activo
+                             && (uowService.PujadorRepository.GetAll()
+                             .FirstOrDefault(p => p.LoteId == lote.LoteId) == null)
+                             select lote
+                             ).ToList();
+
+                foreach (var item in lotes)
+                {
+                    item.Finalizado = true;
+                }
+                uowService.Save();
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener los lotes huerfanos", ex);
+            }
+        }
+
         public void ConfirmarGanador(int loteId, string usuario)
         {
             try
@@ -313,12 +404,12 @@ namespace Subasta.core.services
                 var confirmacion = uowService.ConfirmacionRepository.GetAll()
                     .SingleOrDefault(c => c.LoteId == loteId);
                 var tiempo = DateTime.Now - confirmacion.Fecha;
-                if (tiempo.TotalMinutes < 10 && confirmacion.Usuario == usuario && confirmacion.Estado == Estados.PENDIENTE_PAGAR)
+                if (tiempo.TotalMinutes < 15 && confirmacion.Usuario == usuario && confirmacion.Estado == Estados.PENDIENTE_PAGAR)
                 {
                     confirmacion.Estado = Estados.CONFIRMADO;
                     uowService.ConfirmacionRepository.Edit(confirmacion);
                     uowService.Save();
-                }         
+                }
             }
             catch (ExceptionData)
             {

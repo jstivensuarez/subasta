@@ -17,5 +17,7 @@ namespace Subasta.core.dtos
         public int LoteId { get; set; }
 
         public string Usuario { get; set; }
+
+        public bool Anulada { get; set; }
     }
 }

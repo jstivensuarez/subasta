@@ -15,5 +15,9 @@ namespace Subasta.core.interfaces
         PujaDto obtenerGanadorInfo(int loteId);
 
         void ConfirmarGanador(int loteId, string usuario);
+
+        void ActualizarConfirmaciones();
+
+        void ActualizarLotesHuerfanos();
     }
 }

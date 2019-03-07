@@ -16,6 +16,10 @@ namespace Subasta.core.constants
         public const string MENSAJEGANAR= "¡Te felicitamos!, haz sido el ganador de un lote, te invitamos a confirmar " +
             "tu interes en el siguiente enlace: ";
 
+        public const string ASUNTOGANARPROPIETARIO = "Información del ganador";
+        public const string MENSAJEGANARPROPIETARIO = "Te informamos que hay un nuevo ganador, esta es la información" +
+            " del lote y del nuevo dueño: ";
+
         public const string ASUNTOBIENVENIDO = "Bienvenido a la subasta ganadera";
         public const string MENSAJEBIENVENIDA = "Gracias por registrarse al sistema de subasta ganadera";
 

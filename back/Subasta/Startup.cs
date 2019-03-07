@@ -102,6 +102,7 @@ namespace Subasta
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddHostedService<EnvioCorreoGanadorService>();
+            services.AddHostedService<CerrarLotesSinPujasService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
