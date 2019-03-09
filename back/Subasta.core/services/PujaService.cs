@@ -294,7 +294,7 @@ namespace Subasta.core.services
                 var myTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
                 var hoy = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, myTimeZone);
                 var confirmaciones = uowService.ConfirmacionRepository.GetAll()
-                    .Where(c => c.Estado == Estados.PENDIENTE_PAGAR && (hoy - c.Fecha).TotalMinutes > 15);
+                    .Where(c => c.Estado == Estados.PENDIENTE_PAGAR && (hoy - c.Fecha).TotalMinutes > 2);
 
                 foreach (var item in confirmaciones)
                 {
@@ -303,6 +303,7 @@ namespace Subasta.core.services
 
                     var lote = uowService.LoteRepository.GetAll()
                            .SingleOrDefault(l => l.LoteId == item.LoteId);
+
                     lote.Finalizado = false;
                     uowService.LoteRepository.Edit(lote);
 
@@ -318,6 +319,7 @@ namespace Subasta.core.services
                     foreach (var itempujas in pujas)
                     {
                         itempujas.Anulada = true;
+                        uowService.PujaRepository.Edit(mapper.Map<Puja>(itempujas));
                     }
                     uowService.Save();
                 }
