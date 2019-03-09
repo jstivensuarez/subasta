@@ -200,7 +200,8 @@ namespace Subasta.core.services
         {
             try
             {
-                DateTime hoy = DateTime.Now;
+                var myTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
+                var hoy = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, myTimeZone);
                 foreach (var item in ganadores)
                 {
                     if (item != null)
