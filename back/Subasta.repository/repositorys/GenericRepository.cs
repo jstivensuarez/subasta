@@ -91,6 +91,11 @@ namespace Subasta.repository.repositorys
             try
             {
                 List<T> query = context.Set<T>().ToList();
+                foreach (var item in query)
+                {
+                    context.Entry(item).State = EntityState.Detached;
+                }
+
                 return query;
             }
             catch (Exception ex)

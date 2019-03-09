@@ -101,6 +101,8 @@ namespace Subasta
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            services.AddScoped<IReporteService, ReporteService>();
+
             services.AddHostedService<EnvioCorreoGanadorService>();
             services.AddHostedService<CerrarLotesSinPujasService>();
 

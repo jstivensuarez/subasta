@@ -120,6 +120,7 @@ namespace Subasta.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+                cliente.Tipo = TipoUsuarios.PROPIETARIO;
                 clienteService.Edit(cliente);
                 return Ok(cliente);
             }

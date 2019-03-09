@@ -32,6 +32,7 @@ import { LoadingInterceptorService } from './services/loading-interceptor.servic
 import { MatSnackBarModule } from '@angular/material';
 import { DetalleLoteComponent } from './lotes/detalle-lote/detalle-lote.component';
 import { ConfirmacionCompraComponent } from './confirmacion-compra/confirmacion-compra.component';
+import { ReportesModule } from './reportes/reportes.module';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -67,6 +68,7 @@ const JWT_Module_Options: JwtModuleOptions = {
     SolicitudesModule,
     MaestrosModule,
     UsuariosModule,
+    ReportesModule,
     JwtModule.forRoot(JWT_Module_Options),
     [NgxMaterialTimepickerModule.forRoot()]
   ],

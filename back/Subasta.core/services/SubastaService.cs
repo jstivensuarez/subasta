@@ -147,6 +147,26 @@ namespace Subasta.core.services
             }
         }
 
+        public List<SubastaDto> GetAllWithOutInclude()
+        {
+            try
+            {
+                var result = uowService.SubastaRepository.GetAll()
+                    .OrderBy(s => s.EventoId)
+                    .OrderBy(s => s.Descripcion);
+                return mapper.Map<List<SubastaDto>>(result);
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener las subastas", ex);
+            }
+        }
+
+
         public List<SubastaDto> GetPorEvento(object id)
         {
             try
@@ -168,10 +188,11 @@ namespace Subasta.core.services
 
         private void EliminarLotes(int subastaId)
         {
-            var lotes = loteService.GetAll()
+            var lotes = loteService.GetAllWithOutInclude()
                     .Where(l => l.SubastaId == subastaId).ToList();
             foreach (var lote in lotes)
             {
+                lote.Subasta = null;
                 loteService.Delete(lote);
             }
         }

@@ -24,6 +24,7 @@ export const environment = {
   endpointUsuario: urlBaseApi+'/usuarios',
   endpointPuja: urlBaseApi+'/pujas',
   endpointSignal: urlBase+'/notificacion',
+  endpointRportes: urlBase+'/reportes',
   
   imageLotesUrl: urlBaseImage+'/images/LOTES/',
   imageAnimalesUrl: urlBaseImage+'/images/ANIMALES/',

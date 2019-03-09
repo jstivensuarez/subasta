@@ -73,7 +73,8 @@ export class ListarLotesComponent implements OnInit {
       Subasta: lote.subasta.descripcion,
       Categoría: lote.categoria.descripcion,
       Raza: lote.raza.descripcion,
-      Clasificación: lote.clasificacion.descripcion
+      Clasificación: lote.clasificacion.descripcion,
+      loteId: lote.loteId
     }, DetalleLoteComponent);
   }
 

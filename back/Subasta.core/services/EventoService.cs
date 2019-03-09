@@ -179,6 +179,24 @@ namespace Subasta.core.services
             }
         }
 
+        public List<EventoDto> GetAllWithOutInclude()
+        {
+            try
+            {
+                var result = uowService.EventoRepository.GetAll()
+                    .OrderBy(e => e.FechaInicio);
+                return mapper.Map<List<EventoDto>>(result);
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener los eventos", ex);
+            }
+        }
+
         public List<EventoDto> GetForClientAutenticated(string usuario)
         {
             var cliente = clienteService.GetAll().SingleOrDefault(c => c.Usuario == usuario);
@@ -280,10 +298,11 @@ namespace Subasta.core.services
 
         private void EliminarSubastasEnCascada(int eventoId)
         {
-            var subastas = subastaService.GetAll()
+            var subastas = subastaService.GetAllWithOutInclude()
                 .Where(s => s.EventoId == eventoId).ToList();
             foreach (var subasta in subastas)
             {
+                subasta.Evento = null;
                 subastaService.Delete(subasta);
             }
         }

@@ -8,5 +8,7 @@ namespace Subasta.core.interfaces
     public interface ISubastaService : IGenericCrudService<SubastaDto, repository.models.Subasta>
     {
         List<SubastaDto> GetPorEvento(object id);
+
+        List<SubastaDto> GetAllWithOutInclude();
     }
 }

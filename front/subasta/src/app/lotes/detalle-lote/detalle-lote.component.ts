@@ -26,8 +26,10 @@ export class DetalleLoteComponent implements OnInit {
   }
 
   obtenerAnimales() {
+    debugger;
     this.animalService.getByLote(this.loteId).subscribe(
       resp => {
+        debugger;
         this.animales = resp;
         this.maxPeso = Math.max.apply(Math,this.animales.map(function(o){return o.peso;}));
         this.minPeso = Math.min.apply(Math,this.animales.map(function(o){return o.peso;}));

@@ -11,8 +11,6 @@ import { ListarLotesComponent } from './lotes/listar-lotes/listar-lotes.componen
 import { CrearComponent } from './animales/crear/crear.component';
 import { ListarComponent } from './animales/listar/listar.component';
 import { SubastasComponent } from './subastas/subastas/subastas.component';
-import { CrearPujadorComponent } from './pujadores/crear/crear.component';
-import { ListarPujadorComponent } from './pujadores/listar/listar.component';
 import { CrearSubastaComponent } from './subastas/crear-subasta/crear-subasta.component';
 import { ListarSubastaComponent } from './subastas/listar-subasta/listar-subasta.component';
 import { CrearSubastaNuevaComponent } from './subastas/crear-subasta-nueva/crear-subasta-nueva.component';
@@ -29,6 +27,7 @@ import { ListarUsuarioComponent } from './usuarios/listar-usuario/listar-usuario
 import { ListarPropietariosComponent } from './clientes/listar-propietario/listar-propietarios.component';
 import { ListarClienteComponent } from './clientes/listar-cliente/listar-cliente.component';
 import { ConfirmacionCompraComponent } from './confirmacion-compra/confirmacion-compra.component';
+import { PrincipalComponent } from './reportes/principal/principal.component';
 
 const routes: Routes = [
   {
@@ -99,24 +98,6 @@ const routes: Routes = [
   },
   {
     path: 'listar-animal', component: ListarComponent, canActivate: [AutenticacionService, RoleguardService],
-    data: {
-      expectedRole: 'Administrador'
-    }
-  },
-  {
-    path: 'listar-pujador', component: ListarPujadorComponent, canActivate: [AutenticacionService, RoleguardService],
-    data: {
-      expectedRole: 'Administrador'
-    }
-  },
-  {
-    path: 'crear-pujador', component: CrearPujadorComponent, canActivate: [AutenticacionService, RoleguardService],
-    data: {
-      expectedRole: 'Administrador'
-    }
-  },
-  {
-    path: 'crear-pujador/:id', component: CrearPujadorComponent, canActivate: [AutenticacionService, RoleguardService],
     data: {
       expectedRole: 'Administrador'
     }
@@ -193,9 +174,15 @@ const routes: Routes = [
     data: {
       expectedRole: 'Administrador'
     }
-  },
+  }, 
   {
     path: 'admin-td', component: AdminTdComponent, canActivate: [AutenticacionService, RoleguardService],
+    data: {
+      expectedRole: 'Administrador'
+    }
+  }, 
+  {
+    path: 'reportes', component: PrincipalComponent, canActivate: [AutenticacionService, RoleguardService],
     data: {
       expectedRole: 'Administrador'
     }

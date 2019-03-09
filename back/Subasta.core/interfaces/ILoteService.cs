@@ -9,5 +9,7 @@ namespace Subasta.core.interfaces
     public interface ILoteService : IGenericCrudService<LoteDto, Lote>
     {
         List<LoteDto> GetAllNoAssociate(string clienteId);
+
+        List<LoteDto> GetAllWithOutInclude();
     }
 }

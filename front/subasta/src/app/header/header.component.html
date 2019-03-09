@@ -1,6 +1,7 @@
 <div>
   <mat-toolbar color="primary" *ngIf="claims && claims.Role.toLowerCase() == 'administrador'">
     <button mat-button [matMenuTriggerFor]="maestros">Maestros</button>
+    <button mat-button routerLink="/reportes">Reportes</button>
     <button mat-button [matMenuTriggerFor]="usuarios">Usuarios</button>
     <button mat-button [matMenuTriggerFor]="propietarios">Propietarios</button>
     <button mat-button routerLink="/listar-cliente">Clientes</button>
@@ -8,7 +9,6 @@
     <button mat-button [matMenuTriggerFor]="subastas">Subastas</button>
     <button mat-button [matMenuTriggerFor]="lotes">Lotes</button>
     <button mat-button [matMenuTriggerFor]="animales">Animales</button>
-    <button mat-button [matMenuTriggerFor]="pujadores">Pujadores</button>
     <button mat-button routerLink="/listar-solicitud">Solicitudes</button>
 
     <mat-menu #usuarios="matMenu">
@@ -40,11 +40,6 @@
     <mat-menu #animales="matMenu">
       <button mat-menu-item routerLink="/listar-animal">Listar</button>
       <button mat-menu-item routerLink="/crear-animal">Crear</button>
-    </mat-menu>
-
-    <mat-menu #pujadores="matMenu">
-      <button mat-menu-item routerLink="/listar-pujador">Listar</button>
-      <button mat-menu-item routerLink="/crear-pujador">Crear</button>
     </mat-menu>
 
     <mat-menu #maestros="matMenu">

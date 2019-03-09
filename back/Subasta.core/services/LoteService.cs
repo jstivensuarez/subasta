@@ -172,6 +172,25 @@ namespace Subasta.core.services
             }
         }
 
+        public List<LoteDto> GetAllWithOutInclude()
+        {
+            try
+            {
+                var result = uowService.LoteRepository.GetAll()
+                    .OrderBy(l => l.Nombre);
+                return mapper.Map<List<LoteDto>>(result);
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener los lotes", ex);
+            }
+        }
+
+
         public List<LoteDto> GetAllNoAssociate(string clienteId)
         {
             try
@@ -193,10 +212,11 @@ namespace Subasta.core.services
 
         private void eliminarAnimales(int loteId)
         {
-            var animales = animalService.GetAll()
+            var animales = animalService.GetAllWithOutInclude()
                 .Where(a => a.LoteId == loteId).ToList();
             foreach (var animal in animales)
             {
+                animal.Lote = null;
                 animalService.Delete(animal);
             }
         }

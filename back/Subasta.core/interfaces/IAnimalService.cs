@@ -9,5 +9,7 @@ namespace Subasta.core.interfaces
     public interface IAnimalService: IGenericCrudService<AnimalDto, Animal>
     {
         List<AnimalDto> GetAllByLote(int loteId);
+
+        List<AnimalDto> GetAllWithOutInclude();
     }
 }

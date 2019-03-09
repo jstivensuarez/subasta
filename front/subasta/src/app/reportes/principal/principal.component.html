@@ -1,0 +1,44 @@
+<div class="great">
+  <h1 class="title margin-top-cero contet-great">{{title}}</h1>
+</div>
+<br>
+<div class="container">
+  <mat-card class="center-card">
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Seleccione el tipo de reporte" 
+          [(value)]="selectedReporte">
+          <mat-option [value]="1"> Lotes vendidos</mat-option>
+          <mat-option [value]="2"> Compradores por lotes</mat-option>
+          <mat-option [value]="3"> Total pujas en evento</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div *ngIf="selectedReporte == 1">
+        <mat-form-field class="example-full-width">
+          <mat-select placeholder="Evento" [(value)]="selectedEvento">
+            <mat-option *ngFor="let evento of eventos" [value]="evento.eventoId">
+              {{evento.descripcion}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="selectedReporte == 2">
+         <mat-form-field class="example-full-width">
+          <mat-select placeholder="Lote" [(value)]="selectedLote">
+            <mat-option *ngFor="let lote of lotes" [value]="lote.loteId">
+              {{lote.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+     
+      <div class="row">
+        <div class="col-12 text-align-center">
+          <button type="button" class="btn yellow" (click)="obtenerReporte()">Generar</button>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>

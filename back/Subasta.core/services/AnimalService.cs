@@ -63,8 +63,6 @@ namespace Subasta.core.services
         {
             try
             {
-                var lote = mapper.Map<LoteDto>(uowService.LoteRepository.GetAllWithInclude()
-                  .Find(a => a.LoteId == animal.LoteId));
                 animal.Activo = false;
                 uowService.AnimalRepository.Edit(mapper.Map<Animal>(animal));
                 ActualizarInformacionLote(animal.LoteId, -1, -animal.Peso);
@@ -205,9 +203,28 @@ namespace Subasta.core.services
             }
         }
 
+        public List<AnimalDto> GetAllWithOutInclude()
+        {
+            try
+            {
+                var result = uowService.AnimalRepository.GetAll()
+                    .OrderBy(a => a.LoteId)
+                    .OrderBy(a => a.Descripcion);
+                return mapper.Map<List<AnimalDto>>(result);
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener los animales", ex);
+            }
+        }
+
         private void ActualizarInformacionLote(int loteId, int cantidad, decimal peso)
         {
-            var lote = mapper.Map<LoteDto>(uowService.LoteRepository.GetAllWithInclude()
+            var lote = mapper.Map<LoteDto>(uowService.LoteRepository.GetAll()
                                 .Find(a => a.LoteId == loteId));
             lote.CantidadElementos += cantidad;
             lote.PesoTotal += peso;
@@ -219,7 +236,7 @@ namespace Subasta.core.services
             {
                 lote.PesoPromedio = 0;
             }
-            lote.PrecioInicial = lote.PrecioBase * lote.PesoPromedio;
+            lote.PrecioInicial = lote.PrecioBase * lote.PesoTotal;
             uowService.LoteRepository.Edit(mapper.Map<Lote>(lote));
         }
     }
