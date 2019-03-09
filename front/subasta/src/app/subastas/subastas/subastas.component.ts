@@ -15,6 +15,8 @@ import { SignalRService } from 'src/app/services/signal-r.service';
 import { Observable, interval } from 'rxjs';
 import { MatSnackBar } from '@angular/material';
 import { DetalleLoteComponent } from 'src/app/lotes/detalle-lote/detalle-lote.component';
+import { Router } from '@angular/router';
+import { local } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-subastas',
@@ -42,15 +44,17 @@ export class SubastasComponent implements OnInit {
     private solicitudService: SolicitudService,
     private modalService: NgbModal,
     private signalRService: SignalRService,
-    private snackBar: MatSnackBar) {
+    private snackBar: MatSnackBar,
+    private router: Router) {
     this.isAdmin = false;
     this.title = "Subastas";
     this.eventos = [];
+    this.verificarSiHayCompra();
     this.obtenerEventos();
   }
 
   ngOnInit() {
-    
+
     this.signalRService.nuevoMensaje.subscribe(mensaje => {
       const objeto = JSON.parse(mensaje);
       if (objeto.Tipo == "ACTUALIZAR_LOTE_PUJA") {
@@ -58,7 +62,7 @@ export class SubastasComponent implements OnInit {
         const evento = this.eventos.find(e => e.eventoId == puja.eventoId);
         const subasta = evento.subastasDto.find(s => s.subastaId == puja.subastaId);
         const lote = subasta.lotesDto.find(l => l.loteId == puja.loteId);
-        if (lote.pujaMinima.usuario && lote.pujaMinima.usuario == 
+        if (lote.pujaMinima.usuario && lote.pujaMinima.usuario ==
           this.usuario && lote.pujaMinima.usuario != puja.usuario && puja.valor > lote.pujaMinima.valor) {
           const mensaje = constants.pujaSuperada + "'" + lote.nombre + "' ha sido superada";
           this.alertService.
@@ -237,5 +241,14 @@ export class SubastasComponent implements OnInit {
       Clasificación: lote.clasificacion.descripcion,
       loteId: lote.loteId
     }, DetalleLoteComponent);
+  }
+
+  verificarSiHayCompra() {
+    debugger;
+    const compra = localStorage.getItem("compra");
+    if (compra) {
+      localStorage.removeItem("compra");
+      this.router.navigate(["/confirmacion/"+compra]);
+    }
   }
 }

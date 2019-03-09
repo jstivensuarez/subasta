@@ -8,6 +8,7 @@ import { Cliente } from '../dtos/cliente';
 import { Puja } from '../dtos/puja';
 import { PujaService } from '../services/puja.service';
 import { constants } from '../util/constants';
+import { UsuarioService } from '../services/usuario.service';
 
 @Component({
   selector: 'app-confirmacion-compra',
@@ -23,6 +24,7 @@ export class ConfirmacionCompraComponent implements OnInit {
     private router: Router,
     private alertService: MesaggesManagerService,
     private lotesService: LotesService,
+    private usuarioService: UsuarioService,
     private pujaService: PujaService) {
     this.habilitarBoton = false;
     this.puja = new Puja();
@@ -36,10 +38,15 @@ export class ConfirmacionCompraComponent implements OnInit {
   verificarUrl() {
     this.route.params.subscribe(params => {
       if (params['info']) {
-        const value = atob(params['info']).split("-");
-        const loteId = parseInt(value[1].trim());
-        this.calcularFechas(value[2]);
-        this.obtenerPujaInfo(loteId);
+        if (this.usuarioService.isAuthenticated()) {
+          const value = atob(params['info']).split("-");
+          const loteId = parseInt(value[1].trim());
+          this.calcularFechas(value[2]);
+          this.obtenerPujaInfo(loteId);
+        }else{
+          localStorage.setItem("compra", params['info']);
+          this.usuarioService.logoutSession();
+        }
       }
     });
   }

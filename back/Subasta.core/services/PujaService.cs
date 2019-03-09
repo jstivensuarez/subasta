@@ -210,6 +210,8 @@ namespace Subasta.core.services
                           .SingleOrDefault(l => l.LoteId == item.Pujador.LoteId);
                         var cliente = uowService.ClienteRepository.GetAll()
                             .SingleOrDefault(c => c.ClienteId == item.Pujador.ClienteId);
+                        var propietario = uowService.ClienteRepository.GetAll()
+                            .SingleOrDefault(c => c.ClienteId == lote.ClienteId);
                         string compraInfo = $"{cliente.Usuario}-{lote.LoteId}-{hoy.ToString()}";
                         string link = $"<a href = '{host}/confirmacion/{obtenerInfoCompra(compraInfo)}'" +
                             $" target = '_blank'>Confirmar Compra<a>";
@@ -232,7 +234,7 @@ namespace Subasta.core.services
                         uowService.ConfirmacionRepository.Add(confirmacion);
                         uowService.Save();
                         correoHelper.enviarDesdeSubasta(Correos.MENSAJEGANAR + link, Correos.ASUNTOGANAR, cliente.Correo);
-                        correoHelper.enviarDesdeSubasta(Correos.MENSAJEGANARPROPIETARIO + ganadorInfo, Correos.ASUNTOGANARPROPIETARIO, lote.Cliente.Correo);
+                        correoHelper.enviarDesdeSubasta(Correos.MENSAJEGANARPROPIETARIO + ganadorInfo, Correos.ASUNTOGANARPROPIETARIO, propietario.Correo);
                     }
                 }
             }

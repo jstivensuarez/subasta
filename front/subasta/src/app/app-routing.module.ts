@@ -188,7 +188,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'confirmacion/:info', component: ConfirmacionCompraComponent, canActivate: [AutenticacionService]},
+    path: 'confirmacion/:info', component: ConfirmacionCompraComponent},
   {
     path: 'subastas', component: SubastasComponent
   },
