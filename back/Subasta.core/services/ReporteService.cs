@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Subasta.core.constants;
 using Subasta.core.dtos.reportes;
 using Subasta.core.exceptions;
 using Subasta.core.interfaces;
@@ -82,6 +83,34 @@ namespace Subasta.core.services
                                    .Where(p => p.PujadorId == pujador.PujadorId).Count()
                                }).ToList();
                 return reporte;
+            }
+            catch (ExceptionData)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ExceptionCore("error al intentar obtener los lotes vendidos", ex);
+            }
+        }
+
+        public Total GetTotal()
+        {
+            try
+            {
+                var total = new Total
+                {
+                    Animales = uowService.AnimalRepository.GetllWithInclude().Count,
+                    Clientes = uowService.ClienteRepository.GetAllWithInclude()
+                    .Where(c => c.Tipo == TipoUsuarios.PUJADOR).Count(),
+                    Eventos = uowService.EventoRepository.GetAllWithInclude().Count,
+                    Lotes = uowService.LoteRepository.GetAllWithInclude().Count,
+                    Propietarios = uowService.ClienteRepository.GetAllWithInclude()
+                     .Where(c => c.Tipo == TipoUsuarios.PROPIETARIO).Count(),
+                    Pujas = uowService.PujaRepository.GetAll().Count,
+                    Subastas = uowService.SubastaRepository.GetAllWithInclude().Count
+                };
+                return total;
             }
             catch (ExceptionData)
             {

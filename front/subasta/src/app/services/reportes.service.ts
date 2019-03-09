@@ -26,4 +26,8 @@ export class ReportesService {
         responseType: 'blob'
       });
   }
+
+  getTotal(): Observable<any> {
+    return this.http.get(environment.endpointReportes + '/GetTotal');
+  }
 }

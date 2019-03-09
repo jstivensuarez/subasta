@@ -135,5 +135,20 @@ namespace Subasta.Controllers
                 throw;
             }
         }
+
+        [HttpGet()]
+        [Route("[action]")]
+        public IActionResult GetTotal()
+        {
+            try
+            {
+                return Ok(reporteService.GetTotal());
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

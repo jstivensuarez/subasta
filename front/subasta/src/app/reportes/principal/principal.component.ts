@@ -4,6 +4,8 @@ import { EventoService } from 'src/app/services/evento.service';
 import { Evento } from 'src/app/dtos/evento';
 import { LotesService } from 'src/app/services/lotes.service';
 import { Lote } from 'src/app/dtos/lote';
+import { MesaggesManagerService } from 'src/app/services/mesagges-manager.service';
+import { constants } from 'src/app/util/constants';
 
 @Component({
   selector: 'app-principal',
@@ -19,11 +21,14 @@ export class PrincipalComponent implements OnInit {
   selectedLote: number;
   selectedReporte: number;
   type: string;
+  total: any;
   constructor(private reportesService: ReportesService,
     private eventoService: EventoService,
-    private lotesService: LotesService) {
+    private lotesService: LotesService,
+    private alertService: MesaggesManagerService) {
     this.title = "Reportes";
     this.type = "application/ms-excel";
+    this.obtenerTotal();
     this.obtenerLotes();
     this.obtenerEventos();
   }
@@ -41,7 +46,7 @@ export class PrincipalComponent implements OnInit {
     }
 
     if (this.selectedReporte == 3) {
-
+      this.obtenerTotal();
     }
   }
 
@@ -50,6 +55,8 @@ export class PrincipalComponent implements OnInit {
       resp => {
         this.downLoadFile(resp, this.type, "Reporte-Lotes-Vendidos.xlsx");
       }, err => {
+        this.alertService.
+          showSimpleMessage(constants.errorTitle, constants.error, constants.errorConsultaReporte);
         console.error(err);
       }
     );
@@ -60,9 +67,22 @@ export class PrincipalComponent implements OnInit {
       resp => {
         this.downLoadFile(resp, this.type, "Reporte-Compradores-Lotes.xlsx");
       }, err => {
+        this.alertService.
+          showSimpleMessage(constants.errorTitle, constants.error, constants.errorConsultaReporte);
         console.error(err);
       }
     );
+  }
+
+  obtenerTotal() {
+    this.reportesService.getTotal().subscribe(res => {
+      debugger;
+      this.total = res;
+    }, err => {
+      this.alertService.
+        showSimpleMessage(constants.errorTitle, constants.error, constants.errorConsultaReporte);
+      console.error(err);
+    });
   }
 
   downLoadFile(data: any, type: string, fileName: string) {

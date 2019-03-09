@@ -10,5 +10,7 @@ namespace Subasta.core.interfaces
         List<LotesVendidos> GetLotesVendidos(int eventoId);
 
         List<CompradorLote> GetCompradoresPorLote(int loteId);
+
+        Total GetTotal();
     }
 }

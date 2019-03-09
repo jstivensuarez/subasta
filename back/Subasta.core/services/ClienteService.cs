@@ -197,7 +197,7 @@ namespace Subasta.core.services
             try
             {
                 var result = uowService.ClienteRepository.GetAllWithInclude()
-                    .Where(c => c.Tipo == TipoUsuarios.PROPIETARIO); ;
+                    .Where(c => c.Tipo == TipoUsuarios.PROPIETARIO);
                 return mapper.Map<List<ClienteDto>>(result);
             }
             catch (ExceptionData)

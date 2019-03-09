@@ -3,14 +3,25 @@
 </div>
 <br>
 <div class="container">
+  <div class="center text-align-center">
+    <p>
+      <span class="margin-right25" matBadge="{{total.pujas}}" matBadgeOverlap="false">Pujas</span>
+      <span class="margin-right25" matBadge="{{total.clientes}}" matBadgeOverlap="false">Clientes</span>
+      <span class="margin-right25" matBadge="{{total.propietarios}}" matBadgeOverlap="false">Propietarios</span>
+      <span class="margin-right25" matBadge="{{total.eventos}}" matBadgeOverlap="false">eventos</span>
+      <span class="margin-right25" matBadge="{{total.subastas}}" matBadgeOverlap="false">Subastas</span>
+      <span class="margin-right25" matBadge="{{total.lotes}}" matBadgeOverlap="false">Lotes</span>
+      <span class="margin-right25" matBadge="{{total.animales}}" matBadgeOverlap="false">Animales</span>
+    </p>
+  </div>
   <mat-card class="center-card">
+    <br>
+    <br>
     <form class="example-form">
       <mat-form-field class="example-full-width">
-        <mat-select placeholder="Seleccione el tipo de reporte" 
-          [(value)]="selectedReporte">
+        <mat-select placeholder="Seleccione el tipo de reporte" [(value)]="selectedReporte">
           <mat-option [value]="1"> Lotes vendidos</mat-option>
           <mat-option [value]="2"> Compradores por lotes</mat-option>
-          <mat-option [value]="3"> Total pujas en evento</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -25,7 +36,7 @@
       </div>
 
       <div *ngIf="selectedReporte == 2">
-         <mat-form-field class="example-full-width">
+        <mat-form-field class="example-full-width">
           <mat-select placeholder="Lote" [(value)]="selectedLote">
             <mat-option *ngFor="let lote of lotes" [value]="lote.loteId">
               {{lote.nombre}}
@@ -33,7 +44,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-     
+
       <div class="row">
         <div class="col-12 text-align-center">
           <button type="button" class="btn yellow" (click)="obtenerReporte()">Generar</button>

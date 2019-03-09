@@ -13,6 +13,7 @@ export const constants = {
     successTitle: 'Confirmación',
     sessionTitle: 'Su sesión ha expirado',
 
+    successReportPujas: "Cantidad de pujas hasta el momento: ",
     successCreate: "Se creó exitosamente!",
     successConfirm: "Se confirmó la compra exitosamente!",
     successPuja: "Se realizó la puja exitosamente!",
@@ -29,6 +30,7 @@ export const constants = {
     sessionExpiradaa: "Tu sesión ha expirado, por favor vuelve a ingresar al sistema",
 
     errorConfirm: "Error al tratar de confirmar la compra!",
+    errorConsultaReporte: "Lo sentimos, no hemos podido generar este reporte!",
     errorCreate: "Error al tratar de crear el registro!",
     PujaActualizada: "Alguien ha sido más rápido que tu, por favor vuelve a intentarlo...",
     errorPuja: "No se pudo realizar la puja, por favor vuelva a intentarlo!",
