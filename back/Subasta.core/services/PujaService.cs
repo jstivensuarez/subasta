@@ -377,11 +377,11 @@ namespace Subasta.core.services
             var hoy = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, myTimeZone);
             try
             {
-                var lotes =from lote in  uowService.LoteRepository.GetAll()
-                           join subasta in uowService.SubastaRepository.GetAll()
-                           on lote.SubastaId equals subasta.SubastaId
-                           where (hoy -subasta.HoraFin).TotalMinutes > 15
-                           select lote;
+                var lotes = from lote in uowService.LoteRepository.GetAll()
+                            join subasta in uowService.SubastaRepository.GetAll()
+                            on lote.SubastaId equals subasta.SubastaId
+                            where (hoy - subasta.HoraFin).TotalMinutes > 15
+                            select lote;
                 foreach (var item in lotes)
                 {
                     var pujas = from pujador in uowService.PujadorRepository.GetAll()
@@ -414,8 +414,10 @@ namespace Subasta.core.services
             try
             {
                 var confirmacion = uowService.ConfirmacionRepository.GetAll()
-                    .SingleOrDefault(c => c.LoteId == loteId);
-                var tiempo = DateTime.Now - confirmacion.Fecha;
+                    .SingleOrDefault(c => c.LoteId == loteId && c.Estado == Estados.PENDIENTE_PAGAR);
+                var myTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SA Pacific Standard Time");
+                var hoy = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, myTimeZone);
+                var tiempo = hoy - confirmacion.Fecha;
                 if (tiempo.TotalMinutes < 15 && confirmacion.Usuario == usuario && confirmacion.Estado == Estados.PENDIENTE_PAGAR)
                 {
                     confirmacion.Estado = Estados.CONFIRMADO;
