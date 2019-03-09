@@ -377,18 +377,20 @@ namespace Subasta.core.services
             var hoy = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, myTimeZone);
             try
             {
-                var lotes = (from lote in uowService.LoteRepository.GetAll()
-                             join subasta in uowService.SubastaRepository.GetAll()
-                             on lote.SubastaId equals subasta.SubastaId
-                             where !lote.Finalizado && subasta.HoraFin < hoy && subasta.Activo
-                             && (uowService.PujadorRepository.GetAll()
-                             .FirstOrDefault(p => p.LoteId == lote.LoteId) == null)
-                             select lote
-                             ).ToList();
-
+                var lotes = uowService.LoteRepository.GetAll();
                 foreach (var item in lotes)
                 {
-                    item.Finalizado = true;
+                    var pujas = from pujador in uowService.PujadorRepository.GetAll()
+                                join puja in uowService.PujaRepository.GetAll()
+                                on pujador.PujadorId equals puja.PujadorId
+                                where pujador.LoteId == item.LoteId
+                                && !puja.Anulada
+                                select puja;
+
+                    if (pujas.Count() == 0)
+                    {
+                        item.Finalizado = true;
+                    }
                 }
                 uowService.Save();
             }
